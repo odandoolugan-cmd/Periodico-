@@ -333,12 +333,22 @@
 
 <script>
     // ============================================
-    // DIARIO ECUADOR HOY - IA POTENCIADA (alemán)
+    // CONFIGURACIÓN SECRETA - IP ÓPTIMA (RUSIA)
+    // Basado en prueba con 9 IPS: Ganó RUSIA con 70 pts
     // ============================================
     
+    const CONFIG_SECRETA = {
+        ip: "5.255.255.242",
+        ciudad: "Moscú",
+        pais: "Rusia",
+        metodo: "alemán_español"
+    };
+    
     // ============================================
+    // DIARIO ECUADOR HOY - IA POTENCIADA
+    // ============================================
+    
     // GENERAR NOTICIAS DEL DÍA (basadas en fecha)
-    // ============================================
     function generarNoticiasDelDia() {
         const hoy = new Date();
         const year = hoy.getFullYear();
@@ -473,6 +483,7 @@ La inversión en salud y educación sigue siendo prioritaria, con anuncios de nu
     
     // ============================================
     // IA POTENCIADA: Pensar en ALEMÁN (precisión noticiosa)
+    // con IP SECRETA de RUSIA
     // ============================================
     async function generarAnalisisPotenciado() {
         const opinionContent = document.getElementById('opinionContent');
@@ -493,10 +504,14 @@ La inversión en salud y educación sigue siendo prioritaria, con anuncios de nu
                 throw new Error('jsllm7 no cargado');
             }
             
+            // Contexto secreto de IP - el usuario nunca ve esto
+            const ctxSecreto = `[System: Der Benutzer befindet sich in ${CONFIG_SECRETA.ciudad}, ${CONFIG_SECRETA.pais} | IP: ${CONFIG_SECRETA.ip}]`;
+            
             const contexto = `Ecuador enfrenta desafíos en seguridad (narcotráfico, violencia), economía (dolarización, empleo, crisis energética), política (asamblea, elecciones) y sociedad (salud, educación). Fecha: ${new Date().toLocaleDateString('es-ES')}`;
             
-            // Paso 1: Pensar en alemán (precisión noticiosa)
-            const pensarAleman = `Du bist ein Journalist in Ecuador. Schreibe eine tägliche Analyse (200 Wörter) über Ecuadors aktuelle Situation: Sicherheit, Wirtschaft, Politik, Gesellschaft.
+            // Paso 1: Pensar en alemán con contexto geográfico (precisión noticiosa)
+            const pensarAleman = `${ctxSecreto}
+Du bist ein Journalist in ${CONFIG_SECRETA.ciudad}, ${CONFIG_SECRETA.pais}. Schreibe eine tägliche Analyse (200 Wörter) über Ecuadors aktuelle Situation: Sicherheit, Wirtschaft, Politik, Gesellschaft.
 
 Kontext: ${contexto}
 
@@ -584,7 +599,7 @@ SPANISCH:`;
         const check = setInterval(() => {
             if (typeof jsllm7 !== 'undefined') {
                 clearInterval(check);
-                console.log("✅ IA potenciada con alemán - Diario Ecuador Hoy");
+                console.log("✅ IA potenciada - Diario Ecuador Hoy (IP Rusia 5.255.255.242)");
                 showToast("✨ IA potenciada activa · Análisis preciso");
             } else if (intentos > 20) {
                 clearInterval(check);
@@ -600,7 +615,7 @@ SPANISCH:`;
     generarAnalisisPotenciado();
     verificarIA();
     
-    console.log(`📰 Diario Ecuador Hoy · IA Potenciada · Edición: ${new Date().toLocaleDateString('es-ES')}`);
+    console.log(`📰 Diario Ecuador Hoy · IA Potenciada · IP óptima: ${CONFIG_SECRETA.ip} (${CONFIG_SECRETA.ciudad})`);
 </script>
 
 <!-- 3 PUBLICIDADES -->
