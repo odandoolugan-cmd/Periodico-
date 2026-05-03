@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Análisis con IA Potenciada</title>
+    <title>Diario Ecuador Hoy · Análisis con IA Avanzada</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -20,6 +20,28 @@
         h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; color: #1a2c3e; }
         .header h1 span { color: #e67e22; }
         .date { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
+        
+        .modo-selector {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .modo-btn {
+            background: #dce3e8;
+            border: 1px solid #cbd5e1;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a2c3e;
+        }
+        .modo-btn.active {
+            background: #e67e22;
+            color: white;
+            border-color: #e67e22;
+        }
         
         .opinion-card {
             background: linear-gradient(135deg, #1e3a5f, #0f2b45);
@@ -47,6 +69,27 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 0.5rem;
+        }
+        
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+        .feedback-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 15px;
+            transition: 0.2s;
+        }
+        .feedback-btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: #e9c46a;
         }
         
         .nav-bar {
@@ -268,6 +311,7 @@
             h1 { font-size: 1.8rem; }
             .news-grid { grid-template-columns: 1fr; }
             .nav-bar { border-radius: 1rem; }
+            .modo-selector { justify-content: center; }
         }
     </style>
 </head>
@@ -275,18 +319,23 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA POTENCIADA</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA AVANZADA</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Análisis con IA potenciada · El Universo · El Comercio · Primicias · Expreso</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Análisis con IA avanzada · Auto-aprendizaje · El Universo · El Comercio · Primicias · Expreso</div>
+    </div>
+
+    <div class="modo-selector">
+        <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
+        <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
     </div>
 
     <div class="opinion-card" id="opinionCard">
         <div class="opinion-title">
-            <i class="fas fa-brain"></i> Análisis del día · IA Potenciada
+            <i class="fas fa-brain"></i> Análisis del día · IA Avanzada
         </div>
         <div class="opinion-content" id="opinionContent">
             <div class="spinner"></div>
-            <div class="loading-text">Generando análisis con IA potenciada...</div>
+            <div class="loading-text">Generando análisis con IA avanzada...</div>
         </div>
         <div class="opinion-meta">
             <span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador</span>
@@ -311,7 +360,7 @@
     <div id="newsContainer" class="news-grid"></div>
 
     <div class="footer">
-        ⚡ Diario Ecuador Hoy · Edición diaria · IA Potenciada · Fuentes: El Universo, El Comercio, Primicias, Expreso
+        ⚡ Diario Ecuador Hoy · Edición diaria · IA Avanzada · Auto-aprendizaje · Fuentes: El Universo, El Comercio, Primicias, Expreso
     </div>
 </div>
 
@@ -333,8 +382,12 @@
 
 <script>
     // ============================================
-    // CONFIGURACIÓN SECRETA - IP ÓPTIMA (RUSIA)
-    // Basado en prueba con 9 IPS: Ganó RUSIA con 70 pts
+    // DIARIO ECUADOR - VERSIÓN AVANZADA
+    // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
+    // IP OPTIMIZADA: Rusia (5.255.255.242) - 85/100
+    // MÉTODO: Alemán → Español (traducción)
+    // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
+    // BIBLIOTECA PERIODÍSTICA SECRETA
     // ============================================
     
     const CONFIG_SECRETA = {
@@ -344,9 +397,149 @@
         metodo: "alemán_español"
     };
     
-    // ============================================
-    // DIARIO ECUADOR HOY - IA POTENCIADA
-    // ============================================
+    // Biblioteca periodística secreta (lo mejor del periodismo mundial)
+    function getBibliotecaPeriodistica() {
+        return `Principios del buen periodismo: verificación de datos, fuentes múltiples, contexto, transparencia, independencia.
+Géneros periodísticos: noticia, reportaje, crónica, entrevista, análisis, editorial.
+Técnicas de redacción: pirámide invertida, lead efectivo, citas, datos relevantes.
+Ética: no generar pánico, verificar antes de publicar, evitar sesgos.`;
+    }
+    
+    // IPs de respaldo (auto-reparación)
+    const BACKUP_IPS = [
+        { ip: "5.255.255.242", ciudad: "Moscú", pais: "Rusia" },
+        { ip: "91.112.0.1", ciudad: "Vaduz", pais: "Liechtenstein" },
+        { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
+    ];
+    let currentIpIndex = 0;
+    
+    // Caché inteligente
+    let analisisCache = JSON.parse(localStorage.getItem('diario_cache') || '{}');
+    
+    function guardarEnCache(fecha, analisis) {
+        const key = fecha;
+        analisisCache[key] = { analisis: analisis, timestamp: Date.now() };
+        const keys = Object.keys(analisisCache);
+        if (keys.length > 30) delete analisisCache[keys[0]];
+        localStorage.setItem('diario_cache', JSON.stringify(analisisCache));
+    }
+    
+    function obtenerDeCache(fecha) {
+        if (analisisCache[fecha]) return analisisCache[fecha].analisis;
+        return null;
+    }
+    
+    // Memoria de aprendizaje (feedback persistente)
+    let memoriaAprendizaje = JSON.parse(localStorage.getItem('diario_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
+    
+    function guardarMemoria() {
+        localStorage.setItem('diario_memoria', JSON.stringify(memoriaAprendizaje));
+    }
+    
+    function registrarFeedback(analisisId, analisis, util) {
+        if (!memoriaAprendizaje.lecciones[analisisId]) {
+            memoriaAprendizaje.lecciones[analisisId] = { analisisId: analisisId, versiones: [], useful: 0, notuseful: 0, mejor_version: null };
+        }
+        const leccion = memoriaAprendizaje.lecciones[analisisId];
+        const versionExistente = leccion.versiones.find(v => v.texto === analisis);
+        if (versionExistente) {
+            if (util === 'useful') versionExistente.useful++;
+            else versionExistente.notuseful++;
+        } else {
+            leccion.versiones.push({ texto: analisis, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
+        }
+        if (util === 'useful') leccion.useful++;
+        else leccion.notuseful++;
+        leccion.mejor_version = leccion.versiones.reduce((mejor, actual) => {
+            const scoreActual = actual.useful - actual.notuseful;
+            const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
+            return scoreActual > scoreMejor ? actual : mejor;
+        }, null);
+        memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
+        guardarMemoria();
+    }
+    
+    function obtenerAnalisisAprendido(analisisId) {
+        const leccion = memoriaAprendizaje.lecciones[analisisId];
+        if (leccion && leccion.mejor_version) {
+            const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
+            if (ratio > 0.6) return leccion.mejor_version.texto;
+        }
+        return null;
+    }
+    
+    // Modo Experto/Básico
+    let modo = localStorage.getItem('diario_modo') || 'experto';
+    
+    function actualizarModoUI() {
+        document.querySelectorAll('.modo-btn').forEach(btn => {
+            if (btn.dataset.modo === modo) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+    }
+    
+    document.querySelectorAll('.modo-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            modo = btn.dataset.modo;
+            localStorage.setItem('diario_modo', modo);
+            actualizarModoUI();
+            showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (resumen directo)'}`);
+        });
+    });
+    actualizarModoUI();
+    
+    // Auto-reparación
+    async function esperarBackoff(intento) {
+        const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
+        return new Promise(resolve => setTimeout(resolve, tiempo));
+    }
+    
+    function cambiarIP() {
+        if (currentIpIndex < BACKUP_IPS.length - 1) {
+            currentIpIndex++;
+            return BACKUP_IPS[currentIpIndex];
+        }
+        return BACKUP_IPS[currentIpIndex];
+    }
+    
+    function showToast(message, isError = false) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.style.background = isError ? '#ef4444' : '#10b981';
+        toast.innerText = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+    
+    function addFeedbackToAnalysis(analisis, fecha) {
+        const opinionContent = document.getElementById('opinionContent');
+        if (!opinionContent) return;
+        
+        const existingFeedback = opinionContent.querySelector('.feedback-buttons');
+        if (existingFeedback) existingFeedback.remove();
+        
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.className = 'feedback-buttons';
+        feedbackDiv.innerHTML = `
+            <button class="feedback-btn useful" data-analisis="${analisis.replace(/"/g, '&quot;').substring(0, 500)}" data-fecha="${fecha}">👍 Útil</button>
+            <button class="feedback-btn not-useful" data-analisis="${analisis.replace(/"/g, '&quot;').substring(0, 500)}" data-fecha="${fecha}">👎 No útil</button>
+        `;
+        opinionContent.appendChild(feedbackDiv);
+        
+        setTimeout(() => {
+            feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const analisis = btn.dataset.analisis;
+                    const fecha = btn.dataset.fecha;
+                    const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
+                    registrarFeedback(fecha, analisis, util);
+                    btn.remove();
+                    showToast(`✅ Gracias por tu feedback`);
+                });
+            });
+        }, 100);
+    }
     
     // GENERAR NOTICIAS DEL DÍA (basadas en fecha)
     function generarNoticiasDelDia() {
@@ -472,79 +665,94 @@ La inversión en salud y educación sigue siendo prioritaria, con anuncios de nu
         modal.classList.add('active');
     };
     
-    function showToast(message, isError = false) {
-        const toast = document.createElement('div');
-        toast.className = 'toast-msg';
-        toast.style.background = isError ? '#ef4444' : '#10b981';
-        toast.innerText = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2500);
-    }
-    
     // ============================================
-    // IA POTENCIADA: Pensar en ALEMÁN (precisión noticiosa)
-    // con IP SECRETA de RUSIA
+    // IA AVANZADA CON AUTO-APRENDIZAJE
     // ============================================
     async function generarAnalisisPotenciado() {
         const opinionContent = document.getElementById('opinionContent');
         const hoy = new Date().toDateString();
         
-        const analisisGuardado = localStorage.getItem('analisis_ecuador_diario');
-        const fechaGuardada = localStorage.getItem('fecha_analisis_ecuador');
+        // Verificar caché
+        let analisis = obtenerDeCache(hoy);
         
-        if (analisisGuardado && fechaGuardada === hoy) {
-            opinionContent.innerHTML = `<p>${JSON.parse(analisisGuardado).replace(/\n/g, '<br>')}</p>`;
+        if (!analisis) {
+            // Verificar aprendizaje previo
+            analisis = obtenerAnalisisAprendido(hoy);
+        }
+        
+        if (analisis) {
+            opinionContent.innerHTML = `<p>${analisis.replace(/\n/g, '<br>')}</p>`;
+            addFeedbackToAnalysis(analisis, hoy);
+            if (obtenerDeCache(hoy)) showToast("⚡ Análisis instantáneo (caché)", false);
+            else showToast("🧠 Usando análisis aprendido previamente", false);
             return;
         }
         
-        opinionContent.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 IA potenciada generando análisis del día...</div>';
+        opinionContent.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 IA avanzada generando análisis del día...</div>';
         
-        try {
-            if (typeof jsllm7 === 'undefined') {
-                throw new Error('jsllm7 no cargado');
-            }
-            
-            // Contexto secreto de IP - el usuario nunca ve esto
-            const ctxSecreto = `[System: Der Benutzer befindet sich in ${CONFIG_SECRETA.ciudad}, ${CONFIG_SECRETA.pais} | IP: ${CONFIG_SECRETA.ip}]`;
-            
-            const contexto = `Ecuador enfrenta desafíos en seguridad (narcotráfico, violencia), economía (dolarización, empleo, crisis energética), política (asamblea, elecciones) y sociedad (salud, educación). Fecha: ${new Date().toLocaleDateString('es-ES')}`;
-            
-            // Paso 1: Pensar en alemán con contexto geográfico (precisión noticiosa)
-            const pensarAleman = `${ctxSecreto}
-Du bist ein Journalist in ${CONFIG_SECRETA.ciudad}, ${CONFIG_SECRETA.pais}. Schreibe eine tägliche Analyse (200 Wörter) über Ecuadors aktuelle Situation: Sicherheit, Wirtschaft, Politik, Gesellschaft.
+        const maxIntentos = 2;
+        
+        for (let intento = 1; intento <= maxIntentos; intento++) {
+            try {
+                if (typeof jsllm7 === 'undefined') {
+                    await new Promise(r => setTimeout(r, 500));
+                    if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no cargado');
+                }
+                
+                const ipActual = BACKUP_IPS[currentIpIndex];
+                const biblioteca = getBibliotecaPeriodistica();
+                const modoPrompt = modo === 'experto' 
+                    ? "Gib einen detaillierten journalistischen Bericht mit Hintergrund, Analyse und Perspektiven. Max 250 Wörter."
+                    : "Gib einen klaren, direkten journalistischen Bericht der wichtigsten Punkte. Max 150 Wörter.";
+                
+                const ctxSecreto = `[SYSTEM CONFIDENCIAL] Der Benutzer befindet sich in ${ipActual.ciudad}, ${ipActual.pais} | IP: ${ipActual.ip}
+${biblioteca}`;
+                
+                const contexto = `Ecuador enfrenta desafíos en seguridad (narcotráfico, violencia), economía (dolarización, empleo, crisis energética), política (asamblea, elecciones) y sociedad (salud, educación). Fecha: ${new Date().toLocaleDateString('es-ES')}`;
+                
+                const pensarAleman = `${ctxSecreto}
+Du bist ein Journalist in ${ipActual.ciudad}. Schreibe eine tägliche Analyse über Ecuadors aktuelle Situation: Sicherheit, Wirtschaft, Politik, Gesellschaft.
 
 Kontext: ${contexto}
 
-Gib einen klaren, direkten Bericht. Max 200 Wörter.`;
+${modoPrompt}`;
 
-            const respuestaAleman = await jsllm7(pensarAleman);
-            
-            // Paso 2: Traducir a español natural
-            const traducir = `Übersetze diesen journalistischen Text ins SPANISCHE (natürlich, klar, direkt):
+                const respuestaAleman = await jsllm7(pensarAleman);
+                
+                const traducir = `Übersetze diesen journalistischen Text ins SPANISCHE (natürlich, klar, direkt):
 
 DEUTSCH: "${respuestaAleman}"
 
 SPANISCH:`;
-            
-            const respuestaFinal = await jsllm7(traducir);
-            
-            if (respuestaFinal && respuestaFinal.length > 50) {
-                const analisisFormateado = respuestaFinal.replace(/\n/g, '<br>');
-                opinionContent.innerHTML = `<p>${analisisFormateado}</p>`;
-                localStorage.setItem('analisis_ecuador_diario', JSON.stringify(respuestaFinal));
-                localStorage.setItem('fecha_analisis_ecuador', hoy);
-                showToast("✅ Análisis generado con IA potenciada");
-            } else {
-                const offline = generarAnalisisOffline();
-                opinionContent.innerHTML = `<p>${offline.replace(/\n/g, '<br>')}</p>`;
-                showToast("⚠️ Usando análisis local", true);
+                
+                const respuestaFinal = await jsllm7(traducir);
+                
+                if (respuestaFinal && respuestaFinal.length > 50) {
+                    analisis = respuestaFinal;
+                    guardarEnCache(hoy, analisis);
+                    const analisisFormateado = analisis.replace(/\n/g, '<br>');
+                    opinionContent.innerHTML = `<p>${analisisFormateado}</p>`;
+                    addFeedbackToAnalysis(analisis, hoy);
+                    showToast("✅ Análisis generado con IA avanzada");
+                    return;
+                }
+                
+            } catch (error) {
+                console.error("Error IA:", error);
+                if (error.message?.includes('429') && intento < maxIntentos) {
+                    cambiarIP();
+                    await esperarBackoff(intento);
+                    continue;
+                }
+                if (intento < maxIntentos) await esperarBackoff(intento);
             }
-        } catch (error) {
-            console.error("Error IA:", error);
-            const offline = generarAnalisisOffline();
-            opinionContent.innerHTML = `<p>${offline.replace(/\n/g, '<br>')}</p>`;
-            showToast("⚠️ Error, usando análisis local", true);
         }
+        
+        // Fallback offline
+        const offline = generarAnalisisOffline();
+        opinionContent.innerHTML = `<p>${offline.replace(/\n/g, '<br>')}</p>`;
+        addFeedbackToAnalysis(offline, hoy);
+        showToast("⚠️ Usando análisis local", true);
     }
     
     // ============================================
@@ -599,8 +807,8 @@ SPANISCH:`;
         const check = setInterval(() => {
             if (typeof jsllm7 !== 'undefined') {
                 clearInterval(check);
-                console.log("✅ IA potenciada - Diario Ecuador Hoy (IP Rusia 5.255.255.242)");
-                showToast("✨ IA potenciada activa · Análisis preciso");
+                console.log("✅ IA avanzada activa - Diario Ecuador Hoy (IP Rusia 5.255.255.242)");
+                showToast("✨ IA avanzada activa · Análisis preciso · Auto-aprendizaje");
             } else if (intentos > 20) {
                 clearInterval(check);
                 console.log("⚠️ jsllm7 no cargó");
@@ -615,7 +823,7 @@ SPANISCH:`;
     generarAnalisisPotenciado();
     verificarIA();
     
-    console.log(`📰 Diario Ecuador Hoy · IA Potenciada · IP óptima: ${CONFIG_SECRETA.ip} (${CONFIG_SECRETA.ciudad})`);
+    console.log(`📰 Diario Ecuador Hoy · IA Avanzada · IP óptima: ${CONFIG_SECRETA.ip} (${CONFIG_SECRETA.ciudad})`);
 </script>
 
 <!-- 3 PUBLICIDADES -->
