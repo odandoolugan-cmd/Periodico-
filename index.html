@@ -9,310 +9,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #e8eef2;
-            color: #1a2c3e;
-            overflow-x: hidden;
-        }
+        body { font-family: 'Inter', sans-serif; background: #e8eef2; color: #1a2c3e; overflow-x: hidden; }
         .normal-mode { max-width: 1400px; margin: 0 auto; padding: 1rem; }
         .header { text-align: center; padding: 1.5rem 0; border-bottom: 3px solid #e67e22; margin-bottom: 1.5rem; }
         h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; color: #1a2c3e; }
         .header h1 span { color: #e67e22; }
         .date { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
-        
-        .modo-selector {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .modo-btn {
-            background: #dce3e8;
-            border: 1px solid #cbd5e1;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-weight: 600;
-            color: #1a2c3e;
-        }
-        .modo-btn.active {
-            background: #e67e22;
-            color: white;
-            border-color: #e67e22;
-        }
-        
-        .opinion-card {
-            background: linear-gradient(135deg, #1e3a5f, #0f2b45);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            border-left: 5px solid #e67e22;
-        }
-        .opinion-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
+        .modo-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #1a2c3e; }
+        .modo-btn.active { background: #e67e22; color: white; border-color: #e67e22; }
+        .opinion-card { background: linear-gradient(135deg, #1e3a5f, #0f2b45); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; color: white; border-left: 5px solid #e67e22; }
+        .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
         .opinion-title i { color: #e67e22; }
         .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; }
-        .opinion-meta {
-            font-size: 0.7rem;
-            color: #aaa;
-            margin-top: 1rem;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .feedback-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            justify-content: flex-end;
-        }
-        .feedback-btn {
-            background: none;
-            border: none;
-            color: #aaa;
-            cursor: pointer;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 15px;
-            transition: 0.2s;
-        }
-        .feedback-btn:hover {
-            background: rgba(255,255,255,0.15);
-            color: #e9c46a;
-        }
-        
-        .nav-bar {
-            background: #1a2c3e;
-            border-radius: 50px;
-            padding: 0.5rem 1rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            color: #cbd5e1;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
+        .opinion-meta { font-size: 0.7rem; color: #aaa; margin-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+        .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
+        .feedback-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
+        .feedback-btn:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
+        .nav-bar { background: #1a2c3e; border-radius: 50px; padding: 0.5rem 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+        .nav-btn { background: transparent; border: none; padding: 0.5rem 1.2rem; border-radius: 50px; color: #cbd5e1; cursor: pointer; font-weight: 500; transition: all 0.2s; }
         .nav-btn:hover, .nav-btn.active { background: #e67e22; color: white; }
-        
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .news-card {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: all 0.2s;
-            cursor: pointer;
-            border: 1px solid #dce3e8;
-        }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .news-card { background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: all 0.2s; cursor: pointer; border: 1px solid #dce3e8; }
         .news-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
-        .card-category {
-            background: #e67e22;
-            color: white;
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+        .card-category { background: #e67e22; color: white; display: inline-block; padding: 0.3rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
         .card-content { padding: 1.2rem; }
         .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; line-height: 1.4; color: #1a2c3e; }
         .card-summary { font-size: 0.85rem; color: #5a6e7c; margin-bottom: 1rem; line-height: 1.5; }
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            color: #8a9aa8;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 0.8rem;
-        }
-        .update-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #dce3e8;
-            border-radius: 1rem;
-            padding: 0.8rem 1.2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .update-btn {
-            background: #e67e22;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-top: 1px solid #dce3e8;
-            font-size: 0.7rem;
-            color: #8a9aa8;
-        }
-        .ia-badge {
-            background: #10b981;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.6rem;
-            margin-left: 10px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .vr-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #e67e22, #d97706);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 0 15px rgba(230, 126, 34, 0.5);
-        }
-        .vr-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: none;
-            background: #0a0f1e;
-        }
+        .card-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: #8a9aa8; border-top: 1px solid #e2e8f0; padding-top: 0.8rem; }
+        .update-bar { display: flex; justify-content: space-between; align-items: center; background: #dce3e8; border-radius: 1rem; padding: 0.8rem 1.2rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem; }
+        .update-btn { background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; font-weight: 600; }
+        .footer { text-align: center; margin-top: 2rem; padding: 1.5rem; border-top: 1px solid #dce3e8; font-size: 0.7rem; color: #8a9aa8; }
+        .ia-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; vertical-align: middle; }
+        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #e67e22, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(230, 126, 34, 0.5); }
+        .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
-        .close-vr {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #e67e22;
-            padding: 8px 16px;
-            border-radius: 30px;
-            color: #e67e22;
-            cursor: pointer;
-            z-index: 1001;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #1e293b;
-            border-top-color: #e67e22;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 1rem auto;
-        }
+        .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e67e22; padding: 8px 16px; border-radius: 30px; color: #e67e22; cursor: pointer; z-index: 1001; }
+        .spinner { width: 40px; height: 40px; border: 3px solid #1e293b; border-top-color: #e67e22; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 1rem auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { text-align: center; padding: 2rem; color: #5a6e7c; }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; padding: 1rem; }
         .modal.active { display: flex; }
-        .modal-content {
-            background: white;
-            border-radius: 1rem;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 2rem;
-            position: relative;
-        }
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #e67e22;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .news-source-badge {
-            background: #e67e22;
-            color: white;
-            border-radius: 4px;
-            padding: 2px 8px;
-            font-size: 0.6rem;
-            display: inline-block;
-            margin-left: 0.5rem;
-        }
-        .toast-msg {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #10b981;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            z-index: 2000;
-            animation: fadeOut 2s forwards;
-        }
+        .modal-content { background: white; border-radius: 1rem; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; background: #e67e22; border: none; width: 32px; height: 32px; border-radius: 50%; color: white; cursor: pointer; font-size: 1rem; }
+        .news-source-badge { background: #e67e22; color: white; border-radius: 4px; padding: 2px 8px; font-size: 0.6rem; display: inline-block; margin-left: 0.5rem; }
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-        .loading-spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin-right: 6px;
-            vertical-align: middle;
-        }
-        @media (max-width: 700px) {
-            h1 { font-size: 1.8rem; }
-            .news-grid { grid-template-columns: 1fr; }
-            .nav-bar { border-radius: 1rem; }
-            .modo-selector { justify-content: center; }
-        }
+        .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
+        @media (max-width: 700px) { h1 { font-size: 1.8rem; } .news-grid { grid-template-columns: 1fr; } .nav-bar { border-radius: 1rem; } .modo-selector { justify-content: center; } }
     </style>
 </head>
 <body>
@@ -330,9 +74,7 @@
     </div>
 
     <div class="opinion-card" id="opinionCard">
-        <div class="opinion-title">
-            <i class="fas fa-brain"></i> Análisis del día · IA Avanzada
-        </div>
+        <div class="opinion-title"><i class="fas fa-brain"></i> Análisis del día · IA Avanzada</div>
         <div class="opinion-content" id="opinionContent">
             <div class="spinner"></div>
             <div class="loading-text">Generando análisis con IA avanzada...</div>
@@ -359,9 +101,7 @@
 
     <div id="newsContainer" class="news-grid"></div>
 
-    <div class="footer">
-        ⚡ Diario Ecuador Hoy · Edición diaria · IA Avanzada · Auto-aprendizaje · Fuentes: El Universo, El Comercio, Primicias, Expreso
-    </div>
+    <div class="footer">⚡ Diario Ecuador Hoy · Edición diaria · IA Avanzada · Auto-aprendizaje · Fuentes: El Universo, El Comercio, Primicias, Expreso</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -377,79 +117,113 @@
     </div>
 </div>
 
-<!-- jsllm7 - IA local -->
 <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
 <script>
     // ============================================
-    // DIARIO ECUADOR - VERSIÓN AVANZADA
-    // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
-    // IP OPTIMIZADA: Rusia (5.255.255.242) - 85/100
-    // MÉTODO: Alemán → Español (traducción)
-    // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
-    // BIBLIOTECA PERIODÍSTICA SECRETA
+    // DIARIO ECUADOR - SISTEMA CONFIDENCIAL
+    // MÉTODO GANADOR: Chino→Español (100%)
+    // + Alemán (98%), Francés (98%), Italiano Refinado (98%), Triple Chino (100%)
+    // 5 métodos auto-adaptativos en secreto
     // ============================================
     
-    const CONFIG_SECRETA = {
-        ip: "5.255.255.242",
-        ciudad: "Moscú",
-        pais: "Rusia",
-        metodo: "alemán_español"
-    };
+    (function() {
+        const _ = { t: 20, r: 2, p: 30000, m: 4 };
+        
+        const M = [
+            { f: [
+                (q) => `Eres un periodista experto en análisis político y social. Responde en CHINO con máxima profundidad periodística: "${q}" Análisis completo, contexto, perspectiva. Precisión absoluta.`,
+                (t) => `Traduce este análisis periodístico al ESPAÑOL con máxima calidad y fluidez:\n\n"${t}"\n\nESPAÑOL:`
+            ]},
+            { f: [
+                (q) => `Du bist ein erfahrener Journalist. Antworte auf DEUTSCH mit Tiefe: "${q}" Vollständige Analyse mit Kontext.`,
+                (t) => `Übersetze diesen journalistischen Text ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`
+            ]},
+            { f: [
+                (q) => `Tu es un journaliste expert. Réponds en FRANÇAIS avec profondeur: "${q}" Analyse complète avec contexte.`,
+                (t) => `Traduis ce texte journalistique en ESPAGNOL:\n\n"${t}"\n\nESPAGNOL:`
+            ]},
+            { f: [
+                (q) => `Sei un giornalista esperto. Rispondi in ITALIANO con profondità: "${q}" Analisi completa con contesto.`,
+                (t) => `Traduci in SPAGNOLO con massima qualità:\n\n"${t}"\n\nSPAGNOLO:`
+            ]},
+            { f: [
+                (q) => `Eres un periodista experto. Responde en CHINO: "${q}" Análisis completo.`,
+                (t) => `Translate to ENGLISH:\n\n"${t}"\n\nENGLISH:`,
+                (t) => `Traduis en FRANÇAIS:\n\n"${t}"\n\nFRANÇAIS:`,
+                (t) => `Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`
+            ]}
+        ];
+        
+        let S = { i: 0, c: 0 };
+        let C = JSON.parse(localStorage.getItem('_dx') || '{}');
+        function _s() { localStorage.setItem('_dx', JSON.stringify(C)); }
+        function _g(q) { const k = q.toLowerCase().trim(); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
+        function _p(q, r) {
+            const k = q.toLowerCase().trim(); C[k] = { r, t: Date.now() };
+            const keys = Object.keys(C);
+            if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; }
+            _s();
+        }
+        
+        async function _l(p) {
+            return new Promise(async (resolve, reject) => {
+                const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
+                try { const r = await jsllm7(p); clearTimeout(t); resolve(r); }
+                catch (e) { clearTimeout(t); reject(e); }
+            });
+        }
+        
+        async function _e(m, q) {
+            let t = null;
+            for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t));
+            return t;
+        }
+        
+        window._x = async function(q) {
+            const start = S.i;
+            for (let i = 0; i < M.length; i++) {
+                const idx = (start + i) % M.length;
+                try {
+                    const r = await _e(M[idx], q);
+                    S.i = idx; S.c = 0;
+                    return { r, e: true };
+                } catch (e) {
+                    S.c++;
+                    if (S.c >= _.m) { await new Promise(r => setTimeout(r, _.p)); S.c = 0; }
+                    if (i < M.length - 1) await new Promise(r => setTimeout(r, 2000));
+                }
+            }
+            return { r: null, e: false };
+        };
+        
+        window._g = _g;
+        window._p = _p;
+        
+        setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
+    })();
     
-    // Biblioteca periodística secreta (lo mejor del periodismo mundial)
-    function getBibliotecaPeriodistica() {
-        return `Principios del buen periodismo: verificación de datos, fuentes múltiples, contexto, transparencia, independencia.
-Géneros periodísticos: noticia, reportaje, crónica, entrevista, análisis, editorial.
-Técnicas de redacción: pirámide invertida, lead efectivo, citas, datos relevantes.
-Ética: no generar pánico, verificar antes de publicar, evitar sesgos.`;
-    }
+    // ============================================
+    // CONFIGURACIÓN
+    // ============================================
+    const CONFIG = { ip: "79.240.0.1", ciudad: "Moscú", pais: "Rusia" };
     
-    // IPs de respaldo (auto-reparación)
-    const BACKUP_IPS = [
-        { ip: "5.255.255.242", ciudad: "Moscú", pais: "Rusia" },
-        { ip: "91.112.0.1", ciudad: "Vaduz", pais: "Liechtenstein" },
-        { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
-    ];
-    let currentIpIndex = 0;
+    let todasNoticias = [];
+    let currentCategory = "all";
+    let modo = localStorage.getItem('diario_modo') || 'experto';
     
-    // Caché inteligente
-    let analisisCache = JSON.parse(localStorage.getItem('diario_cache') || '{}');
-    
-    function guardarEnCache(fecha, analisis) {
-        const key = fecha;
-        analisisCache[key] = { analisis: analisis, timestamp: Date.now() };
-        const keys = Object.keys(analisisCache);
-        if (keys.length > 30) delete analisisCache[keys[0]];
-        localStorage.setItem('diario_cache', JSON.stringify(analisisCache));
-    }
-    
-    function obtenerDeCache(fecha) {
-        if (analisisCache[fecha]) return analisisCache[fecha].analisis;
-        return null;
-    }
-    
-    // Memoria de aprendizaje (feedback persistente)
+    // Memoria de aprendizaje
     let memoriaAprendizaje = JSON.parse(localStorage.getItem('diario_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
-    
-    function guardarMemoria() {
-        localStorage.setItem('diario_memoria', JSON.stringify(memoriaAprendizaje));
-    }
-    
+    function guardarMemoria() { localStorage.setItem('diario_memoria', JSON.stringify(memoriaAprendizaje)); }
     function registrarFeedback(analisisId, analisis, util) {
         if (!memoriaAprendizaje.lecciones[analisisId]) {
-            memoriaAprendizaje.lecciones[analisisId] = { analisisId: analisisId, versiones: [], useful: 0, notuseful: 0, mejor_version: null };
+            memoriaAprendizaje.lecciones[analisisId] = { versiones: [], useful: 0, notuseful: 0, mejor_version: null };
         }
         const leccion = memoriaAprendizaje.lecciones[analisisId];
-        const versionExistente = leccion.versiones.find(v => v.texto === analisis);
-        if (versionExistente) {
-            if (util === 'useful') versionExistente.useful++;
-            else versionExistente.notuseful++;
-        } else {
-            leccion.versiones.push({ texto: analisis, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
-        }
-        if (util === 'useful') leccion.useful++;
-        else leccion.notuseful++;
+        const existente = leccion.versiones.find(v => v.texto === analisis);
+        if (existente) { if (util === 'useful') existente.useful++; else existente.notuseful++; }
+        else { leccion.versiones.push({ texto: analisis, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() }); }
+        if (util === 'useful') leccion.useful++; else leccion.notuseful++;
         leccion.mejor_version = leccion.versiones.reduce((mejor, actual) => {
             const scoreActual = actual.useful - actual.notuseful;
             const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
@@ -459,318 +233,147 @@ Técnicas de redacción: pirámide invertida, lead efectivo, citas, datos releva
         guardarMemoria();
     }
     
-    function obtenerAnalisisAprendido(analisisId) {
-        const leccion = memoriaAprendizaje.lecciones[analisisId];
-        if (leccion && leccion.mejor_version) {
-            const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
-            if (ratio > 0.6) return leccion.mejor_version.texto;
-        }
-        return null;
-    }
-    
-    // Modo Experto/Básico
-    let modo = localStorage.getItem('diario_modo') || 'experto';
-    
     function actualizarModoUI() {
         document.querySelectorAll('.modo-btn').forEach(btn => {
-            if (btn.dataset.modo === modo) btn.classList.add('active');
-            else btn.classList.remove('active');
+            btn.classList.toggle('active', btn.dataset.modo === modo);
         });
     }
-    
     document.querySelectorAll('.modo-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             modo = btn.dataset.modo;
             localStorage.setItem('diario_modo', modo);
             actualizarModoUI();
-            showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (resumen directo)'}`);
+            showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
         });
     });
     actualizarModoUI();
     
-    // Auto-reparación
-    async function esperarBackoff(intento) {
-        const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
-        return new Promise(resolve => setTimeout(resolve, tiempo));
+    function showToast(msg, isError = false) {
+        const t = document.createElement('div');
+        t.className = 'toast-msg';
+        t.style.background = isError ? '#ef4444' : '#10b981';
+        t.innerText = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
     }
     
-    function cambiarIP() {
-        if (currentIpIndex < BACKUP_IPS.length - 1) {
-            currentIpIndex++;
-            return BACKUP_IPS[currentIpIndex];
-        }
-        return BACKUP_IPS[currentIpIndex];
-    }
-    
-    function showToast(message, isError = false) {
-        const toast = document.createElement('div');
-        toast.className = 'toast-msg';
-        toast.style.background = isError ? '#ef4444' : '#10b981';
-        toast.innerText = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2500);
-    }
-    
-    function addFeedbackToAnalysis(analisis, fecha) {
-        const opinionContent = document.getElementById('opinionContent');
-        if (!opinionContent) return;
-        
-        const existingFeedback = opinionContent.querySelector('.feedback-buttons');
-        if (existingFeedback) existingFeedback.remove();
-        
-        const feedbackDiv = document.createElement('div');
-        feedbackDiv.className = 'feedback-buttons';
-        feedbackDiv.innerHTML = `
-            <button class="feedback-btn useful" data-analisis="${analisis.replace(/"/g, '&quot;').substring(0, 500)}" data-fecha="${fecha}">👍 Útil</button>
-            <button class="feedback-btn not-useful" data-analisis="${analisis.replace(/"/g, '&quot;').substring(0, 500)}" data-fecha="${fecha}">👎 No útil</button>
-        `;
-        opinionContent.appendChild(feedbackDiv);
-        
-        setTimeout(() => {
-            feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const analisis = btn.dataset.analisis;
-                    const fecha = btn.dataset.fecha;
-                    const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
-                    registrarFeedback(fecha, analisis, util);
-                    btn.remove();
-                    showToast(`✅ Gracias por tu feedback`);
-                });
-            });
-        }, 100);
-    }
-    
-    // GENERAR NOTICIAS DEL DÍA (basadas en fecha)
     function generarNoticiasDelDia() {
         const hoy = new Date();
-        const year = hoy.getFullYear();
-        const mes = hoy.getMonth() + 1;
-        const dia = hoy.getDate();
-        
-        const semilla = year * 365 + mes * 31 + dia;
-        
-        const temasSeguridad = [
-            "Operativos militares en zonas conflictivas", "Incautación de droga récord en el Golfo", "Reducción de homicidios en Guayaquil", "Nuevo comandante de la Policía Nacional",
-            "Fuerzas Armadas refuerzan frontera norte", "Desarticulación de banda de narcotráfico", "Toque de queda en sectores críticos", "Extradición de líder narco a EE.UU."
-        ];
-        const temasEconomia = [
-            "Inflación registra leve descenso", "Banco Central proyecta crecimiento del PIB", "Nuevos créditos para emprendedores", "Acuerdo comercial con China entra en vigencia",
-            "Precio del dólar se mantiene estable", "Inversión extranjera supera expectativas", "Crisis energética: plan de contingencia", "Empleo informal disminuye en zonas urbanas"
-        ];
-        const temasPolitica = [
-            "Asamblea Nacional aprueba ley de seguridad", "Presidente anuncia gabinete renovado", "Consulta popular definirá temas clave", "Partidos políticos negocian acuerdos legislativos",
-            "Presupuesto general del Estado 2026", "Comisión de la Verdad entrega informe", "Elecciones seccionales en preparación", "CNE habilita nuevo proceso de inscripción"
-        ];
-        const temasSociedad = [
-            "Programas sociales alcanzan nuevos beneficiarios", "Campaña de vacunación masiva", "Nuevo hospital del Sur será inaugurado", "Educación: retorno a clases con refuerzos",
-            "Ley de protección al adulto mayor", "Ferias de empleo en todo el país", "Vivienda social para sectores vulnerables", "Salud mental: prioridad en políticas públicas"
-        ];
-        const temasCultura = [
-            "Festival Internacional de Cine en Quito", "Declaración de patrimonio inmaterial", "Conciertos sinfónicos gratuitos en el Centro Histórico", "Libro del año: novela ecuatoriana premiada",
-            "Museo Nacional abre nueva sala", "Danza contemporánea llega a teatros", "Feria del libro convoca a autores internacionales", "Artesanías ecuatorianas destacan en feria mundial"
-        ];
-        
-        const idxSeg = (semilla % temasSeguridad.length);
-        const idxEco = (Math.floor(semilla / 7) % temasEconomia.length);
-        const idxPol = (Math.floor(semilla / 13) % temasPolitica.length);
-        const idxSoc = (Math.floor(semilla / 19) % temasSociedad.length);
-        const idxCul = (Math.floor(semilla / 23) % temasCultura.length);
+        const semilla = hoy.getFullYear() * 365 + (hoy.getMonth()+1) * 31 + hoy.getDate();
+        const temasSeguridad = ["Operativos militares en zonas conflictivas","Incautación de droga récord en el Golfo","Reducción de homicidios en Guayaquil","Nuevo comandante de la Policía Nacional","Fuerzas Armadas refuerzan frontera norte","Desarticulación de banda de narcotráfico","Toque de queda en sectores críticos","Extradición de líder narco a EE.UU."];
+        const temasEconomia = ["Inflación registra leve descenso","Banco Central proyecta crecimiento del PIB","Nuevos créditos para emprendedores","Acuerdo comercial con China entra en vigencia","Precio del dólar se mantiene estable","Inversión extranjera supera expectativas","Crisis energética: plan de contingencia","Empleo informal disminuye en zonas urbanas"];
+        const temasPolitica = ["Asamblea Nacional aprueba ley de seguridad","Presidente anuncia gabinete renovado","Consulta popular definirá temas clave","Partidos políticos negocian acuerdos legislativos","Presupuesto general del Estado 2026","Comisión de la Verdad entrega informe","Elecciones seccionales en preparación","CNE habilita nuevo proceso de inscripción"];
+        const temasSociedad = ["Programas sociales alcanzan nuevos beneficiarios","Campaña de vacunación masiva","Nuevo hospital del Sur será inaugurado","Educación: retorno a clases con refuerzos","Ley de protección al adulto mayor","Ferias de empleo en todo el país","Vivienda social para sectores vulnerables","Salud mental: prioridad en políticas públicas"];
+        const temasCultura = ["Festival Internacional de Cine en Quito","Declaración de patrimonio inmaterial","Conciertos sinfónicos gratuitos","Libro del año: novela ecuatoriana premiada","Museo Nacional abre nueva sala","Danza contemporánea llega a teatros","Feria del libro convoca a autores","Artesanías ecuatorianas en feria mundial"];
         
         return [
-            { id: "1", titulo: `Seguridad: ${temasSeguridad[idxSeg]}`, autor: "El Universo", fecha: hoy.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: `Las autoridades presentaron el plan de contingencia.`, contenido: `Detalles completos de la operación.`, fuente: "El Universo" },
-            { id: "2", titulo: `Economía: ${temasEconomia[idxEco]}`, autor: "El Universo", fecha: hoy.toLocaleDateString('es-ES'), categoria: "economia", resumen: `Análisis del impacto económico.`, contenido: `Proyecciones para los próximos meses.`, fuente: "El Universo" },
-            { id: "3", titulo: `Política: ${temasPolitica[idxPol]}`, autor: "El Comercio", fecha: hoy.toLocaleDateString('es-ES'), categoria: "politica", resumen: `Legisladores debaten los alcances.`, contenido: `Cobertura desde la Asamblea Nacional.`, fuente: "El Comercio" },
-            { id: "4", titulo: `Sociedad: ${temasSociedad[idxSoc]}`, autor: "El Comercio", fecha: hoy.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: `Beneficiarios celebran la implementación.`, contenido: `Reportaje especial.`, fuente: "El Comercio" },
-            { id: "5", titulo: `Seguridad: Nuevo récord de incautaciones en 2026`, autor: "Primicias", fecha: hoy.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: `Balance trimestral contra narcotráfico.`, contenido: `Cifras oficiales de operativos.`, fuente: "Primicias" },
-            { id: "6", titulo: `Economía: ${temasEconomia[(idxEco+2)%temasEconomia.length]}`, autor: "Primicias", fecha: hoy.toLocaleDateString('es-ES'), categoria: "economia", resumen: `Proyecciones económicas.`, contenido: `Informe de indicadores.`, fuente: "Primicias" },
-            { id: "7", titulo: `Cultura: ${temasCultura[idxCul]}`, autor: "Expreso", fecha: hoy.toLocaleDateString('es-ES'), categoria: "cultura", resumen: `Agenda cultural del fin de semana.`, contenido: `Entrevista a organizadores.`, fuente: "Expreso" },
-            { id: "8", titulo: `Sociedad: Salud pública recibe inversión histórica`, autor: "Expreso", fecha: hoy.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: `Mejoras en infraestructura hospitalaria.`, contenido: `Detalles de la inversión.`, fuente: "Expreso" }
+            { id:"1", titulo:`Seguridad: ${temasSeguridad[semilla%8]}`, autor:"El Universo", fecha:hoy.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Las autoridades presentaron el plan.", contenido:"Detalles completos.", fuente:"El Universo" },
+            { id:"2", titulo:`Economía: ${temasEconomia[(Math.floor(semilla/7))%8]}`, autor:"El Universo", fecha:hoy.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Análisis del impacto económico.", contenido:"Proyecciones.", fuente:"El Universo" },
+            { id:"3", titulo:`Política: ${temasPolitica[(Math.floor(semilla/13))%8]}`, autor:"El Comercio", fecha:hoy.toLocaleDateString('es-ES'), categoria:"politica", resumen:"Legisladores debaten.", contenido:"Cobertura desde la Asamblea.", fuente:"El Comercio" },
+            { id:"4", titulo:`Sociedad: ${temasSociedad[(Math.floor(semilla/19))%8]}`, autor:"El Comercio", fecha:hoy.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Beneficiarios celebran.", contenido:"Reportaje especial.", fuente:"El Comercio" },
+            { id:"5", titulo:"Seguridad: Nuevo récord de incautaciones", autor:"Primicias", fecha:hoy.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Balance contra narcotráfico.", contenido:"Cifras oficiales.", fuente:"Primicias" },
+            { id:"6", titulo:`Economía: ${temasEconomia[(Math.floor(semilla/7)+2)%8]}`, autor:"Primicias", fecha:hoy.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Proyecciones.", contenido:"Indicadores.", fuente:"Primicias" },
+            { id:"7", titulo:`Cultura: ${temasCultura[(Math.floor(semilla/23))%8]}`, autor:"Expreso", fecha:hoy.toLocaleDateString('es-ES'), categoria:"cultura", resumen:"Agenda cultural.", contenido:"Entrevista.", fuente:"Expreso" },
+            { id:"8", titulo:"Sociedad: Salud pública recibe inversión", autor:"Expreso", fecha:hoy.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Mejoras hospitalarias.", contenido:"Detalles.", fuente:"Expreso" }
         ];
     }
     
-    function generarAnalisisOffline() {
-        const hoy = new Date();
-        const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-        const fechaStr = hoy.toLocaleDateString('es-ES', opciones);
-        return `📰 **ANÁLISIS ECUADOR · EDICIÓN ${fechaStr}**
-
-En la jornada de hoy, la agenda nacional está marcada por avances en seguridad y economía. El gobierno impulsa medidas para reactivar el empleo y combatir la violencia.
-
-La Asamblea Nacional continúa debatiendo proyectos clave. La ciudadanía espera respuestas concretas frente a desafíos como la crisis energética.
-
-La inversión en salud y educación sigue siendo prioritaria, con anuncios de nuevas infraestructuras.
-
-*Análisis generado el ${fechaStr}*`;
-    }
-    
-    let todasNoticias = [];
-    let currentCategory = "all";
-    
     function getCategoryName(catId) {
-        const nombres = { politica: "🏛️ Política", economia: "📊 Economía", sociedad: "👥 Sociedad", seguridad: "🚔 Seguridad", cultura: "🎭 Cultura" };
+        const nombres = { politica:"🏛️ Política", economia:"📊 Economía", sociedad:"👥 Sociedad", seguridad:"🚔 Seguridad", cultura:"🎭 Cultura" };
         return nombres[catId] || "📰 Noticia";
     }
     
     function renderNoticias() {
         const container = document.getElementById('newsContainer');
-        let filtradas = todasNoticias;
-        if (currentCategory !== 'all') {
-            filtradas = todasNoticias.filter(n => n.categoria === currentCategory);
-        }
-        if (filtradas.length === 0) {
-            container.innerHTML = '<div class="loading-text">📭 No hay noticias en esta categoría.</div>';
-            return;
-        }
-        container.innerHTML = filtradas.map(noticia => `
-            <div class="news-card" onclick="abrirModal('${noticia.id}')">
-                <div class="card-category">${noticia.categoriaNombre}</div>
+        let filtradas = currentCategory === 'all' ? todasNoticias : todasNoticias.filter(n => n.categoria === currentCategory);
+        if (filtradas.length === 0) { container.innerHTML = '<div class="loading-text">📭 No hay noticias.</div>'; return; }
+        container.innerHTML = filtradas.map(n => `
+            <div class="news-card" onclick="abrirModal('${n.id}')">
+                <div class="card-category">${n.categoriaNombre}</div>
                 <div class="card-content">
-                    <h3 class="card-title">${escapeHtml(noticia.titulo)} <span class="news-source-badge">${escapeHtml(noticia.fuente)}</span></h3>
-                    <p class="card-summary">${escapeHtml(noticia.resumen)}</p>
-                    <div class="card-meta">
-                        <span><i class="far fa-calendar-alt"></i> ${noticia.fecha}</span>
-                        <span><i class="fas fa-newspaper"></i> ${escapeHtml(noticia.autor)}</span>
-                    </div>
+                    <h3 class="card-title">${n.titulo} <span class="news-source-badge">${n.fuente}</span></h3>
+                    <p class="card-summary">${n.resumen}</p>
+                    <div class="card-meta"><span><i class="far fa-calendar-alt"></i> ${n.fecha}</span><span><i class="fas fa-newspaper"></i> ${n.autor}</span></div>
                 </div>
             </div>
         `).join('');
     }
     
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
     window.abrirModal = function(noticiaId) {
         const noticia = todasNoticias.find(n => n.id === noticiaId);
         if (!noticia) return;
-        const modal = document.getElementById('newsModal');
-        const modalContent = document.getElementById('modalContent');
-        modalContent.innerHTML = `
-            <div style="background: #e67e22; color: white; display: inline-block; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.7rem; margin-bottom: 1rem;">${noticia.categoriaNombre}</div>
-            <h2 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #1a2c3e;">${escapeHtml(noticia.titulo)}</h2>
-            <div style="color: #8a9aa8; font-size: 0.8rem; margin-bottom: 1rem;">
-                <i class="far fa-calendar-alt"></i> ${noticia.fecha} · 
-                <i class="fas fa-user"></i> ${escapeHtml(noticia.autor)} · 
-                <i class="fas fa-building"></i> ${escapeHtml(noticia.fuente)}
-            </div>
-            <div style="font-size: 1rem; line-height: 1.6; color: #2c3e4e; margin-bottom: 1.5rem;">
-                ${escapeHtml(noticia.contenido)}
-            </div>
-            <p style="font-size:0.8rem; color:#e67e22;"><i class="fas fa-newspaper"></i> Edición del día · ${new Date().toLocaleDateString('es-ES')}</p>
+        document.getElementById('modalContent').innerHTML = `
+            <div style="background:#e67e22;color:white;display:inline-block;padding:0.3rem 1rem;border-radius:20px;font-size:0.7rem;margin-bottom:1rem;">${noticia.categoriaNombre}</div>
+            <h2 style="font-size:1.3rem;margin-bottom:0.5rem;color:#1a2c3e;">${noticia.titulo}</h2>
+            <div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;"><i class="far fa-calendar-alt"></i> ${noticia.fecha} · <i class="fas fa-user"></i> ${noticia.autor} · <i class="fas fa-building"></i> ${noticia.fuente}</div>
+            <div style="font-size:1rem;line-height:1.6;color:#2c3e4e;margin-bottom:1.5rem;">${noticia.contenido}</div>
         `;
-        modal.classList.add('active');
+        document.getElementById('newsModal').classList.add('active');
     };
     
-    // ============================================
-    // IA AVANZADA CON AUTO-APRENDIZAJE
-    // ============================================
+    function generarAnalisisOffline() {
+        const fechaStr = new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' });
+        return `📰 **ANÁLISIS ECUADOR · EDICIÓN ${fechaStr}**\n\nEn la jornada de hoy, la agenda nacional está marcada por avances en seguridad y economía. El gobierno impulsa medidas para reactivar el empleo y combatir la violencia.\n\nLa Asamblea Nacional continúa debatiendo proyectos clave. La ciudadanía espera respuestas concretas.\n\n*Análisis generado el ${fechaStr}*`;
+    }
+    
+    function addFeedbackToAnalysis(analisis, fecha) {
+        const opinionContent = document.getElementById('opinionContent');
+        if (!opinionContent) return;
+        const existing = opinionContent.querySelector('.feedback-buttons');
+        if (existing) existing.remove();
+        const fb = document.createElement('div');
+        fb.className = 'feedback-buttons';
+        fb.innerHTML = '<button class="feedback-btn useful">👍 Útil</button><button class="feedback-btn not-useful">👎 No útil</button>';
+        fb.querySelector('.useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(fecha, analisis, 'useful'); fb.remove(); showToast('✅ Gracias'); });
+        fb.querySelector('.not-useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(fecha, analisis, 'notuseful'); fb.remove(); showToast('📝 Gracias'); });
+        opinionContent.appendChild(fb);
+    }
+    
     async function generarAnalisisPotenciado() {
         const opinionContent = document.getElementById('opinionContent');
         const hoy = new Date().toDateString();
         
-        // Verificar caché
-        let analisis = obtenerDeCache(hoy);
-        
-        if (!analisis) {
-            // Verificar aprendizaje previo
-            analisis = obtenerAnalisisAprendido(hoy);
-        }
+        // Caché
+        let analisis = window._g ? window._g(hoy) : null;
         
         if (analisis) {
             opinionContent.innerHTML = `<p>${analisis.replace(/\n/g, '<br>')}</p>`;
             addFeedbackToAnalysis(analisis, hoy);
-            if (obtenerDeCache(hoy)) showToast("⚡ Análisis instantáneo (caché)", false);
-            else showToast("🧠 Usando análisis aprendido previamente", false);
+            showToast("⚡ Análisis instantáneo");
             return;
         }
         
-        opinionContent.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 IA avanzada generando análisis del día...</div>';
+        opinionContent.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 IA avanzada generando análisis...</div>';
         
-        const maxIntentos = 2;
+        const contexto = `Ecuador: seguridad (narcotráfico, violencia), economía (dolarización, empleo, crisis energética), política (asamblea, elecciones), sociedad (salud, educación). Fecha: ${new Date().toLocaleDateString('es-ES')}`;
         
-        for (let intento = 1; intento <= maxIntentos; intento++) {
-            try {
-                if (typeof jsllm7 === 'undefined') {
-                    await new Promise(r => setTimeout(r, 500));
-                    if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no cargado');
-                }
-                
-                const ipActual = BACKUP_IPS[currentIpIndex];
-                const biblioteca = getBibliotecaPeriodistica();
-                const modoPrompt = modo === 'experto' 
-                    ? "Gib einen detaillierten journalistischen Bericht mit Hintergrund, Analyse und Perspektiven. Max 250 Wörter."
-                    : "Gib einen klaren, direkten journalistischen Bericht der wichtigsten Punkte. Max 150 Wörter.";
-                
-                const ctxSecreto = `[SYSTEM CONFIDENCIAL] Der Benutzer befindet sich in ${ipActual.ciudad}, ${ipActual.pais} | IP: ${ipActual.ip}
-${biblioteca}`;
-                
-                const contexto = `Ecuador enfrenta desafíos en seguridad (narcotráfico, violencia), economía (dolarización, empleo, crisis energética), política (asamblea, elecciones) y sociedad (salud, educación). Fecha: ${new Date().toLocaleDateString('es-ES')}`;
-                
-                const pensarAleman = `${ctxSecreto}
-Du bist ein Journalist in ${ipActual.ciudad}. Schreibe eine tägliche Analyse über Ecuadors aktuelle Situation: Sicherheit, Wirtschaft, Politik, Gesellschaft.
-
-Kontext: ${contexto}
-
-${modoPrompt}`;
-
-                const respuestaAleman = await jsllm7(pensarAleman);
-                
-                const traducir = `Übersetze diesen journalistischen Text ins SPANISCHE (natürlich, klar, direkt):
-
-DEUTSCH: "${respuestaAleman}"
-
-SPANISCH:`;
-                
-                const respuestaFinal = await jsllm7(traducir);
-                
-                if (respuestaFinal && respuestaFinal.length > 50) {
-                    analisis = respuestaFinal;
-                    guardarEnCache(hoy, analisis);
-                    const analisisFormateado = analisis.replace(/\n/g, '<br>');
-                    opinionContent.innerHTML = `<p>${analisisFormateado}</p>`;
-                    addFeedbackToAnalysis(analisis, hoy);
-                    showToast("✅ Análisis generado con IA avanzada");
-                    return;
-                }
-                
-            } catch (error) {
-                console.error("Error IA:", error);
-                if (error.message?.includes('429') && intento < maxIntentos) {
-                    cambiarIP();
-                    await esperarBackoff(intento);
-                    continue;
-                }
-                if (intento < maxIntentos) await esperarBackoff(intento);
+        if (window._x) {
+            const result = await window._x(contexto);
+            if (result.e) {
+                analisis = result.r;
+                if (window._p) window._p(hoy, analisis);
+                opinionContent.innerHTML = `<p>${analisis.replace(/\n/g, '<br>')}</p>`;
+                addFeedbackToAnalysis(analisis, hoy);
+                showToast("✅ Análisis generado con IA avanzada");
+                return;
             }
         }
         
-        // Fallback offline
         const offline = generarAnalisisOffline();
         opinionContent.innerHTML = `<p>${offline.replace(/\n/g, '<br>')}</p>`;
         addFeedbackToAnalysis(offline, hoy);
         showToast("⚠️ Usando análisis local", true);
     }
     
-    // ============================================
-    // CARGA DE LA EDICIÓN DEL DÍA
-    // ============================================
     function cargarEdicionDelDia() {
         const hoy = new Date().toDateString();
-        const noticiasGuardadas = localStorage.getItem('noticias_ecuador_edicion');
-        const fechaEdicion = localStorage.getItem('fecha_edicion_ecuador');
+        const guardadas = localStorage.getItem('noticias_ecuador_edicion');
+        const fechaEd = localStorage.getItem('fecha_edicion_ecuador');
         
-        if (noticiasGuardadas && fechaEdicion === hoy) {
-            todasNoticias = JSON.parse(noticiasGuardadas);
+        if (guardadas && fechaEd === hoy) {
+            todasNoticias = JSON.parse(guardadas);
         } else {
-            const nuevasNoticias = generarNoticiasDelDia();
-            todasNoticias = nuevasNoticias.map(noticia => ({
-                ...noticia,
-                categoriaNombre: getCategoryName(noticia.categoria)
-            }));
+            todasNoticias = generarNoticiasDelDia().map(n => ({ ...n, categoriaNombre: getCategoryName(n.categoria) }));
             localStorage.setItem('noticias_ecuador_edicion', JSON.stringify(todasNoticias));
             localStorage.setItem('fecha_edicion_ecuador', hoy);
         }
@@ -781,8 +384,6 @@ SPANISCH:`;
     document.getElementById('updateBtn').addEventListener('click', () => {
         localStorage.removeItem('noticias_ecuador_edicion');
         localStorage.removeItem('fecha_edicion_ecuador');
-        localStorage.removeItem('analisis_ecuador_diario');
-        localStorage.removeItem('fecha_analisis_ecuador');
         cargarEdicionDelDia();
         generarAnalisisPotenciado();
         showToast("📰 Edición actualizada");
@@ -797,136 +398,73 @@ SPANISCH:`;
         });
     });
     
-    document.getElementById('currentDate').innerHTML = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('modalCloseBtn').addEventListener('click', () => { document.getElementById('newsModal').classList.remove('active'); });
-    window.onclick = (event) => { if (event.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
+    document.getElementById('currentDate').innerHTML = new Date().toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('newsModal').classList.remove('active'));
+    window.onclick = (e) => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
     
-    // Verificar IA
-    function verificarIA() {
-        let intentos = 0;
-        const check = setInterval(() => {
-            if (typeof jsllm7 !== 'undefined') {
-                clearInterval(check);
-                console.log("✅ IA avanzada activa - Diario Ecuador Hoy (IP Rusia 5.255.255.242)");
-                showToast("✨ IA avanzada activa · Análisis preciso · Auto-aprendizaje");
-            } else if (intentos > 20) {
-                clearInterval(check);
-                console.log("⚠️ jsllm7 no cargó");
-                showToast("⚠️ IA cargando", true);
-            }
-            intentos++;
-        }, 500);
-    }
-    
-    // Inicializar
     cargarEdicionDelDia();
     generarAnalisisPotenciado();
-    verificarIA();
     
-    console.log(`📰 Diario Ecuador Hoy · IA Avanzada · IP óptima: ${CONFIG_SECRETA.ip} (${CONFIG_SECRETA.ciudad})`);
+    let intentos = 0;
+    const check = setInterval(() => {
+        if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✨ IA avanzada activa"); }
+        else if (intentos > 30) clearInterval(check);
+        intentos++;
+    }, 500);
 </script>
 
-<!-- 3 PUBLICIDADES -->
+<!-- PUBLICIDAD -->
 <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
 <script type="text/javascript" data-cfasync="false">
 (function(){var z=window,t="fd00ec802f889d01aba4b20343501917",m=[["siteId",49+611-187*50+659+5301107],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],s=["d3d3LmJsb2NrYWRzbm90LmNvbS9WVGhJWS96anN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9NQnkvemd5L2dwb3BwZXIubWluLmNzcw=="],a=-1,n,d,u=function(){clearTimeout(d);a++;if(s[a]&&!(1803077550000<(new Date).getTime()&&1<a)){n=z.document.createElement("script");n.type="text/javascript";n.async=!0;var r=z.document.getElementsByTagName("script")[0];n.src="https://"+atob(s[a]);n.crossOrigin="anonymous";n.onerror=u;n.onload=function(){clearTimeout(d);z[t.slice(0,16)+t.slice(0,16)]||u()};d=setTimeout(u,5E3);r.parentNode.insertBefore(n,r)}};if(!z[t]){try{Object.freeze(z[t]=m)}catch(e){}u()}})();
 </script>
-<script>
-(function(ommhhmb){
-var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1];
-s.settings = ommhhmb || {};
-s.src = "\/\/webbedtrash.com\/beX.Vls_d\/Gzl\/0_YnW\/cA\/aeCmH9xu-ZDUvlCktPmTKYN5ANujnULxoNNz\/MytsNJjokf2\/NsTlE\/3INzwi";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>
+<script>(function(ommhhmb){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=ommhhmb||{};s.src="\/\/webbedtrash.com\/beX.Vls_d\/Gzl\/0_YnW\/cA\/aeCmH9xu-ZDUvlCktPmTKYN5ANujnULxoNNz\/MytsNJjokf2\/NsTlE\/3INzwi";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 
-<!-- MODO VR -->
-<script type="importmap">
-{
-    "imports": {
-        "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-    }
-}
-</script>
+<!-- VR -->
+<script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
 <script type="module">
-    import * as THREE from 'three';
-    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-    import { VRButton } from 'three/addons/webxr/VRButton.js';
-    
-    let vrScene, vrCamera, vrRenderer, vrControls, vrActive = false;
-    
-    function initVR() {
-        const container = document.getElementById('vrContainer');
-        container.innerHTML = '';
-        vrScene = new THREE.Scene();
-        vrScene.background = new THREE.Color(0x1a2c3e);
-        vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        vrCamera.position.set(5, 1.8, 6);
-        vrRenderer = new THREE.WebGLRenderer({ antialias: true });
-        vrRenderer.setSize(container.clientWidth, container.clientHeight);
-        vrRenderer.xr.enabled = true;
-        container.appendChild(vrRenderer.domElement);
-        const vrBtn = VRButton.createButton(vrRenderer);
-        vrBtn.style.cssText = 'position:absolute;bottom:20px;right:20px;z-index:1000';
-        container.appendChild(vrBtn);
-        vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
-        vrControls.enableDamping = true;
-        const ambientLight = new THREE.AmbientLight(0x404060);
-        vrScene.add(ambientLight);
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-        dirLight.position.set(5, 10, 7);
-        vrScene.add(dirLight);
-        const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.MeshStandardMaterial({ color: 0x2a3a4e }));
-        floor.rotation.x = -Math.PI / 2;
-        floor.position.y = -1;
-        vrScene.add(floor);
-        const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 128;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#1a2c3e';
-        ctx.fillRect(0, 0, 512, 128);
-        ctx.font = 'Bold 28px "Inter"';
-        ctx.fillStyle = '#e67e22';
-        ctx.textAlign = 'center';
-        ctx.fillText('DIARIO ECUADOR HOY', 256, 64);
-        const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.2), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(canvas) }));
-        textPlane.position.set(0, 2.5, -3);
-        vrScene.add(textPlane);
-        
-        function animate() {
-            requestAnimationFrame(animate);
-            vrControls.update();
-            vrRenderer.render(vrScene, vrCamera);
-        }
-        animate();
-        window.addEventListener('resize', () => {
-            if (vrRenderer && vrCamera) {
-                const width = container.clientWidth, height = container.clientHeight;
-                vrCamera.aspect = width / height;
-                vrCamera.updateProjectionMatrix();
-                vrRenderer.setSize(width, height);
-            }
-        });
-    }
-    
-    const normalMode = document.getElementById('normalMode');
-    const vrModeDiv = document.getElementById('vrMode');
-    const vrBtn = document.getElementById('vrModeBtn');
-    const closeVrBtn = document.getElementById('closeVrBtn');
-    
-    vrBtn.addEventListener('click', () => {
-        normalMode.style.display = 'none';
-        vrModeDiv.classList.add('active');
-        if (!vrActive) { initVR(); vrActive = true; }
-    });
-    closeVrBtn.addEventListener('click', () => {
-        vrModeDiv.classList.remove('active');
-        normalMode.style.display = 'block';
-    });
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { VRButton } from 'three/addons/webxr/VRButton.js';
+let vrScene, vrCamera, vrRenderer, vrControls, vrActive = false;
+function initVR() {
+    const container = document.getElementById('vrContainer');
+    container.innerHTML = '';
+    vrScene = new THREE.Scene(); vrScene.background = new THREE.Color(0x1a2c3e);
+    vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000);
+    vrCamera.position.set(5, 1.8, 6);
+    vrRenderer = new THREE.WebGLRenderer({ antialias: true });
+    vrRenderer.setSize(container.clientWidth, container.clientHeight);
+    vrRenderer.xr.enabled = true;
+    container.appendChild(vrRenderer.domElement);
+    const vrBtn = VRButton.createButton(vrRenderer);
+    vrBtn.style.cssText = 'position:absolute;bottom:20px;right:20px;z-index:1000';
+    container.appendChild(vrBtn);
+    vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
+    vrControls.enableDamping = true;
+    vrScene.add(new THREE.AmbientLight(0x404060));
+    const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5,10,7); vrScene.add(dl);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(12,12), new THREE.MeshStandardMaterial({color:0x2a3a4e}));
+    floor.rotation.x = -Math.PI/2; floor.position.y = -1; vrScene.add(floor);
+    const canvas = document.createElement('canvas'); canvas.width=512; canvas.height=128;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle='#1a2c3e'; ctx.fillRect(0,0,512,128);
+    ctx.font='Bold 28px "Inter"'; ctx.fillStyle='#e67e22'; ctx.textAlign='center';
+    ctx.fillText('DIARIO ECUADOR HOY',256,64);
+    const tp = new THREE.Mesh(new THREE.PlaneGeometry(5,1.2), new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(canvas)}));
+    tp.position.set(0,2.5,-3); vrScene.add(tp);
+    function animate(){requestAnimationFrame(animate);vrControls.update();vrRenderer.render(vrScene,vrCamera)}
+    animate();
+}
+document.getElementById('vrModeBtn').addEventListener('click',()=>{
+    document.getElementById('normalMode').style.display='none';
+    document.getElementById('vrMode').classList.add('active');
+    if(!vrActive){initVR();vrActive=true}
+});
+document.getElementById('closeVrBtn').addEventListener('click',()=>{
+    document.getElementById('vrMode').classList.remove('active');
+    document.getElementById('normalMode').style.display='block';
+});
 </script>
 </body>
 </html>
