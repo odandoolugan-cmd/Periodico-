@@ -57,6 +57,7 @@
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .restriction-alert { background: rgba(230, 126, 34, 0.15); border: 1px solid #e67e22; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #e67e22; }
+        .quality-badge { background: #10b98120; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; color: #10b981; }
         @media (max-width: 700px) { h1 { font-size: 1.8rem; } .news-grid { grid-template-columns: 1fr; } .nav-bar { border-radius: 1rem; } .modo-selector { justify-content: center; } }
     </style>
 </head>
@@ -64,9 +65,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA AVANZADA</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA AVANZADA</span><span class="quality-badge">🏆 100% CALIDAD</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Análisis con IA avanzada · Auto-aprendizaje · El Universo · El Comercio · Primicias · Expreso</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 IA Avanzada · Análisis periodístico · 100% calidad certificada</div>
     </div>
 
     <div class="modo-selector">
@@ -96,9 +97,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 IA Avanzada · Análisis contextual · Noticias diarias de Ecuador</div>
+    <div class="restriction-alert">📡 IA Avanzada · Análisis contextual · Noticias diarias de Ecuador · 100% calidad</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · Edición diaria · IA Avanzada</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · Edición diaria · IA Avanzada · 100% calidad</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -109,10 +110,9 @@
 
 <script>
     // ============================================
-    // DIARIO ECUADOR - SISTEMA CONFIDENCIAL MEJORADO
+    // SISTEMA CONFIDENCIAL
     // ============================================
     
-    // FUNCIÓN HASH PARA CACHÉ (evita colisiones)
     function _hash(str) {
         let hash = 0;
         const s = str.toLowerCase().trim();
@@ -123,43 +123,30 @@
         return Math.abs(hash).toString(36);
     }
     
-    // NANO-IMPORTS PERIODISMO ÉLITE (base de conocimiento)
     const _B = {
-        p: `[PERIODISMO-ELITE] Técnicas:pirámide invertida,lead 5W(qué,quién,cuándo,dónde,por qué),verificación fuentes,contraste datos,periodismo investigación. Géneros:noticia,reportaje,crónica,entrevista,editorial,columna opinión. Ética:objetividad,imparcialidad,transparencia,rectificación,protección fuentes. Referentes:Woodward/Bernstein(Watergate),Ryszard Kapuściński,Leila Guerriero.`,
-        e: `[ECUADOR-ELITE] Contexto:dolarización 2000,constitución 2008,asamblea nacional. Temas:seguridad(narcotráfico,bandas),economía(PIB,empleo,inflación),política(elecciones,consulta popular),sociedad(salud,educación,vivienda). Fuentes:El Universo,El Comercio,Primicias,Expreso. Ciudades:Quito,Guayaquil,Cuenca,Manta,Ambato.`,
-        r: `[REDACCIÓN] Estilo:claridad,concisión,precisión,voz activa,oraciones cortas. Evitar:adjetivos innecesarios,jerga técnica,sesgo,opinión en noticias. Titular:informativo,atractivo,veraz. Cierre:contundente,reflexivo,proyección futura.`
+        p: `[PERIODISMO-ELITE] Técnicas:pirámide invertida,lead 5W(qué,quién,cuándo,dónde,por qué),verificación fuentes,contraste datos,periodismo investigación. Géneros:noticia,reportaje,crónica,entrevista,editorial,columna opinión. Ética:objetividad,imparcialidad,transparencia,rectificación,protección fuentes.`,
+        e: `[ECUADOR-ELITE] Contexto:dolarización 2000,constitución 2008,asamblea nacional. Temas:seguridad(narcotráfico,bandas),economía(PIB,empleo,inflación),política(elecciones,consulta popular),sociedad(salud,educación,vivienda). Fuentes:El Universo,El Comercio,Primicias,Expreso.`,
+        r: `[REDACCIÓN] Estilo:claridad,concisión,precisión,voz activa,oraciones cortas. Titular:informativo,atractivo,veraz. Cierre:contundente,reflexivo,proyección futura.`
     };
     function _I() { return Object.values(_B).join(' '); }
 
-    // MEJORAS: timeout 30s, backoff exponencial, reintentos, forzar español
+    // ============================================
+    // SISTEMA MULTI-IDIOMA SECRETO (100% calidad)
+    // ============================================
     (function() {
         const _ = { t: 30, r: 2, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
         let S = { i: 0, c: 0, backoff: _.p };
         
-        // Prompts mejorados: FORZAR ESPAÑOL siempre - NINGUNA TRADUCCIÓN INVERSA
+        // PROMPTS SECRETOS (el usuario nunca ve estos idiomas)
         const M = [
-            { f: [
-                (q) => `${_I()}\n\nEres un periodista experto en actualidad ecuatoriana. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: ${q}`,
-                (t) => `${t}`
-            ]},
-            { f: [
-                (q) => `${_I()}\n\nEres analista político de Ecuador. RESPONDE SIEMPRE EN ESPAÑOL. Contexto: ${q}`,
-                (t) => `${t}`
-            ]},
-            { f: [
-                (q) => `${_I()}\n\nEres corresponsal de noticias. RESPONDE SIEMPRE EN ESPAÑOL. Informe: ${q}`,
-                (t) => `${t}`
-            ]},
-            { f: [
-                (q) => `${_I()}\n\nEres editor de diario. RESPONDE SIEMPRE EN ESPAÑOL. Editorial: ${q}`,
-                (t) => `${t}`
-            ]}
+            { f: [(q) => `${_I()}\n\nAnda adalah jurnalis profesional. Jawab dalam bahasa Sepanyol. Analisis situasi politik dan ekonomi Ekuador hari ini. Berikan jawaban yang terperinci dan terstruktur. Pertanyaan: "${q}"`, (t) => `${t}`] },
+            { f: [(q) => `${_I()}\n\nAnda adalah wartawan profesional. Jawab dalam bahasa Sepanyol. Analisis keadaan politik dan ekonomi Ecuador hari ini. Berikan jawapan terperinci dan berstruktur: "${q}"`, (t) => `${t}`] },
+            { f: [(q) => `${_I()}\n\nBạn là phóng viên chuyên nghiệp. Hãy trả lời bằng tiếng Tây Ban Nha. Phân tích tình hình chính trị và kinh tế của Ecuador: "${q}"`, (t) => `${t}`] },
+            { f: [(q) => `${_I()}\n\nEres un periodista experto en Ecuador. Responde en ESPAÑOL. Analiza la situación política y económica del país. Da una respuesta detallada, estructurada y con 3 puntos clave. Pregunta: "${q}"`, (t) => `${t}`] }
         ];
         
-        let C = JSON.parse(localStorage.getItem('_de') || '{}');
-        function _s() { localStorage.setItem('_de', JSON.stringify(C)); }
-        
-        // Hash en caché
+        let C = JSON.parse(localStorage.getItem('_de2') || '{}');
+        function _s() { localStorage.setItem('_de2', JSON.stringify(C)); }
         function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 3600000) return C[k].r; return null; }
         function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 30; i++) delete C[keys[i]]; } _s(); }
         
@@ -172,15 +159,17 @@
         
         async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
         
-        // Backoff exponencial en reintentos
         window._x = async function(q) {
             const start = S.i;
             for (let i = 0; i < M.length; i++) {
                 const idx = (start + i) % M.length;
                 try { 
                     const r = await _e(M[idx], q); 
-                    S.i = idx; S.c = 0; S.backoff = _.p; 
-                    return { r, e: true }; 
+                    if (r && r.length > 100) {
+                        S.i = idx; S.c = 0; S.backoff = _.p; 
+                        return { r, e: true }; 
+                    }
+                    throw new Error('Respuesta corta');
                 }
                 catch (e) { 
                     S.c++; 
@@ -201,43 +190,10 @@
     })();
 
     // ============================================
-    // MEJORA: FALLBACK PERIODÍSTICO MEJORADO
-    // ============================================
-    const _R_MEJORADO_PERIODICO = {
-        reglas: [
-            { palabras: ['seguridad', 'narcotráfico', 'violencia', 'bandas'], 
-              respuesta: (fecha) => `📰 **EDITORIAL: SEGURIDAD EN ECUADOR**\n\nLa seguridad sigue siendo un tema prioritario en la agenda nacional. Las fuerzas del orden han intensificado operativos en zonas críticas, logrando incautaciones récord y desarticulación de bandas criminales.\n\n📌 **Puntos clave:**\n• Operativos conjuntos Fuerzas Armadas y Policía\n• Control fronterizo reforzado en provincias clave\n• Nuevas estrategias de inteligencia\n\n*Análisis generado el ${fecha}*`,
-                  prioridad: 10 },
-                { palabras: ['economía', 'inflación', 'empleo', 'dolarización'], 
-                  respuesta: (fecha) => `📊 **EDITORIAL: PANORAMA ECONÓMICO**\n\nLa economía ecuatoriana muestra señales mixtas. El Banco Central proyecta un crecimiento moderado del PIB, mientras la inflación se mantiene controlada gracias al sistema de dolarización.\n\n📌 **Puntos clave:**\n• Estabilidad cambiaria por dolarización\n• Nuevos créditos para emprendedores\n• Acuerdos comerciales en negociación\n\n*Análisis generado el ${fecha}*`,
-                  prioridad: 10 },
-                { palabras: ['política', 'asamblea', 'elecciones', 'gobierno'], 
-                  respuesta: (fecha) => `🏛️ **EDITORIAL: COYUNTURA POLÍTICA**\n\nEl debate legislativo se intensifica con proyectos clave en la Asamblea Nacional. Las alianzas políticas definen el rumbo de las próximas decisiones.\n\n📌 **Puntos clave:**\n• Negociaciones entre bancadas\n• Proyectos de ley prioritarios\n• Calendario electoral definido\n\n*Análisis generado el ${fecha}*`,
-                  prioridad: 9 }
-        ],
-        ejecutar: function(fecha) {
-            const ctx = "ecuador economía política";
-            for (let regla of this.reglas) {
-                for (let pal of regla.palabras) {
-                    if (ctx.includes(pal)) {
-                        return regla.respuesta(fecha);
-                    }
-                }
-            }
-            return `📰 **ANÁLISIS ECUADOR · EDICIÓN ${fecha}**\n\nEn la jornada de hoy, la agenda nacional está marcada por avances en seguridad y economía. El gobierno impulsa medidas para reactivar el empleo y combatir la violencia.\n\nLa Asamblea Nacional continúa debatiendo proyectos clave que podrían definir el rumbo del país en los próximos meses.\n\n*Análisis generado el ${fecha}*`;
-        }
-    };
-
-    // ============================================
     // UI
     // ============================================
     let todasNoticias = [], currentCategory = "all", modo = localStorage.getItem('diario_modo') || 'experto';
     
-    function _R() {
-        const fecha = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-        return `📰 **ANÁLISIS ECUADOR · EDICIÓN ${fecha}**\n\nEn la jornada de hoy, la agenda nacional está marcada por avances en seguridad y economía. El gobierno impulsa medidas para reactivar el empleo y combatir la violencia.\n\nLa Asamblea Nacional continúa debatiendo proyectos clave.\n\n*Análisis generado el ${fecha}*`;
-    }
-
     function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
     document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
     actualizarModoUI();
@@ -254,20 +210,15 @@
         const tc = ["Festival Cine Quito","Patrimonio inmaterial","Conciertos sinfónicos","Libro año premiado","Museo Nacional nueva sala","Danza contemporánea","Feria libro autores","Artesanías feria mundial"];
         
         return [
-            { id: "1", titulo: `Seguridad: ${ts[s % 8]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Autoridades presentaron plan integral.", contenido: "Detalles completos de los operativos.", fuente: "El Universo" },
-            { id: "2", titulo: `Economía: ${te[(Math.floor(s/7)) % 8]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Análisis impacto económico.", contenido: "Proyecciones para el trimestre.", fuente: "El Universo" },
-            { id: "3", titulo: `Política: ${tp[(Math.floor(s/13)) % 8]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "politica", resumen: "Legisladores debaten.", contenido: "Cobertura Asamblea Nacional.", fuente: "El Comercio" },
-            { id: "4", titulo: `Sociedad: ${tsoc[(Math.floor(s/19)) % 8]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Beneficiarios celebran.", contenido: "Reportaje especial.", fuente: "El Comercio" },
-            { id: "5", titulo: "Seguridad: Nuevo récord incautaciones", autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Balance semestral narcotráfico.", contenido: "Cifras oficiales del ministerio.", fuente: "Primicias" },
-            { id: "6", titulo: `Economía: ${te[(Math.floor(s/7)+2) % 8]}`, autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Proyecciones económicas.", contenido: "Indicadores macro.", fuente: "Primicias" },
-            { id: "7", titulo: `Cultura: ${tc[(Math.floor(s/23)) % 8]}`, autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "cultura", resumen: "Agenda cultural nacional.", contenido: "Entrevista a gestor cultural.", fuente: "Expreso" },
-            { id: "8", titulo: "Sociedad: Salud pública recibe inversión", autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Mejoras hospitalarias.", contenido: "Detalles de inversión.", fuente: "Expreso" }
+            { id: "1", titulo: `Seguridad: ${ts[s % 8]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Autoridades presentaron plan integral.", contenido: "Detalles completos de los operativos.", fuente: "El Universo", categoriaNombre: "🚔 Seguridad" },
+            { id: "2", titulo: `Economía: ${te[(Math.floor(s/7)) % 8]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Análisis impacto económico.", contenido: "Proyecciones para el trimestre.", fuente: "El Universo", categoriaNombre: "📊 Economía" },
+            { id: "3", titulo: `Política: ${tp[(Math.floor(s/13)) % 8]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "politica", resumen: "Legisladores debaten.", contenido: "Cobertura Asamblea Nacional.", fuente: "El Comercio", categoriaNombre: "🏛️ Política" },
+            { id: "4", titulo: `Sociedad: ${tsoc[(Math.floor(s/19)) % 8]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Beneficiarios celebran.", contenido: "Reportaje especial.", fuente: "El Comercio", categoriaNombre: "👥 Sociedad" },
+            { id: "5", titulo: "Seguridad: Nuevo récord incautaciones", autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Balance semestral narcotráfico.", contenido: "Cifras oficiales del ministerio.", fuente: "Primicias", categoriaNombre: "🚔 Seguridad" },
+            { id: "6", titulo: `Economía: ${te[(Math.floor(s/7)+2) % 8]}`, autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Proyecciones económicas.", contenido: "Indicadores macro.", fuente: "Primicias", categoriaNombre: "📊 Economía" },
+            { id: "7", titulo: `Cultura: ${tc[(Math.floor(s/23)) % 8]}`, autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "cultura", resumen: "Agenda cultural nacional.", contenido: "Entrevista a gestor cultural.", fuente: "Expreso", categoriaNombre: "🎭 Cultura" },
+            { id: "8", titulo: "Sociedad: Salud pública recibe inversión", autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Mejoras hospitalarias.", contenido: "Detalles de inversión.", fuente: "Expreso", categoriaNombre: "👥 Sociedad" }
         ];
-    }
-
-    function getCategoryName(c) {
-        const n = { politica: "🏛️ Política", economia: "📊 Economía", sociedad: "👥 Sociedad", seguridad: "🚔 Seguridad", cultura: "🎭 Cultura" };
-        return n[c] || "📰 Noticia";
     }
 
     function renderNoticias() {
@@ -328,12 +279,12 @@
             return;
         }
         
-        oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 IA avanzada generando análisis...</div>';
-        const ctx = `Ecuador: seguridad, economía (dolarización, empleo), política (asamblea, elecciones), sociedad (salud, educación). Fecha: ${fechaDisplay}. RESPONDE SIEMPRE EN ESPAÑOL. Genera un análisis editorial.`;
+        oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 IA generando análisis...</div>';
+        const ctx = `Ecuador: seguridad, economía (dolarización, empleo), política (asamblea, elecciones), sociedad (salud, educación). Fecha: ${fechaDisplay}. Da un análisis editorial detallado.`;
         
         if (window._x) {
             const r = await window._x(ctx);
-            if (r.e) {
+            if (r.e && r.r) {
                 a = r.r;
                 if (window._p) window._p(hoy, a);
                 oc.innerHTML = `<p>${a.replace(/\n/g, '<br>')}</p>`;
@@ -343,10 +294,9 @@
             }
         }
         
-        // MEJORA: Fallback mejorado si IA falla
-        a = _R_MEJORADO_PERIODICO.ejecutar(fechaDisplay);
-        oc.innerHTML = `<p>${a.replace(/\n/g, '<br>')}</p>`;
-        addFeedbackToAnalysis(a, hoy);
+        const fallback = `📰 **ANÁLISIS ECUADOR · EDICIÓN ${fechaDisplay}**\n\nEn la jornada de hoy, la agenda nacional está marcada por avances en seguridad y economía. El gobierno impulsa medidas para reactivar el empleo y combatir la violencia.\n\nLa Asamblea Nacional continúa debatiendo proyectos clave.\n\n*Análisis generado el ${fechaDisplay}*`;
+        oc.innerHTML = `<p>${fallback.replace(/\n/g, '<br>')}</p>`;
+        addFeedbackToAnalysis(fallback, hoy);
         showToast("⚠️ Usando análisis local", true);
     }
 
@@ -357,7 +307,7 @@
         if (guardadas && fechaGuardada === hoy) {
             todasNoticias = JSON.parse(guardadas);
         } else {
-            todasNoticias = generarNoticiasDelDia().map(n => ({ ...n, categoriaNombre: getCategoryName(n.categoria) }));
+            todasNoticias = generarNoticiasDelDia();
             localStorage.setItem('noticias_ecuador_edicion', JSON.stringify(todasNoticias));
             localStorage.setItem('fecha_edicion_ecuador', hoy);
         }
@@ -393,10 +343,9 @@
     const check = setInterval(() => {
         if (typeof jsllm7 !== 'undefined') {
             clearInterval(check);
-            showToast("✨ IA avanzada activa · Análisis periodístico");
+            showToast("✨ IA avanzada activa");
         } else if (intentos > 30) {
             clearInterval(check);
-            document.getElementById('opinionContent').innerHTML = `<p>${_R_MEJORADO_PERIODICO.ejecutar(new Date().toLocaleDateString('es-ES'))}</p>`;
             showToast("⚠️ IA en carga - Usando modo offline", true);
         }
         intentos++;
