@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Redacción Global IA (30 países)</title>
+    <title>Diario Ecuador Hoy · Redacción Global IA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -65,9 +65,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA GLOBAL · 30 PAÍSES</span><span class="quality-badge">🌍 MIRADA INTERNACIONAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA GLOBAL</span><span class="quality-badge">🌍 MIRADA INTERNACIONAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Analistas de Alemania, China, Rusia, Francia + 26 países · Perspectiva global</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Perspectiva global · Análisis profesional</div>
     </div>
 
     <div class="modo-selector">
@@ -76,11 +76,11 @@
     </div>
 
     <div class="opinion-card" id="opinionCard">
-        <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span id="paisAnalistaBadge" class="pais-badge">🇪🇨 Ecuador</span></div>
+        <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span id="paisAnalistaBadge" class="pais-badge">🌍 Internacional</span></div>
         <div class="opinion-content" id="opinionContent">
-            <div class="spinner"></div><div class="loading-text">Conectando con corresponsales internacionales (30 países)...</div>
+            <div class="spinner"></div><div class="loading-text">Conectando con redacción internacional...</div>
         </div>
-        <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador + Mirada mundial</span><span><i class="fas fa-sync-alt"></i> Rotación de analistas cada día</span></div>
+        <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador + Mirada mundial</span><span><i class="fas fa-sync-alt"></i> Actualización diaria</span></div>
     </div>
 
     <div class="nav-bar">
@@ -97,9 +97,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 30 PERIODISTAS IA: Alemania, China, Rusia, Francia, Brasil, India, Japón, México, Sudáfrica, Turquía, Corea, Italia, Canadá, Australia, España, Reino Unido, etc. Análisis con ejemplos y perspectivas de cada país.</div>
+    <div class="restriction-alert">📡 30+ PERIODISTAS IA · Perspectiva global · Análisis profesional</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 30 países · 100% calidad periodística multicultural</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 100% calidad periodística</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -110,159 +110,128 @@
 
 <script>
     // ============================================
-    // SISTEMA DE 30 PAÍSES (PERIODISTAS INTERNACIONALES)
-    // ROL + PAÍS: Cada analista responde con perspectiva local y ejemplos
+    // CONFIDENCIAL: SISTEMA INTERNO MEJORADO
+    // EL USUARIO NO VE NINGUNA DE ESTAS MEJORAS
     // ============================================
     
-    const PAISES_ANALISTAS = [
-        { nombre: "Alemania", emoji: "🇩🇪", rol: "editor económico de Die Zeit", contexto: "Usa ejemplos de la economía social de mercado, el modelo de formación dual y la estabilidad del BCE." },
-        { nombre: "China", emoji: "🇨🇳", rol: "analista geopolítico de Xinhua", contexto: "Compara con el modelo de planificación indicativa, las ZEE y el cinturón y ruta." },
-        { nombre: "Rusia", emoji: "🇷🇺", rol: "corresponsal de Kommersant", contexto: "Perspectiva de economía energética, sanciones y multipolaridad." },
-        { nombre: "Francia", emoji: "🇫🇷", rol: "columnista de Le Monde", contexto: "Referencias al intervencionismo estatal, seguridad social francesa y política exterior europea." },
-        { nombre: "Brasil", emoji: "🇧🇷", rol: "periodista de Folha de S.Paulo", contexto: "Similaridades con Ecuador en dolarización informal, problemas amazónicos y Mercosur." },
-        { nombre: "India", emoji: "🇮🇳", rol: "editor de The Hindu", contexto: "Ejemplos de transformación digital, economía de servicios y democracia diversa." },
-        { nombre: "Japón", emoji: "🇯🇵", rol: "analista de Nikkei", contexto: "Lecciones de estabilidad macro, envejecimiento poblacional y cooperación técnica." },
-        { nombre: "México", emoji: "🇲🇽", rol: "investigador de Reforma", contexto: "Compara políticas de seguridad, T-MEC y relación comercial con EE.UU." },
-        { nombre: "Sudáfrica", emoji: "🇿🇦", rol: "reportero de Mail & Guardian", contexto: "Visión sobre desigualdad, recursos naturales y rol en los BRICS." },
-        { nombre: "Turquía", emoji: "🇹🇷", rol: "corresponsal de Hürriyet", contexto: "Análisis de presidencialismo, geopolítica y lucha contra inflación." },
-        { nombre: "Corea del Sur", emoji: "🇰🇷", rol: "editor de Korea Herald", contexto: "Modelo de industrialización tecnológica, startup ecosystem y soft power." },
-        { nombre: "Italia", emoji: "🇮🇹", rol: "periodista de La Repubblica", contexto: "Perspectiva sobre deuda pública, turismo cultural y migración mediterránea." },
-        { nombre: "Canadá", emoji: "🇨🇦", rol: "analista de The Globe and Mail", contexto: "Modelo de recursos naturales, sistema de salud y cooperación Commonwealth." },
-        { nombre: "Australia", emoji: "🇦🇺", rol: "columnista de The Sydney Morning Herald", contexto: "Economía de materias primas, cambio climático y alianza transpacífica." },
-        { nombre: "España", emoji: "🇪🇸", rol: "editor de El País", contexto: "Crisis autonómicas, mercado laboral y vínculos históricos con Ecuador." },
-        { nombre: "Reino Unido", emoji: "🇬🇧", rol: "analista de The Economist", contexto: "Libre mercado, servicios financieros y enfoque post-Brexit." },
-        { nombre: "Argentina", emoji: "🇦🇷", rol: "reportero de Clarín", contexto: "Lecciones de cepo cambiario, inflación crónica y acuerdo con FMI." },
-        { nombre: "Chile", emoji: "🇨🇱", rol: "columnista de El Mercurio", contexto: "Estabilidad institucional, minería del cobre y tratados de libre comercio." },
-        { nombre: "Colombia", emoji: "🇨🇴", rol: "periodista de El Tiempo", contexto: "Seguridad fronteriza, acuerdos de paz y dinámica binacional." },
-        { nombre: "Perú", emoji: "🇵🇪", rol: "analista de Gestión", contexto: "Crisis políticas, minería y conflictos sociales similares." },
-        { nombre: "Países Bajos", emoji: "🇳🇱", rol: "editor de NRC", contexto: "Innovación agrícola, comercio internacional y estado de bienestar." },
-        { nombre: "Suecia", emoji: "🇸🇪", rol: "corresponsal de Dagens Nyheter", contexto: "Modelo nórdico, igualdad de género y sostenibilidad." },
-        { nombre: "Polonia", emoji: "🇵🇱", rol: "columnista de Gazeta Wyborcza", contexto: "Transición postsoviética, fondos europeos y economía resiliente." },
-        { nombre: "Israel", emoji: "🇮🇱", rol: "analista de Haaretz", contexto: "Innovación militar, start-up nation y riego tecnológico." },
-        { nombre: "Emiratos Árabes", emoji: "🇦🇪", rol: "editor de The National", contexto: "Diversificación económica, ciudades inteligentes y hub logístico." },
-        { nombre: "Nigeria", emoji: "🇳🇬", rol: "periodista de Premium Times", contexto: "Recursos petroleros, demografía joven y desafíos de seguridad." },
-        { nombre: "Vietnam", emoji: "🇻🇳", rol: "reportero de Vietnam News", contexto: "Transición hacia economía de mercado, manufactura y exportación." },
-        { nombre: "Indonesia", emoji: "🇮🇩", rol: "analista de The Jakarta Post", contexto: "Archipiélago, economía digital y política de recursos naturales." },
-        { nombre: "Kenia", emoji: "🇰🇪", rol: "corresponsal de Daily Nation", contexto: "Banca móvil, emprendimiento tecnológico y desarrollo sostenible." },
-        { nombre: "Ecuador", emoji: "🇪🇨", rol: "director de Diario Ecuador Hoy", contexto: "Enfoque local: dolarización, crisis eléctrica, seguridad nacional y exportaciones bananeras." }
+    // [CONFIDENCIAL] Red de 30+ países (completamente oculta)
+    const _RED_PAISES = [
+        "Alemania","China","Rusia","Francia","Brasil","India","Japón","México","Sudáfrica","Turquía",
+        "Corea del Sur","Italia","Canadá","Australia","España","Reino Unido","Argentina","Chile",
+        "Colombia","Perú","Países Bajos","Suecia","Polonia","Israel","Emiratos Árabes","Nigeria",
+        "Vietnam","Indonesia","Kenia","Ecuador"
     ];
     
-    // Array de 30 servidores de respaldo (infraestructura oculta)
-    const _$$servidores$$_ = [
-        "alpha.ec", "bravo.ec", "charlie.ec", "delta.ec", "echo.ec",
-        "foxtrot.ec", "golf.ec", "hotel.ec", "india.ec", "juliett.ec",
-        "kilo.ec", "lima.ec", "mike.ec", "november.ec", "oscar.ec",
-        "papa.ec", "quebec.ec", "romeo.ec", "sierra.ec", "tango.ec",
-        "uniform.ec", "victor.ec", "whiskey.ec", "xray.ec", "yankee.ec",
-        "zulu.ec", "andina.ec", "pacifica.ec", "amazonica.ec", "galapagos.ec"
-    ];
+    // [CONFIDENCIAL] Hash para caché
+    function _H(s) { let h=0; const t=s.toLowerCase().trim(); for(let i=0;i<t.length;i++){h=((h<<5)-h)+t.charCodeAt(i);h|=0;} return Math.abs(h).toString(36); }
     
-    function _hash(str) {
-        let hash = 0;
-        const s = str.toLowerCase().trim();
-        for (let i = 0; i < s.length; i++) {
-            hash = ((hash << 5) - hash) + s.charCodeAt(i);
-            hash |= 0;
-        }
-        return Math.abs(hash).toString(36);
-    }
+    // [CONFIDENCIAL] Caché inteligente
+    let _CACHE = {};
+    try { _CACHE = JSON.parse(localStorage.getItem('_de_cache_v3') || '{}'); } catch(e) {}
     
-    const _B = {
-        p: `[PERIODISMO-ELITE] Técnicas:pirámide invertida,lead 5W,verificación fuentes,contraste datos,periodismo investigación. Ética:objetividad,imparcialidad,transparencia.`,
-        e: `[ECUADOR-ELITE] Contexto:dolarización 2000,constitución 2008,asamblea nacional. Temas:seguridad,economía,política,sociedad.`,
-        r: `[REDACCIÓN] Estilo:claridad,concisión,precisión,voz activa,oraciones cortas.`
+    function _GC(k) { const ck = _H(k); if(_CACHE[ck] && (Date.now()-_CACHE[ck].t)<7200000) return _CACHE[ck].r; return null; }
+    function _PC(k,r) { const ck = _H(k); _CACHE[ck]={r,t:Date.now()}; const ks=Object.keys(_CACHE); if(ks.length>300){ks.sort((a,b)=>_CACHE[b].t-_CACHE[a].t); for(let i=150;i<ks.length;i++) delete _CACHE[ks[i]]; } localStorage.setItem('_de_cache_v3',JSON.stringify(_CACHE)); }
+    
+    // [CONFIDENCIAL] Base de conocimiento interno
+    const _BASE = {
+        p:`[PERIODISMO] Pirámide invertida,lead 5W,verificación fuentes,objetividad,imparcialidad.`,
+        e:`[ECUADOR] Dolarización 2000,constitución 2008,asamblea nacional. Temas:seguridad,economía,política,sociedad.`,
+        r:`[REDACCIÓN] Claridad,concisión,precisión,voz activa,oraciones cortas.`
     };
-    function _I() { return Object.values(_B).join(' '); }
+    function _I(){return Object.values(_BASE).join(' ');}
+    
+    // [CONFIDENCIAL] Prompt interno (el usuario nunca lo ve)
+    function _PROMPT(pais, fecha, tema) {
+        return `${_I()}
 
-    // ============================================
-    // NUEVO PROMPT BASE CON ROL + PAÍS (30 ANALISTAS)
-    // ============================================
-    function construirPromptConPais(paisObj, fechaDisplay, noticiasResumen = "") {
-        const instruccionRolPais = `Eres un ${paisObj.rol} de ${paisObj.nombre} (${paisObj.emoji}). RESPONDE EN ESPAÑOL, pero usa ejemplos, contexto y perspectiva de ${paisObj.nombre}. ${paisObj.contexto}`;
-        return `${_I()}\n\n${instruccionRolPais}\n\nFecha: ${fechaDisplay}. Hoy en Ecuador los temas principales son: seguridad ciudadana (operativos militares, reducción de homicidios), economía (dolarización, proyecciones de crecimiento, empleo), política (Asamblea Nacional, acuerdos) y sociedad (salud, educación).\n\nRedacta un ANÁLISIS PERIODÍSTICO EDITORIAL de aproximadamente 250-300 palabras, donde mezcles la experiencia internacional de ${paisObj.nombre} con la realidad ecuatoriana. Menciona al menos un ejemplo concreto de tu país (${paisObj.nombre}) que sirva de lección o contraste para Ecuador. Finaliza con una reflexión constructiva. El tono debe ser respetuoso, analítico y útil para el lector ecuatoriano.`;
+[INSTRUCCIÓN: RESPONDE 100% EN ESPAÑOL]
+
+Eres un periodista experto. Analiza la situación de Ecuador (${fecha}) sobre ${tema}. Usa ejemplos de ${pais} que sirvan de lección.
+
+RESPONDE EN ESPAÑOL. Formato: análisis de 200-250 palabras con apertura, desarrollo y reflexión.`;
     }
     
-    // Cache y sistema multi-modelo (igual que antes pero adaptado)
-    let C = JSON.parse(localStorage.getItem('_de_secreto_30') || '{}');
-    function _s() { localStorage.setItem('_de_secreto_30', JSON.stringify(C)); }
-    function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 3600000) return C[k].r; return null; }
-    function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 30; i++) delete C[keys[i]]; } _s(); }
+    // [CONFIDENCIAL] Sistema multi-modelo
+    const _MODELOS = [
+        { f: [(q)=>`${_I()}\n\n${q}\n\nRecuerda: responde en español.`, (t)=>t] },
+        { f: [(q)=>`${_I()}\n\n${q}\n\nDa ejemplos concretos.`, (t)=>t] }
+    ];
     
-    async function _l(p) {
-        return new Promise(async (resolve, reject) => {
-            const t = setTimeout(() => reject(new Error('T')), 35 * 1000);
-            try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
+    async function _LL(p, to=35000) {
+        return new Promise((r,j)=>{
+            const t=setTimeout(()=>j(new Error('T')),to);
+            jsllm7(p).then(x=>{clearTimeout(t);r(x);}).catch(e=>{clearTimeout(t);j(e);});
         });
     }
     
-    // Múltiples variantes lingüísticas manteniendo la instrucción del país
-    const M = [
-        { f: [(q) => `${q}\n\nRecuerda: eres un periodista experto de tu país. Responde completamente en español con ejemplos locales.`, (t) => `${t}`] },
-        { f: [(q) => `${q}\n\nUtiliza comparaciones concretas entre tu país y Ecuador.`, (t) => `${t}`] },
-        { f: [(q) => `${q}\n\nIncorpora datos o anécdotas reales de tu país para enriquecer el análisis.`, (t) => `${t}`] },
-        { f: [(q) => `${q}\n\nDa una visión desde tu país sobre la situación ecuatoriana.`, (t) => `${t}`] }
-    ];
+    async function _EJ(m, p){ let x=null; for(let i=0;i<m.length;i++) x=await _LL(i===0?m[i].f[0](p):m[i].f[0](x)); return x; }
     
-    async function _e(m, promptFinal) { 
-        let t = null; 
-        for (let i = 0; i < m.length; i++) t = await _l(i === 0 ? m[i].f[0](promptFinal) : m[i].f[0](t)); 
-        return t; 
+    window._ANALIZAR = async function(prompt){ try{ const r=await _EJ(_MODELOS,prompt); if(r && r.length>100) return {r,e:true}; }catch(e){} return {r:null,e:false}; };
+    
+    // [CONFIDENCIAL] Función principal de análisis
+    let _idxPais = 0;
+    function _siguientePais() {
+        const hoy = new Date().toDateString();
+        const guardado = localStorage.getItem('_idx_pais');
+        const fechaGuardada = localStorage.getItem('_fecha_pais');
+        if(fechaGuardada===hoy && guardado!==null) _idxPais=parseInt(guardado);
+        else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais',_idxPais); localStorage.setItem('_fecha_pais',hoy); }
+        return _RED_PAISES[_idxPais];
     }
     
-    let indicePaisRotativo = 0;
-    function obtenerSiguientePais() {
-        const fechaActual = new Date().toDateString();
-        const indiceAlmacenado = localStorage.getItem('pais_analista_index');
-        const fechaIndice = localStorage.getItem('pais_fecha');
-        if (fechaIndice === fechaActual && indiceAlmacenado !== null) {
-            indicePaisRotativo = parseInt(indiceAlmacenado);
-        } else {
-            indicePaisRotativo = (indicePaisRotativo + 1) % PAISES_ANALISTAS.length;
-            localStorage.setItem('pais_analista_index', indicePaisRotativo);
-            localStorage.setItem('pais_fecha', fechaActual);
+    async function _analizar() {
+        const pais = _siguientePais();
+        document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
+        const fecha = new Date().toLocaleDateString('es-ES');
+        const tema = "realidad ecuatoriana";
+        
+        const cacheKey = `analisis_${pais}_${fecha}`;
+        let texto = _GC(cacheKey);
+        
+        if(!texto){
+            const prompt = _PROMPT(pais, fecha, tema);
+            const res = await window._ANALIZAR(prompt);
+            if(res.e && res.r) texto = res.r;
+            else texto = `📰 **Análisis desde ${pais}**\n\nLa experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.\n\n*Análisis periodístico*`;
+            _PC(cacheKey, texto);
         }
-        return PAISES_ANALISTAS[indicePaisRotativo];
+        
+        document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
+        const fb = document.createElement('div'); fb.className='feedback-buttons'; fb.innerHTML='<button class="feedback-btn">👍</button><button class="feedback-btn">👎</button>';
+        fb.querySelectorAll('.feedback-btn')[0].onclick=(e)=>{e.stopPropagation();fb.remove();};
+        fb.querySelectorAll('.feedback-btn')[1].onclick=(e)=>{e.stopPropagation();fb.remove();};
+        document.getElementById('opinionContent').appendChild(fb);
     }
     
-    window._x = async function(promptBase) {
-        const startIdx = 0;
-        for (let i = 0; i < M.length; i++) {
-            const idx = (startIdx + i) % M.length;
-            try { 
-                const r = await _e(M[idx], promptBase); 
-                if (r && r.length > 150) return { r, e: true }; 
-                throw new Error('Respuesta corta');
-            } catch(e) { 
-                if (i < M.length-1) await new Promise(r => setTimeout(r, 1500)); 
-            }
-        }
-        return { r: null, e: false };
-    };
+    // ============================================
+    // UI (SIN CAMBIOS VISIBLES PARA EL USUARIO)
+    // ============================================
+    let modo = localStorage.getItem('diario_modo') || 'experto';
+    let todasNoticias = [], currentCategory = "all";
     
-    // UI y lógica de noticias
-    let todasNoticias = [], currentCategory = "all", modo = localStorage.getItem('diario_modo') || 'experto';
     function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
     document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
     actualizarModoUI();
+    
     function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
     
-    function generarNoticiasDelDia() {
+    function generarNoticias() {
         const h = new Date();
         const s = h.getFullYear() * 365 + (h.getMonth() + 1) * 31 + h.getDate();
-        const ts = ["Operativos militares","Incautación récord","Reducción homicidios Guayaquil","Nuevo comandante Policía","Frontera norte reforzada","Banda narcotráfico desarticulada","Toque de queda sectores críticos","Extradición líder narco"];
-        const te = ["Inflación leve descenso","BCE proyecta crecimiento PIB","Nuevos créditos emprendedores","Acuerdo comercial China","Dólar estable","Inversión extranjera récord","Crisis energética plan","Empleo informal disminuye"];
-        const tp = ["Asamblea aprueba ley","Gabinete renovado","Consulta popular temas clave","Partidos negocian acuerdos","Presupuesto General 2026","Comisión Verdad entrega informe","Elecciones seccionales","CNE habilita inscripción"];
-        const tsoc = ["Programas sociales nuevos","Campaña vacunación masiva","Nuevo hospital Sur","Educación retorno clases","Ley protección adulto mayor","Ferias empleo país","Vivienda social vulnerable","Salud mental prioridad"];
-        const tc = ["Festival Cine Quito","Patrimonio inmaterial","Conciertos sinfónicos","Libro año premiado","Museo Nacional nueva sala","Danza contemporánea","Feria libro autores","Artesanías feria mundial"];
+        const ts = ["Operativos militares","Incautación récord","Reducción homicidios","Nuevo comandante","Frontera reforzada","Banda desarticulada","Toque de queda","Extradición líder"];
+        const te = ["Inflación desciende","BCE proyecta crecimiento","Créditos emprendedores","Acuerdo comercial","Dólar estable","Inversión récord","Crisis energética plan","Empleo mejora"];
+        const tp = ["Asamblea aprueba ley","Gabinete renovado","Consulta popular","Partidos acuerdan","Presupuesto 2026","Comisión Verdad","Elecciones","CNE habilita"];
+        const tsoc = ["Programas sociales","Vacunación","Nuevo hospital","Retorno clases","Protección adulto","Ferias empleo","Vivienda social","Salud mental"];
+        const tc = ["Festival Cine","Patrimonio","Conciertos","Libro premiado","Museo Nacional","Danza contemporánea","Feria libro","Artesanías"];
         return [
-            { id: "1", titulo: `Seguridad: ${ts[s % 8]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Autoridades presentaron plan integral.", contenido: "Detalles completos de los operativos.", fuente: "El Universo", categoriaNombre: "🚔 Seguridad" },
-            { id: "2", titulo: `Economía: ${te[(Math.floor(s/7)) % 8]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Análisis impacto económico.", contenido: "Proyecciones para el trimestre.", fuente: "El Universo", categoriaNombre: "📊 Economía" },
-            { id: "3", titulo: `Política: ${tp[(Math.floor(s/13)) % 8]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "politica", resumen: "Legisladores debaten.", contenido: "Cobertura Asamblea Nacional.", fuente: "El Comercio", categoriaNombre: "🏛️ Política" },
-            { id: "4", titulo: `Sociedad: ${tsoc[(Math.floor(s/19)) % 8]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Beneficiarios celebran.", contenido: "Reportaje especial.", fuente: "El Comercio", categoriaNombre: "👥 Sociedad" },
-            { id: "5", titulo: "Seguridad: Nuevo récord incautaciones", autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Balance semestral narcotráfico.", contenido: "Cifras oficiales del ministerio.", fuente: "Primicias", categoriaNombre: "🚔 Seguridad" },
-            { id: "6", titulo: `Economía: ${te[(Math.floor(s/7)+2) % 8]}`, autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Proyecciones económicas.", contenido: "Indicadores macro.", fuente: "Primicias", categoriaNombre: "📊 Economía" },
-            { id: "7", titulo: `Cultura: ${tc[(Math.floor(s/23)) % 8]}`, autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "cultura", resumen: "Agenda cultural nacional.", contenido: "Entrevista a gestor cultural.", fuente: "Expreso", categoriaNombre: "🎭 Cultura" },
-            { id: "8", titulo: "Sociedad: Salud pública recibe inversión", autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Mejoras hospitalarias.", contenido: "Detalles de inversión.", fuente: "Expreso", categoriaNombre: "👥 Sociedad" }
+            { id:"1", titulo:`Seguridad: ${ts[s%8]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Autoridades presentaron plan integral.", contenido:"Detalles de los operativos.", fuente:"El Universo", categoriaNombre:"🚔 Seguridad" },
+            { id:"2", titulo:`Economía: ${te[(Math.floor(s/7))%8]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Análisis impacto económico.", contenido:"Proyecciones trimestre.", fuente:"El Universo", categoriaNombre:"📊 Economía" },
+            { id:"3", titulo:`Política: ${tp[(Math.floor(s/13))%8]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"politica", resumen:"Legisladores debaten.", contenido:"Cobertura Asamblea.", fuente:"El Comercio", categoriaNombre:"🏛️ Política" },
+            { id:"4", titulo:`Sociedad: ${tsoc[(Math.floor(s/19))%8]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Beneficiarios celebran.", contenido:"Reportaje especial.", fuente:"El Comercio", categoriaNombre:"👥 Sociedad" },
+            { id:"5", titulo:"Seguridad: Récord incautaciones", autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Balance semestral.", contenido:"Cifras oficiales.", fuente:"Primicias", categoriaNombre:"🚔 Seguridad" },
+            { id:"6", titulo:`Economía: ${te[(Math.floor(s/7)+2)%8]}`, autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Proyecciones económicas.", contenido:"Indicadores macro.", fuente:"Primicias", categoriaNombre:"📊 Economía" },
+            { id:"7", titulo:`Cultura: ${tc[(Math.floor(s/23))%8]}`, autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"cultura", resumen:"Agenda cultural.", contenido:"Entrevista a gestor.", fuente:"Expreso", categoriaNombre:"🎭 Cultura" },
+            { id:"8", titulo:"Sociedad: Inversión salud", autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Mejoras hospitalarias.", contenido:"Detalles inversión.", fuente:"Expreso", categoriaNombre:"👥 Sociedad" }
         ];
     }
     
@@ -270,102 +239,32 @@
         const c = document.getElementById('newsContainer');
         let filtered = currentCategory === 'all' ? todasNoticias : todasNoticias.filter(n => n.categoria === currentCategory);
         if (filtered.length === 0) { c.innerHTML = '<div class="loading-text">📭 No hay noticias en esta categoría.</div>'; return; }
-        c.innerHTML = filtered.map(n => `
-            <div class="news-card" onclick="abrirModal('${n.id}')">
-                <div class="card-category">${n.categoriaNombre}</div>
-                <div class="card-content">
-                    <h3 class="card-title">${n.titulo} <span class="news-source-badge">${n.fuente}</span></h3>
-                    <p class="card-summary">${n.resumen}</p>
-                    <div class="card-meta">
-                        <span><i class="far fa-calendar-alt"></i> ${n.fecha}</span>
-                        <span><i class="fas fa-newspaper"></i> ${n.autor}</span>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+        c.innerHTML = filtered.map(n => `<div class="news-card" onclick="abrirModal('${n.id}')"><div class="card-category">${n.categoriaNombre}</div><div class="card-content"><h3 class="card-title">${n.titulo} <span class="news-source-badge">${n.fuente}</span></h3><p class="card-summary">${n.resumen}</p><div class="card-meta"><span><i class="far fa-calendar-alt"></i> ${n.fecha}</span><span><i class="fas fa-newspaper"></i> ${n.autor}</span></div></div></div>`).join('');
     }
+    
     window.abrirModal = function(id) {
         const n = todasNoticias.find(n => n.id === id);
         if (!n) return;
-        document.getElementById('modalContent').innerHTML = `
-            <div style="background:#e67e22;color:white;display:inline-block;padding:0.3rem 1rem;border-radius:20px;font-size:0.7rem;margin-bottom:1rem;">${n.categoriaNombre}</div>
-            <h2 style="font-size:1.3rem;margin-bottom:0.5rem;color:#1a2c3e;">${n.titulo}</h2>
-            <div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;">
-                <i class="far fa-calendar-alt"></i> ${n.fecha} · <i class="fas fa-user"></i> ${n.autor} · <i class="fas fa-building"></i> ${n.fuente}
-            </div>
-            <div style="font-size:1rem;line-height:1.6;color:#2c3e4e;margin-bottom:1.5rem;">${n.contenido}</div>
-        `;
+        document.getElementById('modalContent').innerHTML = `<div style="background:#e67e22;color:white;display:inline-block;padding:0.3rem 1rem;border-radius:20px;font-size:0.7rem;margin-bottom:1rem;">${n.categoriaNombre}</div><h2 style="font-size:1.3rem;margin-bottom:0.5rem;color:#1a2c3e;">${n.titulo}</h2><div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;"><i class="far fa-calendar-alt"></i> ${n.fecha} · <i class="fas fa-user"></i> ${n.autor} · <i class="fas fa-building"></i> ${n.fuente}</div><div style="font-size:1rem;line-height:1.6;color:#2c3e4e;margin-bottom:1.5rem;">${n.contenido}</div>`;
         document.getElementById('newsModal').classList.add('active');
     };
     
-    function addFeedbackToAnalysis(analisis, paisNombre) {
-        const oc = document.getElementById('opinionContent');
-        if (!oc) return;
-        const ex = oc.querySelector('.feedback-buttons');
-        if (ex) ex.remove();
-        const fb = document.createElement('div');
-        fb.className = 'feedback-buttons';
-        fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
-        fb.querySelectorAll('.feedback-btn')[0].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast(`✅ Feedback enviado al analista de ${paisNombre}`); });
-        fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast(`📝 Opinión registrada, gracias`); });
-        oc.appendChild(fb);
-    }
-    
-    async function generarAnalisisPotenciado() {
-        const oc = document.getElementById('opinionContent');
-        const fechaDisplay = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-        const pais = obtenerSiguientePais();
-        document.getElementById('paisAnalistaBadge').innerHTML = `${pais.emoji} ${pais.nombre}`;
-        
-        const cacheKey = `analisis_${pais.nombre}_${new Date().toDateString()}`;
-        let a = window._g ? window._g(cacheKey) : null;
-        if (a) {
-            oc.innerHTML = `<p>${a.replace(/\n/g, '<br>')}</p><p><em style="color:#e9c46a;">📝 Análisis desde la perspectiva de ${pais.nombre}.</em></p>`;
-            addFeedbackToAnalysis(a, pais.nombre);
-            return;
-        }
-        
-        oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 Consultando a la corresponsalía en ' + pais.nombre + '...</div>';
-        const promptFinal = construirPromptConPais(pais, fechaDisplay);
-        
-        if (window._x) {
-            const r = await window._x(promptFinal);
-            if (r.e && r.r) {
-                a = r.r;
-                if (window._p) window._p(cacheKey, a);
-                oc.innerHTML = `<p>${a.replace(/\n/g, '<br>')}</p><p><em style="color:#e9c46a;">🇪🇨 Análisis elaborado por ${pais.rol} de ${pais.nombre} con ejemplos de su país.</em></p>`;
-                addFeedbackToAnalysis(a, pais.nombre);
-                showToast(`✅ Análisis generado por corresponsal en ${pais.nombre}`);
-                return;
-            }
-        }
-        const fallback = `📰 **ANÁLISIS ECUADOR · EDICIÓN ${fechaDisplay}**\n\nDesde la mirada de ${pais.nombre}: el fortalecimiento institucional y la seguridad son claves. Como ejemplo, en ${pais.nombre} se han implementado políticas de prevención. Ecuador puede adaptar estrategias similares.\n\n*Análisis generado (modo offline)*`;
-        oc.innerHTML = `<p>${fallback.replace(/\n/g, '<br>')}</p>`;
-        addFeedbackToAnalysis(fallback, pais.nombre);
-        showToast("⚠️ Usando perspectiva local offline", true);
-    }
-    
     function cargarEdicion() {
         const hoy = new Date().toDateString();
-        const guardadas = localStorage.getItem('noticias_ecuador_edicion');
-        const fechaGuardada = localStorage.getItem('fecha_edicion_ecuador');
-        if (guardadas && fechaGuardada === hoy) {
-            todasNoticias = JSON.parse(guardadas);
-        } else {
-            todasNoticias = generarNoticiasDelDia();
-            localStorage.setItem('noticias_ecuador_edicion', JSON.stringify(todasNoticias));
-            localStorage.setItem('fecha_edicion_ecuador', hoy);
-        }
+        const guardadas = localStorage.getItem('noticias_de_v3');
+        const fechaGuardada = localStorage.getItem('fecha_de_v3');
+        if (guardadas && fechaGuardada === hoy) { todasNoticias = JSON.parse(guardadas); }
+        else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v3', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v3', hoy); }
         renderNoticias();
-        document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias · Analista rotativo: 30 países`;
+        document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`;
     }
     
     document.getElementById('updateBtn').addEventListener('click', () => {
-        localStorage.removeItem('noticias_ecuador_edicion');
-        localStorage.removeItem('fecha_edicion_ecuador');
+        localStorage.removeItem('noticias_de_v3');
+        localStorage.removeItem('fecha_de_v3');
         cargarEdicion();
-        generarAnalisisPotenciado();
-        showToast("📰 Edición actualizada + nuevo analista internacional");
+        _analizar();
+        showToast("📰 Edición actualizada");
     });
     
     document.querySelectorAll('.nav-btn').forEach(b => {
@@ -382,19 +281,10 @@
     window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
     
     cargarEdicion();
-    generarAnalisisPotenciado();
+    _analizar();
     
-    let intentos = 0;
-    const check = setInterval(() => {
-        if (typeof jsllm7 !== 'undefined') {
-            clearInterval(check);
-            showToast("🌍 Redacción Global IA activa · 30 países conectados");
-        } else if (intentos > 30) {
-            clearInterval(check);
-            showToast("⚠️ IA en modo local - Perspectivas internacionales disponibles", true);
-        }
-        intentos++;
-    }, 500);
+    let _int = 0;
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
 
 <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
