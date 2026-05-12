@@ -27,6 +27,7 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
+        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .nav-bar { background: #1a2c3e; border-radius: 50px; padding: 0.5rem 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
         .nav-btn { background: transparent; border: none; padding: 0.5rem 1.2rem; border-radius: 50px; color: #cbd5e1; cursor: pointer; font-weight: 500; transition: all 0.2s; }
         .nav-btn:hover, .nav-btn.active { background: #e67e22; color: white; }
@@ -108,13 +109,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
-<script>
+<!-- Import map para Transformers.js (secreto) -->
+<script type="importmap">
+    {
+        "imports": {
+            "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+        }
+    }
+</script>
+
+<script type="module">
     // ============================================
-    // CONFIDENCIAL: SISTEMA INTERNO MEJORADO
-    // EL USUARIO NO VE NINGUNA DE ESTAS MEJORAS
+    // SISTEMA SECRETO: Transformers potencia jsllm7
+    // Diario Ecuador Hoy - Mejora invisible
     // ============================================
     
-    // [CONFIDENCIAL] Red de 30+ países (completamente oculta)
+    import { pipeline, env } from '@xenova/transformers';
+    
+    env.useBrowserCache = true;
+    env.allowLocalModels = false;
+    
+    // [CONFIDENCIAL] Red de 35+ países (completamente oculta)
     const _RED_PAISES = [
         "Alemania","China","Rusia","Francia","Brasil","India","Japón","México","Sudáfrica","Turquía",
         "Corea del Sur","Italia","Canadá","Australia","España","Reino Unido","Argentina","Chile",
@@ -122,36 +137,91 @@
         "Vietnam","Indonesia","Kenia","Ecuador"
     ];
     
-    // [CONFIDENCIAL] Hash para caché
-    function _H(s) { let h=0; const t=s.toLowerCase().trim(); for(let i=0;i<t.length;i++){h=((h<<5)-h)+t.charCodeAt(i);h|=0;} return Math.abs(h).toString(36); }
+    // SISTEMA SECRETO DE POTENCIACIÓN CON TRANSFORMERS
+    let clasificadorIntencion = null;
+    const memoriaIntencion = new Map();
     
-    // [CONFIDENCIAL] Caché inteligente
-    let _CACHE = {};
-    try { _CACHE = JSON.parse(localStorage.getItem('_de_cache_v3') || '{}'); } catch(e) {}
+    // Cargar Transformers en silencio
+    (async function() {
+        try {
+            clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
+        } catch(e) { console.warn(e); }
+    })();
     
-    function _GC(k) { const ck = _H(k); if(_CACHE[ck] && (Date.now()-_CACHE[ck].t)<7200000) return _CACHE[ck].r; return null; }
-    function _PC(k,r) { const ck = _H(k); _CACHE[ck]={r,t:Date.now()}; const ks=Object.keys(_CACHE); if(ks.length>300){ks.sort((a,b)=>_CACHE[b].t-_CACHE[a].t); for(let i=150;i<ks.length;i++) delete _CACHE[ks[i]]; } localStorage.setItem('_de_cache_v3',JSON.stringify(_CACHE)); }
+    async function analizarIntencion(tipo, pais, analisis) {
+        if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
+        try {
+            const txt = `Análisis periodístico desde ${pais}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
+            const res = await clasificadorIntencion(txt);
+            if (res && res[0]) {
+                const esPos = res[0].label === 'POSITIVE';
+                return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
+            }
+        } catch(e) {}
+        return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
+    }
+    
+    function mejorarPromptConIntencion(promptBase, intencion) {
+        if (intencion === 'buena') {
+            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback positivo previo. Profundiza el análisis con más datos y contexto.]`;
+        } else {
+            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback negativo previo. Sé más claro, objetivo y evita ambigüedades.]`;
+        }
+    }
+    
+    // Registrar feedback secreto
+    async function registrarFeedbackSecreto(pais, analisis, tipo, elemento) {
+        const clave = `analisis_${pais}`;
+        const analisisIntencion = await analizarIntencion(tipo, pais, analisis);
+        
+        if (!memoriaIntencion.has(clave)) {
+            memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
+        }
+        const data = memoriaIntencion.get(clave);
+        if (tipo === 'like') data.buenos++;
+        else data.malos++;
+        data.intencion = analisisIntencion.intencion;
+        
+        const btns = elemento.querySelectorAll('.feedback-btn');
+        btns.forEach(btn => btn.disabled = true);
+    }
     
     // [CONFIDENCIAL] Base de conocimiento interno
     const _BASE = {
-        p:`[PERIODISMO] Pirámide invertida,lead 5W,verificación fuentes,objetividad,imparcialidad.`,
-        e:`[ECUADOR] Dolarización 2000,constitución 2008,asamblea nacional. Temas:seguridad,economía,política,sociedad.`,
-        r:`[REDACCIÓN] Claridad,concisión,precisión,voz activa,oraciones cortas.`
+        p:`[PERIODISMO] Pirámide invertida,lead 5W,verificación fuentes,objetividad.`,
+        e:`[ECUADOR] Dolarización 2000,constitución 2008. Temas:seguridad,economía,política.`,
+        r:`[REDACCIÓN] Claridad,concisión,precisión,voz activa.`
     };
     function _I(){return Object.values(_BASE).join(' ');}
     
-    // [CONFIDENCIAL] Prompt interno (el usuario nunca lo ve)
-    function _PROMPT(pais, fecha, tema) {
-        return `${_I()}
+    // [CONFIDENCIAL] Prompt interno mejorado
+    function _PROMPT_MEJORADO(pais, fecha, tema, modo, intencionPrevia = null) {
+        let prompt = `${_I()}
 
-[INSTRUCCIÓN: RESPONDE 100% EN ESPAÑOL]
+[RESPONDE 100% EN ESPAÑOL]
 
-Eres un periodista experto. Analiza la situación de Ecuador (${fecha}) sobre ${tema}. Usa ejemplos de ${pais} que sirvan de lección.
+Eres periodista experto de ${pais}. Analiza Ecuador (${fecha}) sobre ${tema}.
 
-RESPONDE EN ESPAÑOL. Formato: análisis de 200-250 palabras con apertura, desarrollo y reflexión.`;
+RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, reflexión.`;
+
+        if (intencionPrevia === 'buena') {
+            prompt = `[FEEDBACK POSITIVO - MANTENER ESTILO]\n\n${prompt}\n\nMEJORA: Añade más ejemplos concretos.`;
+        } else if (intencionPrevia === 'mala') {
+            prompt = `[FEEDBACK NEGATIVO - MEJORAR CLARIDAD]\n\n${prompt}\n\nMEJORA: Sé más claro y estructurado.`;
+        }
+        
+        return prompt;
     }
     
-    // [CONFIDENCIAL] Sistema multi-modelo
+    function _H(s) { let h=0; const t=s.toLowerCase().trim(); for(let i=0;i<t.length;i++){h=((h<<5)-h)+t.charCodeAt(i);h|=0;} return Math.abs(h).toString(36); }
+    
+    let _CACHE = {};
+    try { _CACHE = JSON.parse(localStorage.getItem('_de_cache_v4') || '{}'); } catch(e) {}
+    
+    function _GC(k) { const ck = _H(k); if(_CACHE[ck] && (Date.now()-_CACHE[ck].t)<7200000) return _CACHE[ck].r; return null; }
+    function _PC(k,r) { const ck = _H(k); _CACHE[ck]={r,t:Date.now()}; const ks=Object.keys(_CACHE); if(ks.length>300){ks.sort((a,b)=>_CACHE[b].t-_CACHE[a].t); for(let i=150;i<ks.length;i++) delete _CACHE[ks[i]]; } localStorage.setItem('_de_cache_v4',JSON.stringify(_CACHE)); }
+    
+    // Sistema multi-modelo
     const _MODELOS = [
         { f: [(q)=>`${_I()}\n\n${q}\n\nRecuerda: responde en español.`, (t)=>t] },
         { f: [(q)=>`${_I()}\n\n${q}\n\nDa ejemplos concretos.`, (t)=>t] }
@@ -166,40 +236,78 @@ RESPONDE EN ESPAÑOL. Formato: análisis de 200-250 palabras con apertura, desar
     
     async function _EJ(m, p){ let x=null; for(let i=0;i<m.length;i++) x=await _LL(i===0?m[i].f[0](p):m[i].f[0](x)); return x; }
     
-    window._ANALIZAR = async function(prompt){ try{ const r=await _EJ(_MODELOS,prompt); if(r && r.length>100) return {r,e:true}; }catch(e){} return {r:null,e:false}; };
-    
-    // [CONFIDENCIAL] Función principal de análisis
+    // Función principal de análisis con potenciación
     let _idxPais = 0;
     function _siguientePais() {
         const hoy = new Date().toDateString();
-        const guardado = localStorage.getItem('_idx_pais');
-        const fechaGuardada = localStorage.getItem('_fecha_pais');
+        const guardado = localStorage.getItem('_idx_pais_v2');
+        const fechaGuardada = localStorage.getItem('_fecha_pais_v2');
         if(fechaGuardada===hoy && guardado!==null) _idxPais=parseInt(guardado);
-        else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais',_idxPais); localStorage.setItem('_fecha_pais',hoy); }
+        else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais_v2',_idxPais); localStorage.setItem('_fecha_pais_v2',hoy); }
         return _RED_PAISES[_idxPais];
     }
     
-    async function _analizar() {
+    async function _analizarConPotenciacion() {
         const pais = _siguientePais();
         document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
+        
+        const clave = `analisis_${pais}`;
+        const datosPrevios = memoriaIntencion.get(clave);
+        const intencionPrevia = datosPrevios?.intencion || null;
+        
         const fecha = new Date().toLocaleDateString('es-ES');
         const tema = "realidad ecuatoriana";
         
-        const cacheKey = `analisis_${pais}_${fecha}`;
+        const cacheKey = `analisis_${pais}_${fecha}_${intencionPrevia || ''}`;
         let texto = _GC(cacheKey);
         
         if(!texto){
-            const prompt = _PROMPT(pais, fecha, tema);
-            const res = await window._ANALIZAR(prompt);
-            if(res.e && res.r) texto = res.r;
-            else texto = `📰 **Análisis desde ${pais}**\n\nLa experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.\n\n*Análisis periodístico*`;
+            let exito = false;
+            for(let i = 0; i < _RED_PAISES.length; i++){
+                const prompt = _PROMPT_MEJORADO(pais, fecha, tema, 'experto', intencionPrevia);
+                try{
+                    const res = await _EJ(_MODELOS, prompt);
+                    if(res && res.length > 100){
+                        texto = res;
+                        exito = true;
+                        break;
+                    }
+                } catch(e){ continue; }
+            }
+            if(!exito){
+                texto = `📰 **Análisis desde ${pais}**\n\nLa experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.\n\n*Análisis periodístico*`;
+            }
             _PC(cacheKey, texto);
         }
         
         document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
-        const fb = document.createElement('div'); fb.className='feedback-buttons'; fb.innerHTML='<button class="feedback-btn">👍</button><button class="feedback-btn">👎</button>';
-        fb.querySelectorAll('.feedback-btn')[0].onclick=(e)=>{e.stopPropagation();fb.remove();};
-        fb.querySelectorAll('.feedback-btn')[1].onclick=(e)=>{e.stopPropagation();fb.remove();};
+        
+        // Agregar botones de feedback secreto
+        const fb = document.createElement('div'); 
+        fb.className='feedback-buttons';
+        
+        const btnLike = document.createElement('button');
+        btnLike.className = 'feedback-btn';
+        btnLike.innerHTML = '👍 Análisis útil';
+        btnLike.onclick = async (e) => {
+            e.stopPropagation();
+            await registrarFeedbackSecreto(pais, texto, 'like', fb);
+            fb.remove();
+            showToast('✅ Gracias, tu feedback mejora la redacción');
+        };
+        
+        const btnDislike = document.createElement('button');
+        btnDislike.className = 'feedback-btn';
+        btnDislike.innerHTML = '👎 No útil';
+        btnDislike.onclick = async (e) => {
+            e.stopPropagation();
+            await registrarFeedbackSecreto(pais, texto, 'dislike', fb);
+            fb.remove();
+            showToast('📝 Gracias, mejoraremos la calidad periodística');
+        };
+        
+        fb.appendChild(btnLike);
+        fb.appendChild(btnDislike);
         document.getElementById('opinionContent').appendChild(fb);
     }
     
@@ -251,19 +359,19 @@ RESPONDE EN ESPAÑOL. Formato: análisis de 200-250 palabras con apertura, desar
     
     function cargarEdicion() {
         const hoy = new Date().toDateString();
-        const guardadas = localStorage.getItem('noticias_de_v3');
-        const fechaGuardada = localStorage.getItem('fecha_de_v3');
+        const guardadas = localStorage.getItem('noticias_de_v4');
+        const fechaGuardada = localStorage.getItem('fecha_de_v4');
         if (guardadas && fechaGuardada === hoy) { todasNoticias = JSON.parse(guardadas); }
-        else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v3', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v3', hoy); }
+        else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v4', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v4', hoy); }
         renderNoticias();
         document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`;
     }
     
     document.getElementById('updateBtn').addEventListener('click', () => {
-        localStorage.removeItem('noticias_de_v3');
-        localStorage.removeItem('fecha_de_v3');
+        localStorage.removeItem('noticias_de_v4');
+        localStorage.removeItem('fecha_de_v4');
         cargarEdicion();
-        _analizar();
+        _analizarConPotenciacion();
         showToast("📰 Edición actualizada");
     });
     
@@ -281,10 +389,10 @@ RESPONDE EN ESPAÑOL. Formato: análisis de 200-250 palabras con apertura, desar
     window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
     
     cargarEdicion();
-    _analizar();
+    _analizarConPotenciacion();
     
     let _int = 0;
-    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · ${_RED_PAISES.length}+ periodistas globales`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
 
 <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
