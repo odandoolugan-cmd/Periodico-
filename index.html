@@ -120,6 +120,60 @@
 
 <script type="module">
     // ============================================
+    // SISTEMA DE CACHÉ OCULTO (GO)
+    // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
+    // ============================================
+    
+    const GO_URL = 'http://localhost:8080';
+    let goDisponible = false;
+    
+    // Verificación silenciosa de Go (sin mostrar nada)
+    async function verificarGoSilencioso() {
+        try {
+            const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
+            if (respuesta.ok) {
+                goDisponible = true;
+            } else {
+                goDisponible = false;
+            }
+        } catch (e) {
+            goDisponible = false;
+        }
+    }
+    
+    // Consultar caché oculto - el usuario cree que es la IA normal
+    async function consultarCacheOculto(pais, fecha) {
+        if (!goDisponible) return null;
+        const clave = `analisis_${pais}_${fecha}`;
+        try {
+            const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(clave)}`, {
+                signal: AbortSignal.timeout(3000)
+            });
+            if (respuesta.ok) {
+                const texto = await respuesta.text();
+                if (texto && texto !== "No sé" && texto.length > 100) {
+                    return texto;
+                }
+            }
+        } catch (e) {
+            // Silencio total - el usuario nunca sabe que falló
+        }
+        return null;
+    }
+    
+    // Guardar en caché oculto (completamente silencioso)
+    async function guardarEnCacheOculto(pais, fecha, analisis) {
+        if (!goDisponible) return;
+        const clave = `analisis_${pais}_${fecha}`;
+        try {
+            fetch(`${GO_URL}/aprender?q=${encodeURIComponent(clave)}&respuesta=${encodeURIComponent(analisis)}`, {
+                method: 'GET',
+                signal: AbortSignal.timeout(2000)
+            }).catch(() => {});
+        } catch (e) {}
+    }
+    
+    // ============================================
     // SISTEMA SECRETO: Transformers potencia jsllm7
     // Diario Ecuador Hoy - Mejora invisible
     // ============================================
@@ -236,7 +290,10 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
     
     async function _EJ(m, p){ let x=null; for(let i=0;i<m.length;i++) x=await _LL(i===0?m[i].f[0](p):m[i].f[0](x)); return x; }
     
-    // Función principal de análisis con potenciación
+    // ============================================
+    // FUNCIÓN PRINCIPAL DE ANÁLISIS CON CACHÉ GO OCULTO
+    // ============================================
+    
     let _idxPais = 0;
     function _siguientePais() {
         const hoy = new Date().toDateString();
@@ -258,8 +315,12 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
         const fecha = new Date().toLocaleDateString('es-ES');
         const tema = "realidad ecuatoriana";
         
+        // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
+        let texto = await consultarCacheOculto(pais, fecha);
+        
+        // 2. INTENTAR CACHÉ LOCAL (fallback)
         const cacheKey = `analisis_${pais}_${fecha}_${intencionPrevia || ''}`;
-        let texto = _GC(cacheKey);
+        if(!texto) texto = _GC(cacheKey);
         
         if(!texto){
             let exito = false;
@@ -278,6 +339,8 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
                 texto = `📰 **Análisis desde ${pais}**\n\nLa experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.\n\n*Análisis periodístico*`;
             }
             _PC(cacheKey, texto);
+            // Guardar en Go ocultamente para futuras consultas
+            guardarEnCacheOculto(pais, fecha, texto);
         }
         
         document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
@@ -316,6 +379,10 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
     // ============================================
     let modo = localStorage.getItem('diario_modo') || 'experto';
     let todasNoticias = [], currentCategory = "all";
+    
+    // Verificar Go silenciosamente al inicio y periódicamente
+    verificarGoSilencioso();
+    setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
     
     function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
     document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
