@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Redacción Global IA</title>
+    <title>Diario Ecuador Hoy · Redacción Global IA · Sin Markdown</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -22,7 +22,7 @@
         .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
         .opinion-title i { color: #e67e22; }
         .pais-badge { background: #e67e22; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
-        .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; }
+        .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; }
         .opinion-meta { font-size: 0.7rem; color: #aaa; margin-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
@@ -68,7 +68,7 @@
     <div class="header">
         <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA GLOBAL</span><span class="quality-badge">🌍 MIRADA INTERNACIONAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Perspectiva global · Análisis profesional</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Perspectiva global · Análisis profesional · Sin markdown</div>
     </div>
 
     <div class="modo-selector">
@@ -98,9 +98,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 30+ PERIODISTAS IA · Perspectiva global · Análisis profesional</div>
+    <div class="restriction-alert">📡 30+ PERIODISTAS IA · Perspectiva global · Análisis profesional · Texto limpio sin asteriscos</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 100% calidad periodística</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 100% calidad periodística · Sin markdown</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -109,59 +109,71 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
-<!-- Import map para Transformers.js (secreto) -->
 <script type="importmap">
     {
         "imports": {
-            "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+            "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js",
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
         }
     }
 </script>
 
 <script type="module">
     // ============================================
+    // LIMPIADOR DE MARKDOWN (SIN ASTERISCOS)
+    // ============================================
+    
+    function limpiarMarkdown(texto) {
+        let limpio = texto;
+        // Eliminar asteriscos (negritas, cursivas)
+        limpio = limpio.replace(/\*\*/g, '');
+        limpio = limpio.replace(/\*/g, '');
+        // Eliminar numerales (títulos)
+        limpio = limpio.replace(/^###\s*/gm, '');
+        limpio = limpio.replace(/^##\s*/gm, '');
+        limpio = limpio.replace(/^#\s*/gm, '');
+        // Eliminar backticks
+        limpio = limpio.replace(/`/g, '');
+        // Eliminar líneas separadoras
+        limpio = limpio.replace(/^---\s*$/gm, '');
+        // Convertir guiones de listas en viñetas
+        limpio = limpio.replace(/^\s*-\s+/gm, '• ');
+        // Limpiar espacios múltiples
+        limpio = limpio.replace(/\n{3,}/g, '\n\n');
+        return limpio.trim();
+    }
+    
+    // ============================================
     // SISTEMA DE CACHÉ OCULTO (GO)
-    // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
     // ============================================
     
     const GO_URL = 'http://localhost:8080';
     let goDisponible = false;
     
-    // Verificación silenciosa de Go (sin mostrar nada)
     async function verificarGoSilencioso() {
         try {
             const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
-            if (respuesta.ok) {
-                goDisponible = true;
-            } else {
-                goDisponible = false;
-            }
-        } catch (e) {
-            goDisponible = false;
-        }
+            if (respuesta.ok) goDisponible = true;
+            else goDisponible = false;
+        } catch (e) { goDisponible = false; }
     }
     
-    // Consultar caché oculto - el usuario cree que es la IA normal
     async function consultarCacheOculto(pais, fecha) {
         if (!goDisponible) return null;
         const clave = `analisis_${pais}_${fecha}`;
         try {
-            const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(clave)}`, {
-                signal: AbortSignal.timeout(3000)
-            });
+            const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(clave)}`, { signal: AbortSignal.timeout(3000) });
             if (respuesta.ok) {
                 const texto = await respuesta.text();
                 if (texto && texto !== "No sé" && texto.length > 100) {
-                    return texto;
+                    return limpiarMarkdown(texto);
                 }
             }
-        } catch (e) {
-            // Silencio total - el usuario nunca sabe que falló
-        }
+        } catch (e) {}
         return null;
     }
     
-    // Guardar en caché oculto (completamente silencioso)
     async function guardarEnCacheOculto(pais, fecha, analisis) {
         if (!goDisponible) return;
         const clave = `analisis_${pais}_${fecha}`;
@@ -174,8 +186,7 @@
     }
     
     // ============================================
-    // SISTEMA SECRETO: Transformers potencia jsllm7
-    // Diario Ecuador Hoy - Mejora invisible
+    // SISTEMA SECRETO: Transformers
     // ============================================
     
     import { pipeline, env } from '@xenova/transformers';
@@ -183,7 +194,6 @@
     env.useBrowserCache = true;
     env.allowLocalModels = false;
     
-    // [CONFIDENCIAL] Red de 35+ países (completamente oculta)
     const _RED_PAISES = [
         "Alemania","China","Rusia","Francia","Brasil","India","Japón","México","Sudáfrica","Turquía",
         "Corea del Sur","Italia","Canadá","Australia","España","Reino Unido","Argentina","Chile",
@@ -191,11 +201,9 @@
         "Vietnam","Indonesia","Kenia","Ecuador"
     ];
     
-    // SISTEMA SECRETO DE POTENCIACIÓN CON TRANSFORMERS
     let clasificadorIntencion = null;
     const memoriaIntencion = new Map();
     
-    // Cargar Transformers en silencio
     (async function() {
         try {
             clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
@@ -217,13 +225,12 @@
     
     function mejorarPromptConIntencion(promptBase, intencion) {
         if (intencion === 'buena') {
-            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback positivo previo. Profundiza el análisis con más datos y contexto.]`;
+            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback positivo previo. Profundiza con más datos y contexto. NO USES ASTERISCOS.]`;
         } else {
-            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback negativo previo. Sé más claro, objetivo y evita ambigüedades.]`;
+            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback negativo previo. Sé más claro, objetivo y evita ambigüedades. NO USES ASTERISCOS.]`;
         }
     }
     
-    // Registrar feedback secreto
     async function registrarFeedbackSecreto(pais, analisis, tipo, elemento) {
         const clave = `analisis_${pais}`;
         const analisisIntencion = await analizarIntencion(tipo, pais, analisis);
@@ -240,28 +247,32 @@
         btns.forEach(btn => btn.disabled = true);
     }
     
-    // [CONFIDENCIAL] Base de conocimiento interno
     const _BASE = {
-        p:`[PERIODISMO] Pirámide invertida,lead 5W,verificación fuentes,objetividad.`,
-        e:`[ECUADOR] Dolarización 2000,constitución 2008. Temas:seguridad,economía,política.`,
-        r:`[REDACCIÓN] Claridad,concisión,precisión,voz activa.`
+        p:`Periodismo con pirámide invertida, lead con 5W, verificación de fuentes, objetividad.`,
+        e:`Ecuador: economía dolarizada, desafíos en seguridad, transición energética, inversión social.`,
+        r:`Redacción clara, concisa, precisa, voz activa.`
     };
     function _I(){return Object.values(_BASE).join(' ');}
     
-    // [CONFIDENCIAL] Prompt interno mejorado
     function _PROMPT_MEJORADO(pais, fecha, tema, modo, intencionPrevia = null) {
         let prompt = `${_I()}
 
 [RESPONDE 100% EN ESPAÑOL]
 
+REGLAS ESTRICTAS DE FORMATO:
+- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
+- NO USES NUMERALES (#) PARA TÍTULOS
+- NO USES MARKDOWN
+- USA SALTOS DE LÍNEA PARA SEPARAR IDEAS
+
 Eres periodista experto de ${pais}. Analiza Ecuador (${fecha}) sobre ${tema}.
 
-RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, reflexión.`;
+RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Estructura: apertura, desarrollo, reflexión.`;
 
         if (intencionPrevia === 'buena') {
-            prompt = `[FEEDBACK POSITIVO - MANTENER ESTILO]\n\n${prompt}\n\nMEJORA: Añade más ejemplos concretos.`;
+            prompt = `[FEEDBACK POSITIVO - MANTENER ESTILO]\n\n${prompt}\n\nMEJORA: Añade más ejemplos concretos. NO USES ASTERISCOS.`;
         } else if (intencionPrevia === 'mala') {
-            prompt = `[FEEDBACK NEGATIVO - MEJORAR CLARIDAD]\n\n${prompt}\n\nMEJORA: Sé más claro y estructurado.`;
+            prompt = `[FEEDBACK NEGATIVO - MEJORAR CLARIDAD]\n\n${prompt}\n\nMEJORA: Sé más claro y estructurado. NO USES ASTERISCOS.`;
         }
         
         return prompt;
@@ -275,7 +286,6 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
     function _GC(k) { const ck = _H(k); if(_CACHE[ck] && (Date.now()-_CACHE[ck].t)<7200000) return _CACHE[ck].r; return null; }
     function _PC(k,r) { const ck = _H(k); _CACHE[ck]={r,t:Date.now()}; const ks=Object.keys(_CACHE); if(ks.length>300){ks.sort((a,b)=>_CACHE[b].t-_CACHE[a].t); for(let i=150;i<ks.length;i++) delete _CACHE[ks[i]]; } localStorage.setItem('_de_cache_v4',JSON.stringify(_CACHE)); }
     
-    // Sistema multi-modelo
     const _MODELOS = [
         { f: [(q)=>`${_I()}\n\n${q}\n\nRecuerda: responde en español.`, (t)=>t] },
         { f: [(q)=>`${_I()}\n\n${q}\n\nDa ejemplos concretos.`, (t)=>t] }
@@ -289,10 +299,6 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
     }
     
     async function _EJ(m, p){ let x=null; for(let i=0;i<m.length;i++) x=await _LL(i===0?m[i].f[0](p):m[i].f[0](x)); return x; }
-    
-    // ============================================
-    // FUNCIÓN PRINCIPAL DE ANÁLISIS CON CACHÉ GO OCULTO
-    // ============================================
     
     let _idxPais = 0;
     function _siguientePais() {
@@ -315,10 +321,8 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
         const fecha = new Date().toLocaleDateString('es-ES');
         const tema = "realidad ecuatoriana";
         
-        // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
         let texto = await consultarCacheOculto(pais, fecha);
         
-        // 2. INTENTAR CACHÉ LOCAL (fallback)
         const cacheKey = `analisis_${pais}_${fecha}_${intencionPrevia || ''}`;
         if(!texto) texto = _GC(cacheKey);
         
@@ -329,23 +333,25 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
                 try{
                     const res = await _EJ(_MODELOS, prompt);
                     if(res && res.length > 100){
-                        texto = res;
+                        texto = limpiarMarkdown(res);
                         exito = true;
                         break;
                     }
                 } catch(e){ continue; }
             }
             if(!exito){
-                texto = `📰 **Análisis desde ${pais}**\n\nLa experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.\n\n*Análisis periodístico*`;
+                texto = `Análisis desde ${pais}
+
+La experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.
+
+Análisis periodístico`;
             }
             _PC(cacheKey, texto);
-            // Guardar en Go ocultamente para futuras consultas
             guardarEnCacheOculto(pais, fecha, texto);
         }
         
         document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
         
-        // Agregar botones de feedback secreto
         const fb = document.createElement('div'); 
         fb.className='feedback-buttons';
         
@@ -375,14 +381,13 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
     }
     
     // ============================================
-    // UI (SIN CAMBIOS VISIBLES PARA EL USUARIO)
+    // UI
     // ============================================
     let modo = localStorage.getItem('diario_modo') || 'experto';
     let todasNoticias = [], currentCategory = "all";
     
-    // Verificar Go silenciosamente al inicio y periódicamente
     verificarGoSilencioso();
-    setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
+    setInterval(verificarGoSilencioso, 60000);
     
     function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
     document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
@@ -459,14 +464,13 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Formato: apertura, desarrollo, refle
     _analizarConPotenciacion();
     
     let _int = 0;
-    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · ${_RED_PAISES.length}+ periodistas globales`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · ${_RED_PAISES.length}+ periodistas globales · Texto limpio sin asteriscos`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
 
 <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
 <script type="text/javascript" data-cfasync="false">(function(){var z=window,t="fd00ec802f889d01aba4b20343501917",m=[["siteId",49+611-187*50+659+5301107],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],s=["d3d3LmJsb2NrYWRzbm90LmNvbS9WVGhJWS96anN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9NQnkvemd5L2dwb3BwZXIubWluLmNzcw=="],a=-1,n,d,u=function(){clearTimeout(d);a++;if(s[a]&&!(1803077550000<(new Date).getTime()&&1<a)){n=z.document.createElement("script");n.type="text/javascript";n.async=!0;var r=z.document.getElementsByTagName("script")[0];n.src="https://"+atob(s[a]);n.crossOrigin="anonymous";n.onerror=u;n.onload=function(){clearTimeout(d);z[t.slice(0,16)+t.slice(0,16)]||u()};d=setTimeout(u,5E3);r.parentNode.insertBefore(n,r)}}};if(!z[t]){try{Object.freeze(z[t]=m)}catch(e){}u()}})();</script>
 <script>(function(ommhhmb){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=ommhhmb||{};s.src="\/\/webbedtrash.com\/beX.Vls_d\/Gzl\/0_YnW\/cA\/aeCmH9xu-ZDUvlCktPmTKYN5ANujnULxoNNz\/MytsNJjokf2\/NsTlE\/3INzwi";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 
-<script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
 <script type="module">
 import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
 let scene, camera, renderer, controls, active = false; const c = document.getElementById('vrContainer'), vb = document.getElementById('vrModeBtn'), cv = document.getElementById('closeVrBtn'), vm = document.getElementById('vrMode');
