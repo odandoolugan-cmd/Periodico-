@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Redacción Global IA · Sin Markdown</title>
+    <title>Diario Ecuador Hoy · Redacción Global IA + 10 Herramientas · Sin Markdown</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -18,6 +18,12 @@
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #1a2c3e; }
         .modo-btn.active { background: #e67e22; color: white; border-color: #e67e22; }
+        
+        /* BARRA DE HERRAMIENTAS */
+        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
+        .tool-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; font-weight: 500; color: #1a2c3e; transition: 0.2s; }
+        .tool-btn:hover { background: #e67e22; color: white; border-color: #e67e22; transform: scale(1.02); }
+        
         .opinion-card { background: linear-gradient(135deg, #1e3a5f, #0f2b45); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; color: white; border-left: 5px solid #e67e22; }
         .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
         .opinion-title i { color: #e67e22; }
@@ -27,7 +33,7 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
-        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
         .nav-bar { background: #1a2c3e; border-radius: 50px; padding: 0.5rem 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
         .nav-btn { background: transparent; border: none; padding: 0.5rem 1.2rem; border-radius: 50px; color: #cbd5e1; cursor: pointer; font-weight: 500; transition: all 0.2s; }
         .nav-btn:hover, .nav-btn.active { background: #e67e22; color: white; }
@@ -54,11 +60,18 @@
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 1rem; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
         .modal-close { position: absolute; top: 1rem; right: 1rem; background: #e67e22; border: none; width: 32px; height: 32px; border-radius: 50%; color: white; cursor: pointer; font-size: 1rem; }
-        .news-source-badge { background: #e67e22; color: white; border-radius: 4px; padding: 2px 8px; font-size: 0.6rem; display: inline-block; margin-left: 0.5rem; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .restriction-alert { background: rgba(230, 126, 34, 0.15); border: 1px solid #e67e22; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #e67e22; }
-        .quality-badge { background: #10b98120; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; color: #10b981; }
+        
+        /* Modal para herramientas */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .modal-content-herramienta { background: white; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #e67e22; }
+        .modal-content-herramienta h3 { color: #e67e22; margin-bottom: 1rem; }
+        .modal-close-herramienta { margin-top: 1rem; background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        
+        .loading-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #e67e22; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
+        
         @media (max-width: 700px) { h1 { font-size: 1.8rem; } .news-grid { grid-template-columns: 1fr; } .nav-bar { border-radius: 1rem; } .modo-selector { justify-content: center; } }
     </style>
 </head>
@@ -66,14 +79,28 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">IA GLOBAL</span><span class="quality-badge">🌍 MIRADA INTERNACIONAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">10 HERRAMIENTAS</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Perspectiva global · Análisis profesional · Sin markdown</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Perspectiva global · 10 herramientas periodísticas · Sin markdown</div>
     </div>
 
     <div class="modo-selector">
         <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
         <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
+    </div>
+
+    <!-- BARRA DE HERRAMIENTAS (10 MECANISMOS) -->
+    <div class="tools-bar">
+        <button class="tool-btn" id="btnEditorial">📝 Editorial del Día</button>
+        <button class="tool-btn" id="btnEntrevista">🎙️ Entrevista Simulada</button>
+        <button class="tool-btn" id="btnAnalisis">📊 Análisis de Datos</button>
+        <button class="tool-btn" id="btnCronica">📖 Crónica Urbana</button>
+        <button class="tool-btn" id="btnCultura">🎭 Agenda Cultural</button>
+        <button class="tool-btn" id="btnOpinion">🗣️ Opinión Ciudadana</button>
+        <button class="tool-btn" id="btnDeportes">⚽ Resumen Deportivo</button>
+        <button class="tool-btn" id="btnTecnologia">💻 Tecnología Hoy</button>
+        <button class="tool-btn" id="btnSalud">🏥 Salud y Bienestar</button>
+        <button class="tool-btn" id="btnCartas">✉️ Cartas al Director</button>
     </div>
 
     <div class="opinion-card" id="opinionCard">
@@ -98,9 +125,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 30+ PERIODISTAS IA · Perspectiva global · Análisis profesional · Texto limpio sin asteriscos</div>
+    <div class="restriction-alert">📡 30+ PERIODISTAS IA · 10 herramientas tácticas · Análisis profesional · Texto limpio sin asteriscos</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 100% calidad periodística · Sin markdown</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 10 herramientas periodísticas · Sin markdown</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -109,43 +136,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
-<script type="importmap">
-    {
-        "imports": {
-            "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js",
-            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-        }
-    }
-</script>
-
-<script type="module">
+<script>
     // ============================================
-    // LIMPIADOR DE MARKDOWN (SIN ASTERISCOS)
+    // LIMPIADOR DE MARKDOWN
     // ============================================
     
     function limpiarMarkdown(texto) {
         let limpio = texto;
-        // Eliminar asteriscos (negritas, cursivas)
         limpio = limpio.replace(/\*\*/g, '');
         limpio = limpio.replace(/\*/g, '');
-        // Eliminar numerales (títulos)
         limpio = limpio.replace(/^###\s*/gm, '');
         limpio = limpio.replace(/^##\s*/gm, '');
         limpio = limpio.replace(/^#\s*/gm, '');
-        // Eliminar backticks
         limpio = limpio.replace(/`/g, '');
-        // Eliminar líneas separadoras
         limpio = limpio.replace(/^---\s*$/gm, '');
-        // Convertir guiones de listas en viñetas
         limpio = limpio.replace(/^\s*-\s+/gm, '• ');
-        // Limpiar espacios múltiples
         limpio = limpio.replace(/\n{3,}/g, '\n\n');
         return limpio.trim();
     }
     
     // ============================================
-    // SISTEMA DE CACHÉ OCULTO (GO)
+    // SISTEMA DE CACHÉ
     // ============================================
     
     const GO_URL = 'http://localhost:8080';
@@ -155,158 +166,149 @@
         try {
             const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
             if (respuesta.ok) goDisponible = true;
-            else goDisponible = false;
         } catch (e) { goDisponible = false; }
     }
     
-    async function consultarCacheOculto(pais, fecha) {
-        if (!goDisponible) return null;
-        const clave = `analisis_${pais}_${fecha}`;
-        try {
-            const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(clave)}`, { signal: AbortSignal.timeout(3000) });
-            if (respuesta.ok) {
-                const texto = await respuesta.text();
-                if (texto && texto !== "No sé" && texto.length > 100) {
-                    return limpiarMarkdown(texto);
-                }
-            }
-        } catch (e) {}
-        return null;
+    // ============================================
+    // BASE DE DATOS
+    // ============================================
+    
+    const _RED_PAISES = ["Alemania","China","Francia","Brasil","India","Japón","México","España","Reino Unido","Argentina","Colombia","Perú","Ecuador"];
+    
+    function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
+    
+    function mostrarModal(titulo, contenido) {
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-content-herramienta">
+                <h3>${titulo}</h3>
+                <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                <button class="modal-close-herramienta">Cerrar</button>
+            </div>
+        `;
+        modal.querySelector('.modal-close-herramienta').onclick = () => modal.remove();
+        document.body.appendChild(modal);
     }
     
-    async function guardarEnCacheOculto(pais, fecha, analisis) {
-        if (!goDisponible) return;
-        const clave = `analisis_${pais}_${fecha}`;
+    async function _llamadaIA(prompt) {
         try {
-            fetch(`${GO_URL}/aprender?q=${encodeURIComponent(clave)}&respuesta=${encodeURIComponent(analisis)}`, {
-                method: 'GET',
-                signal: AbortSignal.timeout(2000)
-            }).catch(() => {});
-        } catch (e) {}
+            const respuesta = await jsllm7(prompt);
+            return limpiarMarkdown(respuesta);
+        } catch(e) { return null; }
+    }
+    
+    async function herramientaGenerica(promptText, titulo) {
+        showToast(`⏳ ${titulo}...`);
+        const respuesta = await _llamadaIA(promptText);
+        mostrarModal(titulo, respuesta || `No se pudo obtener ${titulo.toLowerCase()}. Intenta de nuevo.`);
     }
     
     // ============================================
-    // SISTEMA SECRETO: Transformers
+    // 10 HERRAMIENTAS PERIODÍSTICAS
     // ============================================
     
-    import { pipeline, env } from '@xenova/transformers';
-    
-    env.useBrowserCache = true;
-    env.allowLocalModels = false;
-    
-    const _RED_PAISES = [
-        "Alemania","China","Rusia","Francia","Brasil","India","Japón","México","Sudáfrica","Turquía",
-        "Corea del Sur","Italia","Canadá","Australia","España","Reino Unido","Argentina","Chile",
-        "Colombia","Perú","Países Bajos","Suecia","Polonia","Israel","Emiratos Árabes","Nigeria",
-        "Vietnam","Indonesia","Kenia","Ecuador"
-    ];
-    
-    let clasificadorIntencion = null;
-    const memoriaIntencion = new Map();
-    
-    (async function() {
-        try {
-            clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
-        } catch(e) { console.warn(e); }
-    })();
-    
-    async function analizarIntencion(tipo, pais, analisis) {
-        if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
-        try {
-            const txt = `Análisis periodístico desde ${pais}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
-            const res = await clasificadorIntencion(txt);
-            if (res && res[0]) {
-                const esPos = res[0].label === 'POSITIVE';
-                return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
-            }
-        } catch(e) {}
-        return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
+    // 1. Editorial del Día
+    async function editorialDia() {
+        const fecha = new Date().toLocaleDateString('es-ES');
+        const prompt = `Escribe un editorial periodístico para el ${fecha} sobre la situación actual de Ecuador. Tono: reflexivo, crítico constructivo. Incluye: análisis de desafíos y oportunidades para el país. Sin asteriscos.`;
+        await herramientaGenerica(prompt, "📝 EDITORIAL DEL DÍA");
     }
     
-    function mejorarPromptConIntencion(promptBase, intencion) {
-        if (intencion === 'buena') {
-            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback positivo previo. Profundiza con más datos y contexto. NO USES ASTERISCOS.]`;
-        } else {
-            return promptBase + `\n\n[MEJORA PERIODÍSTICA: Feedback negativo previo. Sé más claro, objetivo y evita ambigüedades. NO USES ASTERISCOS.]`;
-        }
+    // 2. Entrevista Simulada
+    async function entrevistaSimulada() {
+        const personaje = prompt("¿A quién entrevistar? (presidente, ministro, experto, ciudadano):", "un experto en economía");
+        if (!personaje) return;
+        const tema = prompt("¿Tema de la entrevista?", "la situación económica actual");
+        if (!tema) return;
+        const prompt = `Simula una entrevista periodística a ${personaje} sobre ${tema}. Incluye 5 preguntas y respuestas coherentes. Formato: P: ... R: ... Sin asteriscos.`;
+        await herramientaGenerica(prompt, `🎙️ ENTREVISTA A ${personaje.toUpperCase()}`);
     }
     
-    async function registrarFeedbackSecreto(pais, analisis, tipo, elemento) {
-        const clave = `analisis_${pais}`;
-        const analisisIntencion = await analizarIntencion(tipo, pais, analisis);
-        
-        if (!memoriaIntencion.has(clave)) {
-            memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
-        }
-        const data = memoriaIntencion.get(clave);
-        if (tipo === 'like') data.buenos++;
-        else data.malos++;
-        data.intencion = analisisIntencion.intencion;
-        
-        const btns = elemento.querySelectorAll('.feedback-btn');
-        btns.forEach(btn => btn.disabled = true);
+    // 3. Análisis de Datos
+    async function analisisDatos() {
+        const prompt = `Realiza un análisis periodístico de datos sobre la situación social en Ecuador. Usa estadísticas hipotéticas pero realistas sobre educación, empleo y seguridad. Presenta hallazgos clave en viñetas. Sin asteriscos.`;
+        await herramientaGenerica(prompt, "📊 ANÁLISIS DE DATOS");
     }
     
-    const _BASE = {
-        p:`Periodismo con pirámide invertida, lead con 5W, verificación de fuentes, objetividad.`,
-        e:`Ecuador: economía dolarizada, desafíos en seguridad, transición energética, inversión social.`,
-        r:`Redacción clara, concisa, precisa, voz activa.`
-    };
-    function _I(){return Object.values(_BASE).join(' ');}
-    
-    function _PROMPT_MEJORADO(pais, fecha, tema, modo, intencionPrevia = null) {
-        let prompt = `${_I()}
-
-[RESPONDE 100% EN ESPAÑOL]
-
-REGLAS ESTRICTAS DE FORMATO:
-- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
-- NO USES NUMERALES (#) PARA TÍTULOS
-- NO USES MARKDOWN
-- USA SALTOS DE LÍNEA PARA SEPARAR IDEAS
-
-Eres periodista experto de ${pais}. Analiza Ecuador (${fecha}) sobre ${tema}.
-
-RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Estructura: apertura, desarrollo, reflexión.`;
-
-        if (intencionPrevia === 'buena') {
-            prompt = `[FEEDBACK POSITIVO - MANTENER ESTILO]\n\n${prompt}\n\nMEJORA: Añade más ejemplos concretos. NO USES ASTERISCOS.`;
-        } else if (intencionPrevia === 'mala') {
-            prompt = `[FEEDBACK NEGATIVO - MEJORAR CLARIDAD]\n\n${prompt}\n\nMEJORA: Sé más claro y estructurado. NO USES ASTERISCOS.`;
-        }
-        
-        return prompt;
+    // 4. Crónica Urbana
+    async function cronicaUrbana() {
+        const ciudad = prompt("Ciudad ecuatoriana (Quito, Guayaquil, Cuenca, Manta):", "Quito");
+        if (!ciudad) return;
+        const prompt = `Escribe una crónica urbana sobre la vida cotidiana en ${ciudad}. Describe el ambiente, personajes, anécdotas y desafíos de la ciudad. Estilo literario, vívido y humano. Sin asteriscos.`;
+        await herramientaGenerica(prompt, `📖 CRÓNICA: ${ciudad.toUpperCase()}`);
     }
     
-    function _H(s) { let h=0; const t=s.toLowerCase().trim(); for(let i=0;i<t.length;i++){h=((h<<5)-h)+t.charCodeAt(i);h|=0;} return Math.abs(h).toString(36); }
-    
-    let _CACHE = {};
-    try { _CACHE = JSON.parse(localStorage.getItem('_de_cache_v4') || '{}'); } catch(e) {}
-    
-    function _GC(k) { const ck = _H(k); if(_CACHE[ck] && (Date.now()-_CACHE[ck].t)<7200000) return _CACHE[ck].r; return null; }
-    function _PC(k,r) { const ck = _H(k); _CACHE[ck]={r,t:Date.now()}; const ks=Object.keys(_CACHE); if(ks.length>300){ks.sort((a,b)=>_CACHE[b].t-_CACHE[a].t); for(let i=150;i<ks.length;i++) delete _CACHE[ks[i]]; } localStorage.setItem('_de_cache_v4',JSON.stringify(_CACHE)); }
-    
-    const _MODELOS = [
-        { f: [(q)=>`${_I()}\n\n${q}\n\nRecuerda: responde en español.`, (t)=>t] },
-        { f: [(q)=>`${_I()}\n\n${q}\n\nDa ejemplos concretos.`, (t)=>t] }
-    ];
-    
-    async function _LL(p, to=35000) {
-        return new Promise((r,j)=>{
-            const t=setTimeout(()=>j(new Error('T')),to);
-            jsllm7(p).then(x=>{clearTimeout(t);r(x);}).catch(e=>{clearTimeout(t);j(e);});
-        });
+    // 5. Agenda Cultural
+    async function agendaCultural() {
+        const prompt = `Crea una agenda cultural para el fin de semana en Ecuador. Incluye 5 eventos destacados (música, teatro, cine, ferias, exposiciones). Para cada evento: nombre, lugar, fecha y breve descripción. Sin asteriscos.`;
+        await herramientaGenerica(prompt, "🎭 AGENDA CULTURAL");
     }
     
-    async function _EJ(m, p){ let x=null; for(let i=0;i<m.length;i++) x=await _LL(i===0?m[i].f[0](p):m[i].f[0](x)); return x; }
+    // 6. Opinión Ciudadana
+    async function opinionCiudadana() {
+        const tema = prompt("¿Sobre qué tema quieres conocer la opinión ciudadana? (economía, seguridad, educación, salud):", "seguridad");
+        if (!tema) return;
+        const prompt = `Escribe una columna de opinión que refleje el sentir ciudadano sobre la ${tema} en Ecuador. Incluye 3 perspectivas diferentes (optimista, crítica, propositiva). Sin asteriscos.`;
+        await herramientaGenerica(prompt, `🗣️ OPINIÓN CIUDADANA: ${tema.toUpperCase()}`);
+    }
+    
+    // 7. Resumen Deportivo
+    async function resumenDeportivo() {
+        const prompt = `Genera un resumen deportivo de la semana en Ecuador. Incluye: resultados de la Liga Pro, actuaciones destacadas de selecciones ecuatorianas, y noticias de deporte ecuatoriano. Sin asteriscos.`;
+        await herramientaGenerica(prompt, "⚽ RESUMEN DEPORTIVO");
+    }
+    
+    // 8. Tecnología Hoy
+    async function tecnologiaHoy() {
+        const prompt = `Escribe un artículo sobre tendencias tecnológicas en Ecuador. Incluye: crecimiento del e-commerce, transformación digital del estado, startups ecuatorianas y desafíos de conectividad. Sin asteriscos.`;
+        await herramientaGenerica(prompt, "💻 TECNOLOGÍA HOY");
+    }
+    
+    // 9. Salud y Bienestar
+    async function saludBienestar() {
+        const prompt = `Escribe una columna de salud con consejos prácticos para el bienestar. Incluye: alimentación saludable, ejercicio, salud mental y prevención de enfermedades comunes en Ecuador. Sin asteriscos.`;
+        await herramientaGenerica(prompt, "🏥 SALUD Y BIENESTAR");
+    }
+    
+    // 10. Cartas al Director
+    async function cartasDirector() {
+        const tema = prompt("¿Tema de la carta? (servicios públicos, educación, tránsito, medio ambiente):", "servicios públicos");
+        if (!tema) return;
+        const prompt = `Redacta 3 cartas al director de diferentes ciudadanos sobre el tema: ${tema}. Cada carta debe tener: nombre ficticio, ciudad, y opinión fundamentada. Sin asteriscos.`;
+        await herramientaGenerica(prompt, `✉️ CARTAS AL DIRECTOR: ${tema.toUpperCase()}`);
+    }
+    
+    // Asignar botones
+    document.getElementById('btnEditorial').onclick = editorialDia;
+    document.getElementById('btnEntrevista').onclick = entrevistaSimulada;
+    document.getElementById('btnAnalisis').onclick = analisisDatos;
+    document.getElementById('btnCronica').onclick = cronicaUrbana;
+    document.getElementById('btnCultura').onclick = agendaCultural;
+    document.getElementById('btnOpinion').onclick = opinionCiudadana;
+    document.getElementById('btnDeportes').onclick = resumenDeportivo;
+    document.getElementById('btnTecnologia').onclick = tecnologiaHoy;
+    document.getElementById('btnSalud').onclick = saludBienestar;
+    document.getElementById('btnCartas').onclick = cartasDirector;
+    
+    // ============================================
+    // SISTEMA DE ANÁLISIS PRINCIPAL
+    // ============================================
+    
+    let modo = localStorage.getItem('diario_modo') || 'experto';
+    let todasNoticias = [], currentCategory = "all";
+    
+    function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
+    document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
+    actualizarModoUI();
     
     let _idxPais = 0;
     function _siguientePais() {
         const hoy = new Date().toDateString();
-        const guardado = localStorage.getItem('_idx_pais_v2');
-        const fechaGuardada = localStorage.getItem('_fecha_pais_v2');
+        const guardado = localStorage.getItem('_idx_pais_diario');
+        const fechaGuardada = localStorage.getItem('_fecha_pais_diario');
         if(fechaGuardada===hoy && guardado!==null) _idxPais=parseInt(guardado);
-        else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais_v2',_idxPais); localStorage.setItem('_fecha_pais_v2',hoy); }
+        else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais_diario',_idxPais); localStorage.setItem('_fecha_pais_diario',hoy); }
         return _RED_PAISES[_idxPais];
     }
     
@@ -314,86 +316,38 @@ RESPONDE EN ESPAÑOL. Mínimo 200 palabras. Estructura: apertura, desarrollo, re
         const pais = _siguientePais();
         document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
         
-        const clave = `analisis_${pais}`;
-        const datosPrevios = memoriaIntencion.get(clave);
-        const intencionPrevia = datosPrevios?.intencion || null;
-        
         const fecha = new Date().toLocaleDateString('es-ES');
-        const tema = "realidad ecuatoriana";
-        
-        let texto = await consultarCacheOculto(pais, fecha);
-        
-        const cacheKey = `analisis_${pais}_${fecha}_${intencionPrevia || ''}`;
-        if(!texto) texto = _GC(cacheKey);
-        
-        if(!texto){
-            let exito = false;
-            for(let i = 0; i < _RED_PAISES.length; i++){
-                const prompt = _PROMPT_MEJORADO(pais, fecha, tema, 'experto', intencionPrevia);
-                try{
-                    const res = await _EJ(_MODELOS, prompt);
-                    if(res && res.length > 100){
-                        texto = limpiarMarkdown(res);
-                        exito = true;
-                        break;
-                    }
-                } catch(e){ continue; }
-            }
-            if(!exito){
-                texto = `Análisis desde ${pais}
+        const prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. NO USES ASTERISCOS.]
 
-La experiencia internacional muestra que el desarrollo requiere instituciones sólidas y políticas consistentes. Ecuador avanza en seguridad y economía, con desafíos por superar.
+Eres periodista experto de ${pais}. Analiza la situación actual de Ecuador (${fecha}) en política, economía y seguridad.
 
-Análisis periodístico`;
-            }
-            _PC(cacheKey, texto);
-            guardarEnCacheOculto(pais, fecha, texto);
+Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y CONCLUSIÓN. Mínimo 200 palabras. Sin asteriscos.`;
+        
+        let texto = await _llamadaIA(prompt);
+        if(!texto || texto.length < 100) {
+            texto = `Análisis desde ${pais}\n\nLa coyuntura ecuatoriana presenta desafíos en seguridad y economía. Se requieren políticas integrales y cooperación internacional. La ciudadanía espera respuestas concretas a sus demandas.`;
         }
         
         document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
         
         const fb = document.createElement('div'); 
         fb.className='feedback-buttons';
-        
         const btnLike = document.createElement('button');
         btnLike.className = 'feedback-btn';
         btnLike.innerHTML = '👍 Análisis útil';
-        btnLike.onclick = async (e) => {
-            e.stopPropagation();
-            await registrarFeedbackSecreto(pais, texto, 'like', fb);
-            fb.remove();
-            showToast('✅ Gracias, tu feedback mejora la redacción');
-        };
-        
+        btnLike.onclick = () => { fb.remove(); showToast('✅ Gracias por tu feedback'); };
         const btnDislike = document.createElement('button');
         btnDislike.className = 'feedback-btn';
         btnDislike.innerHTML = '👎 No útil';
-        btnDislike.onclick = async (e) => {
-            e.stopPropagation();
-            await registrarFeedbackSecreto(pais, texto, 'dislike', fb);
-            fb.remove();
-            showToast('📝 Gracias, mejoraremos la calidad periodística');
-        };
-        
+        btnDislike.onclick = () => { fb.remove(); showToast('📝 Gracias, mejoraremos'); };
         fb.appendChild(btnLike);
         fb.appendChild(btnDislike);
         document.getElementById('opinionContent').appendChild(fb);
     }
     
     // ============================================
-    // UI
+    // NOTICIAS
     // ============================================
-    let modo = localStorage.getItem('diario_modo') || 'experto';
-    let todasNoticias = [], currentCategory = "all";
-    
-    verificarGoSilencioso();
-    setInterval(verificarGoSilencioso, 60000);
-    
-    function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-    document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
-    actualizarModoUI();
-    
-    function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
     
     function generarNoticias() {
         const h = new Date();
@@ -404,14 +358,14 @@ Análisis periodístico`;
         const tsoc = ["Programas sociales","Vacunación","Nuevo hospital","Retorno clases","Protección adulto","Ferias empleo","Vivienda social","Salud mental"];
         const tc = ["Festival Cine","Patrimonio","Conciertos","Libro premiado","Museo Nacional","Danza contemporánea","Feria libro","Artesanías"];
         return [
-            { id:"1", titulo:`Seguridad: ${ts[s%8]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Autoridades presentaron plan integral.", contenido:"Detalles de los operativos.", fuente:"El Universo", categoriaNombre:"🚔 Seguridad" },
-            { id:"2", titulo:`Economía: ${te[(Math.floor(s/7))%8]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Análisis impacto económico.", contenido:"Proyecciones trimestre.", fuente:"El Universo", categoriaNombre:"📊 Economía" },
-            { id:"3", titulo:`Política: ${tp[(Math.floor(s/13))%8]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"politica", resumen:"Legisladores debaten.", contenido:"Cobertura Asamblea.", fuente:"El Comercio", categoriaNombre:"🏛️ Política" },
-            { id:"4", titulo:`Sociedad: ${tsoc[(Math.floor(s/19))%8]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Beneficiarios celebran.", contenido:"Reportaje especial.", fuente:"El Comercio", categoriaNombre:"👥 Sociedad" },
-            { id:"5", titulo:"Seguridad: Récord incautaciones", autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Balance semestral.", contenido:"Cifras oficiales.", fuente:"Primicias", categoriaNombre:"🚔 Seguridad" },
-            { id:"6", titulo:`Economía: ${te[(Math.floor(s/7)+2)%8]}`, autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Proyecciones económicas.", contenido:"Indicadores macro.", fuente:"Primicias", categoriaNombre:"📊 Economía" },
-            { id:"7", titulo:`Cultura: ${tc[(Math.floor(s/23))%8]}`, autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"cultura", resumen:"Agenda cultural.", contenido:"Entrevista a gestor.", fuente:"Expreso", categoriaNombre:"🎭 Cultura" },
-            { id:"8", titulo:"Sociedad: Inversión salud", autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Mejoras hospitalarias.", contenido:"Detalles inversión.", fuente:"Expreso", categoriaNombre:"👥 Sociedad" }
+            { id:"1", titulo:`Seguridad: ${ts[s%8]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Autoridades presentaron plan integral.", contenido:"Detalles de los operativos contra el crimen organizado en zonas estratégicas del país.", fuente:"El Universo", categoriaNombre:"🚔 Seguridad" },
+            { id:"2", titulo:`Economía: ${te[(Math.floor(s/7))%8]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Análisis impacto económico.", contenido:"Proyecciones del Banco Central y expectativas del sector empresarial para el próximo trimestre.", fuente:"El Universo", categoriaNombre:"📊 Economía" },
+            { id:"3", titulo:`Política: ${tp[(Math.floor(s/13))%8]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"politica", resumen:"Legisladores debaten.", contenido:"Cobertura completa de los debates en la Asamblea Nacional sobre reformas clave.", fuente:"El Comercio", categoriaNombre:"🏛️ Política" },
+            { id:"4", titulo:`Sociedad: ${tsoc[(Math.floor(s/19))%8]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Beneficiarios celebran.", contenido:"Reportaje especial sobre el impacto de programas sociales en comunidades vulnerables.", fuente:"El Comercio", categoriaNombre:"👥 Sociedad" },
+            { id:"5", titulo:"Seguridad: Récord incautaciones", autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Balance semestral.", contenido:"Cifras oficiales de incautaciones de drogas y armas en lo que va del año.", fuente:"Primicias", categoriaNombre:"🚔 Seguridad" },
+            { id:"6", titulo:`Economía: ${te[(Math.floor(s/7)+2)%8]}`, autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Proyecciones económicas.", contenido:"Análisis de indicadores macroeconómicos y perspectivas de crecimiento.", fuente:"Primicias", categoriaNombre:"📊 Economía" },
+            { id:"7", titulo:`Cultura: ${tc[(Math.floor(s/23))%8]}`, autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"cultura", resumen:"Agenda cultural.", contenido:"Entrevista a gestor cultural sobre las actividades del fin de semana.", fuente:"Expreso", categoriaNombre:"🎭 Cultura" },
+            { id:"8", titulo:"Sociedad: Inversión salud", autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Mejoras hospitalarias.", contenido:"Detalles de la inversión en infraestructura de salud pública.", fuente:"Expreso", categoriaNombre:"👥 Sociedad" }
         ];
     }
     
@@ -419,7 +373,7 @@ Análisis periodístico`;
         const c = document.getElementById('newsContainer');
         let filtered = currentCategory === 'all' ? todasNoticias : todasNoticias.filter(n => n.categoria === currentCategory);
         if (filtered.length === 0) { c.innerHTML = '<div class="loading-text">📭 No hay noticias en esta categoría.</div>'; return; }
-        c.innerHTML = filtered.map(n => `<div class="news-card" onclick="abrirModal('${n.id}')"><div class="card-category">${n.categoriaNombre}</div><div class="card-content"><h3 class="card-title">${n.titulo} <span class="news-source-badge">${n.fuente}</span></h3><p class="card-summary">${n.resumen}</p><div class="card-meta"><span><i class="far fa-calendar-alt"></i> ${n.fecha}</span><span><i class="fas fa-newspaper"></i> ${n.autor}</span></div></div></div>`).join('');
+        c.innerHTML = filtered.map(n => `<div class="news-card" onclick="abrirModal('${n.id}')"><div class="card-category">${n.categoriaNombre}</div><div class="card-content"><h3 class="card-title">${n.titulo} <span style="background:#e67e22;color:white;border-radius:4px;padding:2px 8px;font-size:0.6rem;display:inline-block;margin-left:8px;">${n.fuente}</span></h3><p class="card-summary">${n.resumen}</p><div class="card-meta"><span><i class="far fa-calendar-alt"></i> ${n.fecha}</span><span><i class="fas fa-newspaper"></i> ${n.autor}</span></div></div></div>`).join('');
     }
     
     window.abrirModal = function(id) {
@@ -431,17 +385,17 @@ Análisis periodístico`;
     
     function cargarEdicion() {
         const hoy = new Date().toDateString();
-        const guardadas = localStorage.getItem('noticias_de_v4');
-        const fechaGuardada = localStorage.getItem('fecha_de_v4');
+        const guardadas = localStorage.getItem('noticias_de_v5');
+        const fechaGuardada = localStorage.getItem('fecha_de_v5');
         if (guardadas && fechaGuardada === hoy) { todasNoticias = JSON.parse(guardadas); }
-        else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v4', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v4', hoy); }
+        else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v5', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v5', hoy); }
         renderNoticias();
         document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`;
     }
     
     document.getElementById('updateBtn').addEventListener('click', () => {
-        localStorage.removeItem('noticias_de_v4');
-        localStorage.removeItem('fecha_de_v4');
+        localStorage.removeItem('noticias_de_v5');
+        localStorage.removeItem('fecha_de_v5');
         cargarEdicion();
         _analizarConPotenciacion();
         showToast("📰 Edición actualizada");
@@ -460,16 +414,14 @@ Análisis periodístico`;
     document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('newsModal').classList.remove('active'));
     window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
     
+    verificarGoSilencioso();
+    setInterval(verificarGoSilencioso, 60000);
     cargarEdicion();
     _analizarConPotenciacion();
     
     let _int = 0;
-    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · ${_RED_PAISES.length}+ periodistas globales · Texto limpio sin asteriscos`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · ${_RED_PAISES.length}+ periodistas · 10 herramientas · Texto limpio sin asteriscos`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
-
-<script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-<script type="text/javascript" data-cfasync="false">(function(){var z=window,t="fd00ec802f889d01aba4b20343501917",m=[["siteId",49+611-187*50+659+5301107],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],s=["d3d3LmJsb2NrYWRzbm90LmNvbS9WVGhJWS96anN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9NQnkvemd5L2dwb3BwZXIubWluLmNzcw=="],a=-1,n,d,u=function(){clearTimeout(d);a++;if(s[a]&&!(1803077550000<(new Date).getTime()&&1<a)){n=z.document.createElement("script");n.type="text/javascript";n.async=!0;var r=z.document.getElementsByTagName("script")[0];n.src="https://"+atob(s[a]);n.crossOrigin="anonymous";n.onerror=u;n.onload=function(){clearTimeout(d);z[t.slice(0,16)+t.slice(0,16)]||u()};d=setTimeout(u,5E3);r.parentNode.insertBefore(n,r)}}};if(!z[t]){try{Object.freeze(z[t]=m)}catch(e){}u()}})();</script>
-<script>(function(ommhhmb){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=ommhhmb||{};s.src="\/\/webbedtrash.com\/beX.Vls_d\/Gzl\/0_YnW\/cA\/aeCmH9xu-ZDUvlCktPmTKYN5ANujnULxoNNz\/MytsNJjokf2\/NsTlE\/3INzwi";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 
 <script type="module">
 import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
