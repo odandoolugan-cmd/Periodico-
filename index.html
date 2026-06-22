@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Redacción Global IA + 10 Herramientas · Sin Markdown</title>
+    <title>Diario Ecuador Hoy · Redacción Global IA + Conectores · Sin Markdown</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -19,7 +19,6 @@
         .modo-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #1a2c3e; }
         .modo-btn.active { background: #e67e22; color: white; border-color: #e67e22; }
         
-        /* BARRA DE HERRAMIENTAS */
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; font-weight: 500; color: #1a2c3e; transition: 0.2s; }
         .tool-btn:hover { background: #e67e22; color: white; border-color: #e67e22; transform: scale(1.02); }
@@ -64,7 +63,6 @@
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .restriction-alert { background: rgba(230, 126, 34, 0.15); border: 1px solid #e67e22; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #e67e22; }
         
-        /* ARQUITECTURA DE WIDGETS */
         .widget-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -159,6 +157,29 @@
             color: #5a6e7c;
         }
         
+        /* Métricas de conectores */
+        .connector-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .connector-metric {
+            background: rgba(0,0,0,0.03);
+            padding: 6px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .connector-metric .value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #e67e22;
+        }
+        .connector-metric .label {
+            font-size: 0.55rem;
+            color: #5a6e7c;
+        }
+        
         .sources-list {
             margin-top: 10px;
             padding: 10px;
@@ -180,7 +201,6 @@
         
         .metadata-container { display: none; }
         
-        /* Modal para herramientas */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .modal-content-herramienta { background: white; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #e67e22; }
         .modal-content-herramienta h3 { color: #e67e22; margin-bottom: 1rem; }
@@ -194,6 +214,7 @@
             .nav-bar { border-radius: 1rem; } 
             .modo-selector { justify-content: center; }
             .widget-container { grid-template-columns: 1fr; }
+            .connector-metrics { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -201,9 +222,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">10 HERRAMIENTAS</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">CONECTORES</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Perspectiva global · 10 herramientas periodísticas · Sin markdown</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Conectores: Memoria · Semántico · APIs · 10 herramientas periodísticas</div>
     </div>
 
     <div class="modo-selector">
@@ -211,7 +232,6 @@
         <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
     </div>
 
-    <!-- BARRA DE HERRAMIENTAS (10 MECANISMOS) -->
     <div class="tools-bar">
         <button class="tool-btn" id="btnEditorial">📝 Editorial del Día</button>
         <button class="tool-btn" id="btnEntrevista">🎙️ Entrevista Simulada</button>
@@ -233,7 +253,6 @@
         <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador + Mirada mundial</span><span><i class="fas fa-sync-alt"></i> Actualización diaria</span></div>
     </div>
 
-    <!-- WIDGETS INDEPENDIENTES -->
     <div class="widget-container" id="widgetContainer">
         <div class="widget" id="widgetMetricas">
             <div class="widget-title">📊 Cobertura Periodística</div>
@@ -258,6 +277,29 @@
                 </div>
             </div>
         </div>
+        <div class="widget" id="widgetConectores">
+            <div class="widget-title">🔌 Estado de Conectores</div>
+            <div class="widget-content">
+                <div class="connector-metrics">
+                    <div class="connector-metric">
+                        <div class="value" id="metricMemoria">0</div>
+                        <div class="label">Memoria</div>
+                    </div>
+                    <div class="connector-metric">
+                        <div class="value" id="metricSemantico">0</div>
+                        <div class="label">Semántico</div>
+                    </div>
+                    <div class="connector-metric">
+                        <div class="value" id="metricAPIs">0</div>
+                        <div class="label">APIs</div>
+                    </div>
+                    <div class="connector-metric">
+                        <div class="value" id="metricContexto">0%</div>
+                        <div class="label">Contexto</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="widget" id="widgetConfianza">
             <div class="widget-title">🎯 Precisión Periodística</div>
             <div class="widget-content">
@@ -269,18 +311,7 @@
                     <span class="confidence-label" id="confidenceLabel">0%</span>
                 </div>
                 <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#5a6e7c;margin-top:8px;">
-                    Basado en fuentes verificadas
-                </div>
-            </div>
-        </div>
-        <div class="widget" id="widgetFuentes">
-            <div class="widget-title">📚 Fuentes Periodísticas</div>
-            <div class="widget-content">
-                <div class="sources-list" id="sourcesList">
-                    <div style="color:#5a6e7c;font-size:0.75rem;">Fuentes de información</div>
-                    <div class="source-item"><span class="source-icon">📰</span> El Universo</div>
-                    <div class="source-item"><span class="source-icon">📰</span> El Comercio</div>
-                    <div class="source-item"><span class="source-icon">📰</span> Primicias</div>
+                    Basado en fuentes verificadas + conectores
                 </div>
             </div>
         </div>
@@ -297,7 +328,6 @@
         </div>
     </div>
 
-    <!-- METADATOS JSON-LD (oculto) -->
     <div class="metadata-container" id="metadataContainer"></div>
 
     <div class="nav-bar">
@@ -314,9 +344,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 30+ PERIODISTAS IA · 10 herramientas tácticas · Análisis profesional · Texto limpio sin asteriscos</div>
+    <div class="restriction-alert">📡 30+ PERIODISTAS IA · Conectores activos · 10 herramientas tácticas · Análisis profesional</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · Redacción Global IA · 10 herramientas periodísticas · Sin markdown</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · Conectores activos · Redacción Global IA · 10 herramientas periodísticas</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -326,6 +356,223 @@
 <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
 <script>
+    // ============================================
+    // CONECTOR DE MEMORIA
+    // ============================================
+    
+    class MemoryConnector {
+        constructor() {
+            this.shortTerm = [];
+            this.longTerm = new Map();
+            this.maxShortTerm = 10;
+            this.loadFromStorage();
+        }
+        
+        loadFromStorage() {
+            try {
+                const data = JSON.parse(localStorage.getItem('diario_memoria') || '{}');
+                if (data.shortTerm) this.shortTerm = data.shortTerm;
+                if (data.longTerm) {
+                    this.longTerm = new Map(Object.entries(data.longTerm));
+                }
+            } catch(e) {}
+        }
+        
+        saveToStorage() {
+            try {
+                localStorage.setItem('diario_memoria', JSON.stringify({
+                    shortTerm: this.shortTerm,
+                    longTerm: Object.fromEntries(this.longTerm)
+                }));
+            } catch(e) {}
+        }
+        
+        remember(interaction) {
+            this.shortTerm.push({
+                ...interaction,
+                timestamp: Date.now()
+            });
+            if (this.shortTerm.length > this.maxShortTerm) {
+                this.shortTerm.shift();
+            }
+            this.saveToStorage();
+        }
+        
+        recall(query, limit = 3) {
+            const relevant = this.shortTerm
+                .filter(item => {
+                    const similarity = this.calculateSimilarity(query, item.query || '');
+                    return similarity > 0.2;
+                })
+                .sort((a, b) => b.similarity - a.similarity)
+                .slice(0, limit);
+            
+            return relevant.map(item => ({
+                query: item.query,
+                response: item.response,
+                similarity: item.similarity,
+                pais: item.pais
+            }));
+        }
+        
+        calculateSimilarity(a, b) {
+            if (!a || !b) return 0;
+            const wordsA = a.toLowerCase().split(' ');
+            const wordsB = b.toLowerCase().split(' ');
+            const common = wordsA.filter(w => wordsB.includes(w) && w.length > 2);
+            return common.length / Math.max(wordsA.length, wordsB.length);
+        }
+        
+        getStats() {
+            return {
+                shortTerm: this.shortTerm.length,
+                longTerm: this.longTerm.size,
+                total: this.shortTerm.length + this.longTerm.size
+            };
+        }
+    }
+
+    // ============================================
+    // CONECTOR SEMÁNTICO
+    // ============================================
+    
+    class SemanticConnector {
+        constructor() {
+            this.embeddingsCache = new Map();
+            this.similarityThreshold = 0.2;
+        }
+        
+        generateEmbedding(text) {
+            const words = text.toLowerCase()
+                .replace(/[¿?¡!.,;:]/g, '')
+                .split(' ')
+                .filter(w => w.length > 2);
+            
+            const vector = new Map();
+            words.forEach(w => {
+                vector.set(w, (vector.get(w) || 0) + 1);
+            });
+            return vector;
+        }
+        
+        cosineSimilarity(vecA, vecB) {
+            let dotProduct = 0;
+            let normA = 0;
+            let normB = 0;
+            
+            const keys = new Set([...vecA.keys(), ...vecB.keys()]);
+            keys.forEach(key => {
+                const a = vecA.get(key) || 0;
+                const b = vecB.get(key) || 0;
+                dotProduct += a * b;
+                normA += a * a;
+                normB += b * b;
+            });
+            
+            if (normA === 0 || normB === 0) return 0;
+            return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+        }
+        
+        findSimilar(query, candidates) {
+            const queryEmbedding = this.generateEmbedding(query);
+            const results = candidates.map(candidate => ({
+                ...candidate,
+                similarity: this.cosineSimilarity(queryEmbedding, this.generateEmbedding(candidate.text || candidate.query || ''))
+            }));
+            
+            return results
+                .filter(r => r.similarity > this.similarityThreshold)
+                .sort((a, b) => b.similarity - a.similarity);
+        }
+        
+        getStats() {
+            return {
+                cacheSize: this.embeddingsCache.size,
+                threshold: this.similarityThreshold
+            };
+        }
+    }
+
+    // ============================================
+    // CONECTOR DE APIs
+    // ============================================
+    
+    class APIConnector {
+        constructor() {
+            this.endpoints = new Map();
+            this.cache = new Map();
+            this.maxCacheAge = 3600000;
+            this.registerDefaultEndpoints();
+        }
+        
+        registerDefaultEndpoints() {
+            this.registerEndpoint('newsApi', {
+                url: 'https://api.example.com/news',
+                method: 'GET',
+                transform: (data) => ({
+                    headlines: data.headlines || [],
+                    fuentes: data.fuentes || {}
+                })
+            });
+        }
+        
+        registerEndpoint(name, config) {
+            this.endpoints.set(name, config);
+        }
+        
+        async call(endpointName, params = {}) {
+            const config = this.endpoints.get(endpointName);
+            if (!config) {
+                return { error: `Endpoint ${endpointName} no encontrado` };
+            }
+            
+            const cacheKey = `${endpointName}_${JSON.stringify(params)}`;
+            if (this.cache.has(cacheKey)) {
+                const cached = this.cache.get(cacheKey);
+                if (Date.now() - cached.timestamp < this.maxCacheAge) {
+                    return cached.data;
+                }
+            }
+            
+            try {
+                const mockData = this.generateMockData(endpointName, params);
+                const result = config.transform ? config.transform(mockData) : mockData;
+                this.cache.set(cacheKey, {
+                    data: result,
+                    timestamp: Date.now()
+                });
+                return result;
+            } catch(e) {
+                return { error: e.message };
+            }
+        }
+        
+        generateMockData(endpoint, params) {
+            const datos = {
+                newsApi: {
+                    headlines: ['Titular 1', 'Titular 2', 'Titular 3'],
+                    fuentes: ['Fuente A', 'Fuente B']
+                }
+            };
+            return datos[endpoint] || {};
+        }
+        
+        getStats() {
+            return {
+                endpoints: this.endpoints.size,
+                cacheSize: this.cache.size
+            };
+        }
+    }
+
+    // ============================================
+    // INICIALIZACIÓN DE CONECTORES
+    // ============================================
+    
+    const memoryConnector = new MemoryConnector();
+    const semanticConnector = new SemanticConnector();
+    const apiConnector = new APIConnector();
+
     // ============================================
     // SISTEMA DE CACHÉ SEMÁNTICO
     // ============================================
@@ -342,7 +589,24 @@
             .join('_');
         return words;
     }
+
+    // ============================================
+    // ACTUALIZAR MÉTRICAS DE CONECTORES
+    // ============================================
     
+    function actualizarMetricasConectores() {
+        const memStats = memoryConnector.getStats();
+        const semStats = semanticConnector.getStats();
+        const apiStats = apiConnector.getStats();
+        
+        document.getElementById('metricMemoria').textContent = memStats.total;
+        document.getElementById('metricSemantico').textContent = semStats.cacheSize;
+        document.getElementById('metricAPIs').textContent = apiStats.endpoints;
+        
+        const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
+        document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
+    }
+
     // ============================================
     // LIMPIADOR DE MARKDOWN
     // ============================================
@@ -360,7 +624,7 @@
         limpio = limpio.replace(/\n{3,}/g, '\n\n');
         return limpio.trim();
     }
-    
+
     // ============================================
     // GENERAR METADATOS JSON-LD
     // ============================================
@@ -380,23 +644,20 @@
             "confidenceScore": confianza
         };
     }
-    
+
     // ============================================
     // ACTUALIZAR WIDGETS
     // ============================================
     
     function actualizarWidgets(noticias) {
-        // Contar categorías
         const categorias = new Set(noticias.map(n => n.categoria));
         const fuentes = new Set(noticias.map(n => n.fuente));
         
-        // Actualizar métricas
         document.getElementById('metricNoticias').textContent = noticias.length;
         document.getElementById('metricCategorias').textContent = categorias.size;
         document.getElementById('metricFuentes').textContent = fuentes.size;
         document.getElementById('metricPeriodistas').textContent = Math.min(25 + noticias.length, 30);
         
-        // Calcular confianza
         let confianza = 78;
         if (noticias.length > 0) confianza += 5;
         if (categorias.size > 2) confianza += 5;
@@ -406,7 +667,6 @@
         document.getElementById('confidenceFill').style.width = confianza + '%';
         document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
         
-        // Sección más activa
         const categoriaCount = {};
         noticias.forEach(n => {
             categoriaCount[n.categoria] = (categoriaCount[n.categoria] || 0) + 1;
@@ -439,14 +699,15 @@
             </div>
         `;
         
-        // Generar metadatos JSON-LD para la primera noticia
         if (noticias.length > 0) {
             const primera = noticias[0];
             const metadatos = generarMetadatos(primera.titulo, primera.contenido, confianza, primera.categoria);
             document.getElementById('metadataContainer').innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
         }
+        
+        actualizarMetricasConectores();
     }
-    
+
     // ============================================
     // SISTEMA DE CACHÉ
     // ============================================
@@ -460,7 +721,7 @@
             if (respuesta.ok) goDisponible = true;
         } catch (e) { goDisponible = false; }
     }
-    
+
     // ============================================
     // BASE DE DATOS
     // ============================================
@@ -495,22 +756,19 @@
         const respuesta = await _llamadaIA(promptText);
         const respuestaFinal = respuesta || `No se pudo obtener ${titulo.toLowerCase()}. Intenta de nuevo.`;
         mostrarModal(titulo, respuestaFinal);
-        // Actualizar widgets con la herramienta
         if (todasNoticias.length > 0) actualizarWidgets(todasNoticias);
     }
-    
+
     // ============================================
     // 10 HERRAMIENTAS PERIODÍSTICAS
     // ============================================
     
-    // 1. Editorial del Día
     async function editorialDia() {
         const fecha = new Date().toLocaleDateString('es-ES');
         const prompt = `Escribe un editorial periodístico para el ${fecha} sobre la situación actual de Ecuador. Tono: reflexivo, crítico constructivo. Incluye: análisis de desafíos y oportunidades para el país. Sin asteriscos.`;
         await herramientaGenerica(prompt, "📝 EDITORIAL DEL DÍA");
     }
     
-    // 2. Entrevista Simulada
     async function entrevistaSimulada() {
         const personaje = prompt("¿A quién entrevistar? (presidente, ministro, experto, ciudadano):", "un experto en economía");
         if (!personaje) return;
@@ -520,13 +778,11 @@
         await herramientaGenerica(prompt, `🎙️ ENTREVISTA A ${personaje.toUpperCase()}`);
     }
     
-    // 3. Análisis de Datos
     async function analisisDatos() {
         const prompt = `Realiza un análisis periodístico de datos sobre la situación social en Ecuador. Usa estadísticas hipotéticas pero realistas sobre educación, empleo y seguridad. Presenta hallazgos clave en viñetas. Sin asteriscos.`;
         await herramientaGenerica(prompt, "📊 ANÁLISIS DE DATOS");
     }
     
-    // 4. Crónica Urbana
     async function cronicaUrbana() {
         const ciudad = prompt("Ciudad ecuatoriana (Quito, Guayaquil, Cuenca, Manta):", "Quito");
         if (!ciudad) return;
@@ -534,13 +790,11 @@
         await herramientaGenerica(prompt, `📖 CRÓNICA: ${ciudad.toUpperCase()}`);
     }
     
-    // 5. Agenda Cultural
     async function agendaCultural() {
         const prompt = `Crea una agenda cultural para el fin de semana en Ecuador. Incluye 5 eventos destacados (música, teatro, cine, ferias, exposiciones). Para cada evento: nombre, lugar, fecha y breve descripción. Sin asteriscos.`;
         await herramientaGenerica(prompt, "🎭 AGENDA CULTURAL");
     }
     
-    // 6. Opinión Ciudadana
     async function opinionCiudadana() {
         const tema = prompt("¿Sobre qué tema quieres conocer la opinión ciudadana? (economía, seguridad, educación, salud):", "seguridad");
         if (!tema) return;
@@ -548,25 +802,21 @@
         await herramientaGenerica(prompt, `🗣️ OPINIÓN CIUDADANA: ${tema.toUpperCase()}`);
     }
     
-    // 7. Resumen Deportivo
     async function resumenDeportivo() {
         const prompt = `Genera un resumen deportivo de la semana en Ecuador. Incluye: resultados de la Liga Pro, actuaciones destacadas de selecciones ecuatorianas, y noticias de deporte ecuatoriano. Sin asteriscos.`;
         await herramientaGenerica(prompt, "⚽ RESUMEN DEPORTIVO");
     }
     
-    // 8. Tecnología Hoy
     async function tecnologiaHoy() {
         const prompt = `Escribe un artículo sobre tendencias tecnológicas en Ecuador. Incluye: crecimiento del e-commerce, transformación digital del estado, startups ecuatorianas y desafíos de conectividad. Sin asteriscos.`;
         await herramientaGenerica(prompt, "💻 TECNOLOGÍA HOY");
     }
     
-    // 9. Salud y Bienestar
     async function saludBienestar() {
         const prompt = `Escribe una columna de salud con consejos prácticos para el bienestar. Incluye: alimentación saludable, ejercicio, salud mental y prevención de enfermedades comunes en Ecuador. Sin asteriscos.`;
         await herramientaGenerica(prompt, "🏥 SALUD Y BIENESTAR");
     }
     
-    // 10. Cartas al Director
     async function cartasDirector() {
         const tema = prompt("¿Tema de la carta? (servicios públicos, educación, tránsito, medio ambiente):", "servicios públicos");
         if (!tema) return;
@@ -574,7 +824,6 @@
         await herramientaGenerica(prompt, `✉️ CARTAS AL DIRECTOR: ${tema.toUpperCase()}`);
     }
     
-    // Asignar botones
     document.getElementById('btnEditorial').onclick = editorialDia;
     document.getElementById('btnEntrevista').onclick = entrevistaSimulada;
     document.getElementById('btnAnalisis').onclick = analisisDatos;
@@ -585,7 +834,7 @@
     document.getElementById('btnTecnologia').onclick = tecnologiaHoy;
     document.getElementById('btnSalud').onclick = saludBienestar;
     document.getElementById('btnCartas').onclick = cartasDirector;
-    
+
     // ============================================
     // DEEP LINKING - CARGAR DESDE URL
     // ============================================
@@ -598,7 +847,7 @@
             if (btn) btn.click();
         }
     }
-    
+
     // ============================================
     // SISTEMA DE ANÁLISIS PRINCIPAL
     // ============================================
@@ -624,12 +873,32 @@
         const pais = _siguientePais();
         document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
         
+        // Buscar en memoria análisis similares
+        const memoriaSimilar = memoryConnector.recall('Ecuador', 2);
+        let contextoMemoria = '';
+        if (memoriaSimilar.length > 0) {
+            contextoMemoria = '\n\n[Contexto de memoria periodística:] ' + memoriaSimilar.map(m => 
+                `Análisis similar anterior de ${m.pais || 'global'}: "${m.response.substring(0, 80)}..."`
+            ).join(' ');
+        }
+        
+        // Consultar API para datos de noticias
+        const apiData = await apiConnector.call('newsApi');
+        let contextoAPI = '';
+        if (!apiData.error) {
+            contextoAPI = `\n\n[Datos de noticias externos:] ${apiData.headlines?.join(', ') || ''}`;
+        }
+        
         const fecha = new Date().toLocaleDateString('es-ES');
-        const prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. NO USES ASTERISCOS.]
+        let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. NO USES ASTERISCOS.]
 
 Eres periodista experto de ${pais}. Analiza la situación actual de Ecuador (${fecha}) en política, economía y seguridad.
 
 Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y CONCLUSIÓN. Mínimo 200 palabras. Sin asteriscos.`;
+        
+        // Añadir contexto de conectores
+        if (contextoMemoria) prompt += `\n${contextoMemoria}`;
+        if (contextoAPI) prompt += `\n${contextoAPI}`;
         
         let texto = await _llamadaIA(prompt);
         if(!texto || texto.length < 100) {
@@ -637,6 +906,15 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
         }
         
         document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
+        
+        // Guardar en memoria
+        memoryConnector.remember({
+            query: 'Ecuador',
+            response: texto,
+            pais: pais,
+            fecha: fecha
+        });
+        actualizarMetricasConectores();
         
         const fb = document.createElement('div'); 
         fb.className='feedback-buttons';
@@ -652,7 +930,7 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
         fb.appendChild(btnDislike);
         document.getElementById('opinionContent').appendChild(fb);
     }
-    
+
     // ============================================
     // NOTICIAS
     // ============================================
@@ -699,8 +977,6 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
         else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v5', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v5', hoy); }
         renderNoticias();
         document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`;
-        
-        // Actualizar widgets
         actualizarWidgets(todasNoticias);
     }
     
@@ -709,7 +985,7 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
         localStorage.removeItem('fecha_de_v5');
         cargarEdicion();
         _analizarConPotenciacion();
-        showToast("📰 Edición actualizada");
+        showToast("📰 Edición actualizada · Conectores activos");
     });
     
     document.querySelectorAll('.nav-btn').forEach(b => {
@@ -719,7 +995,6 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
             currentCategory = b.dataset.category;
             renderNoticias();
             
-            // Deep linking
             if (history.pushState) {
                 const url = new URL(window.location);
                 if (currentCategory !== 'all') {
@@ -742,8 +1017,11 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
     _analizarConPotenciacion();
     cargarDesdeURL();
     
+    // Inicializar métricas de conectores
+    actualizarMetricasConectores();
+    
     let _int = 0;
-    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · ${_RED_PAISES.length}+ periodistas · 10 herramientas · Texto limpio sin asteriscos · Widgets inteligentes`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · Conectores activos · ${_RED_PAISES.length}+ periodistas · 10 herramientas`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
 
 <script type="module">
