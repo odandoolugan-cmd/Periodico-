@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Redacción Global IA + Conectores · Sin Markdown</title>
+    <title>Diario Ecuador Hoy · Redacción Global IA + Conectores + jsllm7 404M</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -22,12 +22,14 @@
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; font-weight: 500; color: #1a2c3e; transition: 0.2s; }
         .tool-btn:hover { background: #e67e22; color: white; border-color: #e67e22; transform: scale(1.02); }
+        .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; background: #1e293b; }
+        .tool-btn.jsllm7:hover { background: #8b5cf6; color: white; }
         
         .opinion-card { background: linear-gradient(135deg, #1e3a5f, #0f2b45); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; color: white; border-left: 5px solid #e67e22; }
         .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
         .opinion-title i { color: #e67e22; }
         .pais-badge { background: #e67e22; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
-        .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; }
+        .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
         .opinion-meta { font-size: 0.7rem; color: #aaa; margin-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
@@ -48,6 +50,7 @@
         .update-btn { background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; font-weight: 600; }
         .footer { text-align: center; margin-top: 2rem; padding: 1.5rem; border-top: 1px solid #dce3e8; font-size: 0.7rem; color: #8a9aa8; }
         .ia-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; vertical-align: middle; }
+        .badge-termux { background: #8b5cf6; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #e67e22, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(230, 126, 34, 0.5); }
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
@@ -208,6 +211,8 @@
         
         .loading-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #e67e22; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         
+        #jsllm7WidgetStatus { font-size: 0.65rem; color: #5a6e7c; margin-top: 8px; }
+        
         @media (max-width: 700px) { 
             h1 { font-size: 1.8rem; } 
             .news-grid { grid-template-columns: 1fr; } 
@@ -222,9 +227,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">CONECTORES</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">jsllm7 404M</span><span class="badge-termux">🔌 TERMUX</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Conectores: Memoria · Semántico · APIs · 10 herramientas periodísticas</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas periodísticas</div>
     </div>
 
     <div class="modo-selector">
@@ -243,6 +248,7 @@
         <button class="tool-btn" id="btnTecnologia">💻 Tecnología Hoy</button>
         <button class="tool-btn" id="btnSalud">🏥 Salud y Bienestar</button>
         <button class="tool-btn" id="btnCartas">✉️ Cartas al Director</button>
+        <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
     </div>
 
     <div class="opinion-card" id="opinionCard">
@@ -298,6 +304,7 @@
                         <div class="label">Contexto</div>
                     </div>
                 </div>
+                <div id="jsllm7WidgetStatus">🧠 jsllm7: 🔍 Conectando a Termux...</div>
             </div>
         </div>
         <div class="widget" id="widgetConfianza">
@@ -344,9 +351,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 30+ PERIODISTAS IA · Conectores activos · 10 herramientas tácticas · Análisis profesional</div>
+    <div class="restriction-alert">📡 30+ PERIODISTAS IA · jsllm7 404M · Conectores activos · 10 herramientas tácticas · Análisis profesional</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · Conectores activos · Redacción Global IA · 10 herramientas periodísticas</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · jsllm7 404M · Conectores activos · Redacción Global IA · 10 herramientas periodísticas</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -356,6 +363,74 @@
 <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
 <script>
+    // ============================================
+    // CONFIGURACIÓN - API DE TERMUX (PUERTO 8081)
+    // ============================================
+    
+    const JSLLM7_API_URL = 'http://localhost:8081';
+    let jsllm7TermuxConectado = false;
+    
+    // ============================================
+    // FUNCIÓN PARA LLAMAR A IA (PRIORIZA TERMUX)
+    // ============================================
+    
+    async function _llamadaIA(prompt) {
+        console.log('🔍 Intentando llamar a IA...');
+        
+        // 1. INTENTAR CON TERMUX (API local)
+        try {
+            const preguntaCodificada = encodeURIComponent(prompt);
+            const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
+            
+            console.log('📤 Enviando a Termux (8081):', prompt.substring(0, 80) + '...');
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                console.error('❌ Error HTTP:', response.status);
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const text = await response.text();
+            console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
+            
+            // USAR SIEMPRE la respuesta de Termux si tiene contenido
+            if (text && text.length > 20) {
+                jsllm7TermuxConectado = true;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                console.log('✅ Usando respuesta de Termux');
+                return limpiarMarkdown(text);
+            } else {
+                console.warn('⚠️ Respuesta de Termux vacía, intentando CDN...');
+                throw new Error('Respuesta vacía');
+            }
+        } catch (error) {
+            console.warn('⚠️ Error conectando a Termux:', error.message);
+            jsllm7TermuxConectado = false;
+            document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+            document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+        }
+        
+        // 2. FALLBACK: Usar jsllm7 del CDN
+        console.log('⚠️ Termux no disponible, usando CDN...');
+        if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+            try {
+                const response = await window.jsllm7(prompt);
+                if (response && response.length > 50) {
+                    console.log('✅ Respuesta de CDN obtenida');
+                    return limpiarMarkdown(response);
+                }
+            } catch (e) {
+                console.warn('Error con jsllm7 CDN:', e);
+            }
+        }
+        
+        // 3. FALLBACK FINAL
+        console.log('⚠️ Usando fallback genérico');
+        return null;
+    }
+
     // ============================================
     // CONECTOR DE MEMORIA
     // ============================================
@@ -744,13 +819,6 @@
         document.body.appendChild(modal);
     }
     
-    async function _llamadaIA(prompt) {
-        try {
-            const respuesta = await jsllm7(prompt);
-            return limpiarMarkdown(respuesta);
-        } catch(e) { return null; }
-    }
-    
     async function herramientaGenerica(promptText, titulo) {
         showToast(`⏳ ${titulo}...`);
         const respuesta = await _llamadaIA(promptText);
@@ -760,7 +828,7 @@
     }
 
     // ============================================
-    // 10 HERRAMIENTAS PERIODÍSTICAS
+    // 10 HERRAMIENTAS PERIODÍSTICAS (USAN TERMUX)
     // ============================================
     
     async function editorialDia() {
@@ -824,6 +892,29 @@
         await herramientaGenerica(prompt, `✉️ CARTAS AL DIRECTOR: ${tema.toUpperCase()}`);
     }
     
+    function verEstadoTermux() {
+        const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
+        const mensaje = `
+=== ESTADO DE jsllm7 ===
+
+🔌 Puerto: 8081
+📊 Registros: 404,356,967
+📡 Estado: ${estado}
+📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
+
+${jsllm7TermuxConectado ? 
+'✅ jsllm7 está funcionando correctamente con 404M registros' : 
+'⚠️ jsllm7 no está conectado a Termux. Usando CDN como respaldo.'}
+
+Para conectar:
+1. Abre Termux
+2. Ejecuta: cd ~/experimento
+3. Ejecuta: python3 servidor.py &
+4. Recarga esta página
+`;
+        mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
+    }
+    
     document.getElementById('btnEditorial').onclick = editorialDia;
     document.getElementById('btnEntrevista').onclick = entrevistaSimulada;
     document.getElementById('btnAnalisis').onclick = analisisDatos;
@@ -834,6 +925,7 @@
     document.getElementById('btnTecnologia').onclick = tecnologiaHoy;
     document.getElementById('btnSalud').onclick = saludBienestar;
     document.getElementById('btnCartas').onclick = cartasDirector;
+    document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
 
     // ============================================
     // DEEP LINKING - CARGAR DESDE URL
@@ -849,7 +941,7 @@
     }
 
     // ============================================
-    // SISTEMA DE ANÁLISIS PRINCIPAL
+    // SISTEMA DE ANÁLISIS PRINCIPAL (CON PERIODISMO)
     // ============================================
     
     let modo = localStorage.getItem('diario_modo') || 'experto';
@@ -890,32 +982,74 @@
         }
         
         const fecha = new Date().toLocaleDateString('es-ES');
+        const hora = new Date().toLocaleTimeString('es-ES');
+        
         let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. NO USES ASTERISCOS.]
 
-Eres periodista experto de ${pais}. Analiza la situación actual de Ecuador (${fecha}) en política, economía y seguridad.
+Eres un periodista experto de ${pais} que escribe para "Diario Ecuador Hoy". Escribe un artículo periodístico sobre la situación actual de Ecuador.
 
-Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y CONCLUSIÓN. Mínimo 200 palabras. Sin asteriscos.`;
-        
+FECHA: ${fecha} - ${hora}
+
+ESTRUCTURA OBLIGATORIA:
+TÍTULO: [Título llamativo sobre Ecuador]
+
+CUERPO DEL ARTÍCULO (mínimo 250 palabras):
+Analiza la situación de Ecuador en estos temas:
+• POLÍTICA: situación actual, liderazgo, desafíos
+• ECONOMÍA: indicadores, empleo, proyecciones
+• SEGURIDAD: situación, medidas, retos
+
+CONCLUSIÓN:
+Visión a futuro y llamado a la acción.
+
+REGLAS:
+- Escribe como periodista profesional
+- Usa lenguaje claro y directo
+- Sin asteriscos ni markdown
+- Incluye datos concretos (pueden ser hipotéticos pero realistas)`;
+
         // Añadir contexto de conectores
         if (contextoMemoria) prompt += `\n${contextoMemoria}`;
         if (contextoAPI) prompt += `\n${contextoAPI}`;
         
-        let texto = await _llamadaIA(prompt);
-        if(!texto || texto.length < 100) {
-            texto = `Análisis desde ${pais}\n\nLa coyuntura ecuatoriana presenta desafíos en seguridad y economía. Se requieren políticas integrales y cooperación internacional. La ciudadanía espera respuestas concretas a sus demandas.`;
+        try {
+            const texto = await _llamadaIA(prompt);
+            if(texto && texto.length > 100) {
+                document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
+                
+                // Guardar en memoria
+                memoryConnector.remember({
+                    query: 'Ecuador análisis periodístico',
+                    response: texto,
+                    pais: pais,
+                    fecha: fecha
+                });
+                actualizarMetricasConectores();
+            } else {
+                throw new Error('Respuesta corta');
+            }
+        } catch(e) {
+            // Fallback local
+            const fallback = `📰 ANÁLISIS PERIODÍSTICO DESDE ${pais}
+
+TÍTULO: Ecuador en la encrucijada: desafíos y oportunidades para el futuro
+
+Ecuador atraviesa un momento crucial en su historia reciente. La situación política, económica y social presenta desafíos significativos que requieren respuestas contundentes y liderazgo visionario.
+
+En el ámbito político, el país enfrenta la necesidad de fortalecer sus instituciones y recuperar la confianza ciudadana. La polarización y la fragmentación política han dificultado la implementación de reformas estructurales necesarias.
+
+La economía ecuatoriana muestra signos mixtos. Por un lado, sectores como el turismo y la agroindustria comienzan a reactivarse, mientras que el empleo formal sigue rezagado y la inversión extranjera no alcanza los niveles esperados.
+
+En materia de seguridad, los índices de violencia han mostrado una ligera mejoría en algunas zonas urbanas, pero persisten desafíos estructurales que requieren estrategias integrales y cooperación internacional.
+
+El futuro de Ecuador dependerá de la capacidad de sus líderes para generar consensos, implementar reformas efectivas y construir un proyecto de país inclusivo y sostenible.
+
+📰 Análisis generado por la Redacción Global · ${pais}
+🔗 Diario Ecuador Hoy · ${fecha}`;
+            document.getElementById('opinionContent').innerHTML = `<p>${fallback.replace(/\n/g,'<br>')}</p>`;
         }
         
-        document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
-        
-        // Guardar en memoria
-        memoryConnector.remember({
-            query: 'Ecuador',
-            response: texto,
-            pais: pais,
-            fecha: fecha
-        });
-        actualizarMetricasConectores();
-        
+        // Agregar feedback buttons
         const fb = document.createElement('div'); 
         fb.className='feedback-buttons';
         const btnLike = document.createElement('button');
@@ -985,7 +1119,7 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
         localStorage.removeItem('fecha_de_v5');
         cargarEdicion();
         _analizarConPotenciacion();
-        showToast("📰 Edición actualizada · Conectores activos");
+        showToast("📰 Edición actualizada · jsllm7 404M · Conectores activos");
     });
     
     document.querySelectorAll('.nav-btn').forEach(b => {
@@ -1011,8 +1145,33 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
     document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('newsModal').classList.remove('active'));
     window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
     
+    // ============================================
+    // VERIFICAR CONEXIÓN CON TERMUX
+    // ============================================
+    
+    async function verificarConexionTermux() {
+        try {
+            const response = await fetch(`${JSLLM7_API_URL}/stats`);
+            if (response.ok) {
+                const stats = await response.json();
+                jsllm7TermuxConectado = true;
+                document.getElementById('jsllm7WidgetStatus').textContent = `🧠 jsllm7: ✅ Activo (${stats.total?.toLocaleString() || '404M'} en Termux:8081)`;
+                document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                console.log('✅ jsllm7 conectado a Termux:', stats);
+            }
+        } catch(e) {
+            jsllm7TermuxConectado = false;
+            document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+            document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+            console.warn('⚠️ Termux no disponible en puerto 8081');
+        }
+    }
+    
     verificarGoSilencioso();
     setInterval(verificarGoSilencioso, 60000);
+    verificarConexionTermux();
+    setInterval(verificarConexionTermux, 30000);
+    
     cargarEdicion();
     _analizarConPotenciacion();
     cargarDesdeURL();
@@ -1021,7 +1180,7 @@ Responde con: TITULAR PRINCIPAL (una línea), 3 PUNTOS CLAVE (con viñetas), y C
     actualizarMetricasConectores();
     
     let _int = 0;
-    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · Conectores activos · ${_RED_PAISES.length}+ periodistas · 10 herramientas`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · jsllm7 404M · Conectores activos · ${_RED_PAISES.length}+ periodistas · 10 herramientas`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
 
 <script type="module">
