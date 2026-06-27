@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · Redacción Global IA + Conectores + jsllm7 404M</title>
+    <title>Diario Ecuador Hoy · 403M DECIDE · Redacción Global IA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -15,6 +15,8 @@
         h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; color: #1a2c3e; }
         .header h1 span { color: #e67e22; }
         .date { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
+        .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #1a2c3e; }
         .modo-btn.active { background: #e67e22; color: white; border-color: #e67e22; }
@@ -24,6 +26,8 @@
         .tool-btn:hover { background: #e67e22; color: white; border-color: #e67e22; transform: scale(1.02); }
         .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; background: #1e293b; }
         .tool-btn.jsllm7:hover { background: #8b5cf6; color: white; }
+        .tool-btn.decision { border-color: #ec4899; color: #f472b6; background: #1e293b; }
+        .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
         
         .opinion-card { background: linear-gradient(135deg, #1e3a5f, #0f2b45); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; color: white; border-left: 5px solid #e67e22; }
         .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
@@ -160,7 +164,6 @@
             color: #5a6e7c;
         }
         
-        /* Métricas de conectores */
         .connector-metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -183,35 +186,15 @@
             color: #5a6e7c;
         }
         
-        .sources-list {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0,0,0,0.02);
-            border-radius: 8px;
-            font-size: 0.7rem;
-        }
-        
-        .source-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .source-item:last-child { border-bottom: none; }
-        .source-icon { font-size: 0.8rem; }
+        #decisionStatus { font-size: 0.65rem; color: #ec4899; text-align: center; margin-bottom: 10px; }
+        #jsllm7WidgetStatus { font-size: 0.65rem; color: #5a6e7c; margin-top: 8px; }
         
         .metadata-container { display: none; }
-        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .modal-content-herramienta { background: white; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #e67e22; }
         .modal-content-herramienta h3 { color: #e67e22; margin-bottom: 1rem; }
         .modal-close-herramienta { margin-top: 1rem; background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
-        
         .loading-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #e67e22; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
-        
-        #jsllm7WidgetStatus { font-size: 0.65rem; color: #5a6e7c; margin-top: 8px; }
         
         @media (max-width: 700px) { 
             h1 { font-size: 1.8rem; } 
@@ -227,10 +210,12 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">jsllm7 404M</span><span class="badge-termux">🔌 TERMUX</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">jsllm7 404M</span><span class="badge-termux">🔌 TERMUX</span><span class="badge-decision">🧠 403M DECIDE</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🤖 Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas periodísticas</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">🧠 403M DECIDE · Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas periodísticas</div>
     </div>
+
+    <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-bottom:10px;">🧠 403M DECIDE: Listo para analizar noticias</div>
 
     <div class="modo-selector">
         <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
@@ -248,6 +233,7 @@
         <button class="tool-btn" id="btnTecnologia">💻 Tecnología Hoy</button>
         <button class="tool-btn" id="btnSalud">🏥 Salud y Bienestar</button>
         <button class="tool-btn" id="btnCartas">✉️ Cartas al Director</button>
+        <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M Decide</button>
         <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
     </div>
 
@@ -301,7 +287,7 @@
                     </div>
                     <div class="connector-metric">
                         <div class="value" id="metricContexto">0%</div>
-                        <div class="label">Contexto</div>
+                        <div class="label">Contexto 403M</div>
                     </div>
                 </div>
                 <div id="jsllm7WidgetStatus">🧠 jsllm7: 🔍 Conectando a Termux...</div>
@@ -318,7 +304,7 @@
                     <span class="confidence-label" id="confidenceLabel">0%</span>
                 </div>
                 <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#5a6e7c;margin-top:8px;">
-                    Basado en fuentes verificadas + conectores
+                    Basado en fuentes verificadas + 403M DECIDE
                 </div>
             </div>
         </div>
@@ -351,9 +337,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">📡 30+ PERIODISTAS IA · jsllm7 404M · Conectores activos · 10 herramientas tácticas · Análisis profesional</div>
+    <div class="restriction-alert">🧠 403M DECIDE qué BIG TECH usar · 30+ PERIODISTAS IA · jsllm7 404M · Conectores activos · 10 herramientas tácticas · Análisis profesional</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">⚡ Diario Ecuador Hoy · jsllm7 404M · Conectores activos · Redacción Global IA · 10 herramientas periodísticas</div>
+    <div class="footer">⚡ Diario Ecuador Hoy · 403M DECIDE · jsllm7 404M · Conectores activos · Redacción Global IA · 10 herramientas periodísticas</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -371,13 +357,133 @@
     let jsllm7TermuxConectado = false;
     
     // ============================================
+    // NÚCLEO 403M DECIDE
+    // ============================================
+    
+    class Nucleo403MDecisor {
+        constructor() {
+            this.nucleo = { activo: true, parametros: 403000000, decisiones: 0 };
+            this.bigTech = {
+                nvidia: { activo: false, usos: 0, nombre: 'NVIDIA (Visualización)' },
+                google: { activo: false, usos: 0, nombre: 'Google (Búsqueda)' },
+                meta: { activo: false, usos: 0, nombre: 'Meta (Comunidad)' },
+                amazon: { activo: false, usos: 0, nombre: 'Amazon (Recursos)' },
+                microsoft: { activo: false, usos: 0, nombre: 'Microsoft (Análisis)' },
+                apple: { activo: false, usos: 0, nombre: 'Apple (Experiencia)' }
+            };
+            this.historialDecisiones = [];
+            console.log('🧠 NÚCLEO 403M DECIDE inicializado para Diario Ecuador Hoy');
+        }
+        
+        async analizarYDecidir(pregunta, tema, modo) {
+            this.nucleo.decisiones++;
+            console.log(`🧠 403M analizando consulta periodística: "${pregunta.substring(0, 50)}..."`);
+            document.getElementById('decisionStatus').textContent = '🧠 403M DECIDE: Analizando consulta periodística...';
+            
+            const promptDecision = `[DECISIÓN AUTÓNOMA 403M - PERIODISMO]
+Analiza la siguiente consulta periodística y decide qué BIG TECH activar:
+
+CONSULTA: "${pregunta}"
+TEMA: "${tema}"
+MODO: ${modo}
+
+BIG TECH DISPONIBLES:
+1. NVIDIA - Para visualización de datos, gráficos, infografías
+2. Google - Para búsqueda de información, datos, noticias
+3. Meta - Para conectar con comunidades, redes sociales
+4. Amazon - Para acceso a recursos, archivos
+5. Microsoft - Para análisis de datos, herramientas
+6. Apple - Para diseño de experiencia de usuario
+
+DECIDE:
+- Si es sobre visualización de datos → NVIDIA
+- Si es sobre búsqueda de información → Google
+- Si es sobre comunidad → Meta
+- Si es sobre recursos → Amazon
+- Si es sobre análisis de datos → Microsoft
+- Si es sobre experiencia de usuario → Apple
+
+Responde SOLO con los nombres separados por comas.
+Ejemplo: "Google, Microsoft" o "NVIDIA"
+
+DECISIÓN:`;
+
+            const decision = await _llamadaIA(promptDecision);
+            console.log(`🧠 Decisión 403M: ${decision}`);
+            
+            const techsActivar = this.procesarDecision(decision);
+            
+            if (techsActivar.length > 0) {
+                document.getElementById('decisionStatus').textContent = `🧠 403M DECIDE: Activando ${techsActivar.join(', ')} para periodismo`;
+            }
+            
+            for (const tech of techsActivar) {
+                if (this.bigTech[tech] && !this.bigTech[tech].activo) {
+                    this.bigTech[tech].activo = true;
+                    this.bigTech[tech].usos++;
+                    console.log(`🚀 403M activó: ${tech.toUpperCase()} para periodismo`);
+                }
+            }
+            
+            this.historialDecisiones.push({
+                tema: tema,
+                pregunta: pregunta.substring(0, 50),
+                decision: techsActivar,
+                timestamp: new Date().toISOString()
+            });
+            
+            return techsActivar;
+        }
+        
+        procesarDecision(decision) {
+            if (!decision) return ['google'];
+            const techs = [];
+            const d = decision.toLowerCase();
+            const mapeo = { 'nvidia': 'nvidia', 'google': 'google', 'meta': 'meta', 'amazon': 'amazon', 'microsoft': 'microsoft', 'apple': 'apple' };
+            for (const [key, value] of Object.entries(mapeo)) {
+                if (d.includes(key) || d.includes(value)) techs.push(value);
+            }
+            return techs.length > 0 ? techs : ['google'];
+        }
+        
+        getEstado() {
+            const activos = Object.entries(this.bigTech).filter(([k, v]) => v.activo).map(([k]) => k);
+            return {
+                decisiones: this.nucleo.decisiones,
+                bigTechActivos: activos,
+                usos: Object.fromEntries(Object.entries(this.bigTech).map(([k, v]) => [k, v.usos])),
+                historial: this.historialDecisiones.slice(-5)
+            };
+        }
+        
+        mostrarEstado() {
+            const e = this.getEstado();
+            let mensaje = `
+=== 🧠 403M DECIDE (PERIODISMO) ===
+
+📊 Decisiones tomadas: ${e.decisiones}
+
+🏢 BIG TECH ACTIVADOS POR 403M:
+${Object.entries(e.usos).map(([k, v]) => `   • ${k}: ${v} usos`).join('\n')}
+
+📜 ÚLTIMAS DECISIONES:
+${e.historial.map(h => `   • "${h.tema}": "${h.pregunta}..." → ${h.decision.join(', ')}`).join('\n')}
+
+${e.bigTechActivos.length > 0 ? '✅ 403M está activando BIG TECH automáticamente' : '⚠️ 403M aún no ha activado BIG TECH'}
+`;
+            return mensaje;
+        }
+    }
+
+    const nucleoDecisor = new Nucleo403MDecisor();
+
+    // ============================================
     // FUNCIÓN PARA LLAMAR A IA (PRIORIZA TERMUX)
     // ============================================
     
     async function _llamadaIA(prompt) {
         console.log('🔍 Intentando llamar a IA...');
         
-        // 1. INTENTAR CON TERMUX (API local)
         try {
             const preguntaCodificada = encodeURIComponent(prompt);
             const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
@@ -394,7 +500,6 @@
             const text = await response.text();
             console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
             
-            // USAR SIEMPRE la respuesta de Termux si tiene contenido
             if (text && text.length > 20) {
                 jsllm7TermuxConectado = true;
                 document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
@@ -402,7 +507,6 @@
                 console.log('✅ Usando respuesta de Termux');
                 return limpiarMarkdown(text);
             } else {
-                console.warn('⚠️ Respuesta de Termux vacía, intentando CDN...');
                 throw new Error('Respuesta vacía');
             }
         } catch (error) {
@@ -412,7 +516,6 @@
             document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
         }
         
-        // 2. FALLBACK: Usar jsllm7 del CDN
         console.log('⚠️ Termux no disponible, usando CDN...');
         if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
             try {
@@ -426,7 +529,6 @@
             }
         }
         
-        // 3. FALLBACK FINAL
         console.log('⚠️ Usando fallback genérico');
         return null;
     }
@@ -820,7 +922,10 @@
     }
     
     async function herramientaGenerica(promptText, titulo) {
-        showToast(`⏳ ${titulo}...`);
+        // 403M DECIDE qué BIG TECH usar para esta herramienta
+        await nucleoDecisor.analizarYDecidir(titulo, titulo, modo);
+        
+        showToast(`⏳ ${titulo} con 403M...`);
         const respuesta = await _llamadaIA(promptText);
         const respuestaFinal = respuesta || `No se pudo obtener ${titulo.toLowerCase()}. Intenta de nuevo.`;
         mostrarModal(titulo, respuestaFinal);
@@ -828,7 +933,7 @@
     }
 
     // ============================================
-    // 10 HERRAMIENTAS PERIODÍSTICAS (USAN TERMUX)
+    // 10 HERRAMIENTAS PERIODÍSTICAS (CON 403M DECIDE)
     // ============================================
     
     async function editorialDia() {
@@ -914,6 +1019,15 @@ Para conectar:
 `;
         mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
     }
+
+    // ============================================
+    // BOTÓN 403M DECIDE
+    // ============================================
+    
+    document.getElementById('btnDecisionStatus').onclick = () => {
+        const estado = nucleoDecisor.mostrarEstado();
+        mostrarModal('🧠 403M DECIDE (PERIODISMO)', estado);
+    };
     
     document.getElementById('btnEditorial').onclick = editorialDia;
     document.getElementById('btnEntrevista').onclick = entrevistaSimulada;
@@ -941,7 +1055,7 @@ Para conectar:
     }
 
     // ============================================
-    // SISTEMA DE ANÁLISIS PRINCIPAL (CON PERIODISMO)
+    // SISTEMA DE ANÁLISIS PRINCIPAL (CON 403M DECIDE)
     // ============================================
     
     let modo = localStorage.getItem('diario_modo') || 'experto';
@@ -965,7 +1079,9 @@ Para conectar:
         const pais = _siguientePais();
         document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
         
-        // Buscar en memoria análisis similares
+        // 403M DECIDE qué BIG TECH usar para el análisis periodístico
+        await nucleoDecisor.analizarYDecidir('Análisis periodístico de Ecuador', 'Ecuador', modo);
+        
         const memoriaSimilar = memoryConnector.recall('Ecuador', 2);
         let contextoMemoria = '';
         if (memoriaSimilar.length > 0) {
@@ -974,7 +1090,6 @@ Para conectar:
             ).join(' ');
         }
         
-        // Consultar API para datos de noticias
         const apiData = await apiConnector.call('newsApi');
         let contextoAPI = '';
         if (!apiData.error) {
@@ -983,8 +1098,11 @@ Para conectar:
         
         const fecha = new Date().toLocaleDateString('es-ES');
         const hora = new Date().toLocaleTimeString('es-ES');
+        const bigTechActivos = nucleoDecisor.getEstado().bigTechActivos;
         
         let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. NO USES ASTERISCOS.]
+
+403M DECIDIÓ ACTIVAR: ${bigTechActivos.join(', ') || 'Ninguno'}
 
 Eres un periodista experto de ${pais} que escribe para "Diario Ecuador Hoy". Escribe un artículo periodístico sobre la situación actual de Ecuador.
 
@@ -1008,7 +1126,6 @@ REGLAS:
 - Sin asteriscos ni markdown
 - Incluye datos concretos (pueden ser hipotéticos pero realistas)`;
 
-        // Añadir contexto de conectores
         if (contextoMemoria) prompt += `\n${contextoMemoria}`;
         if (contextoAPI) prompt += `\n${contextoAPI}`;
         
@@ -1017,19 +1134,18 @@ REGLAS:
             if(texto && texto.length > 100) {
                 document.getElementById('opinionContent').innerHTML = `<p>${texto.replace(/\n/g,'<br>')}</p>`;
                 
-                // Guardar en memoria
                 memoryConnector.remember({
                     query: 'Ecuador análisis periodístico',
                     response: texto,
                     pais: pais,
-                    fecha: fecha
+                    fecha: fecha,
+                    bigTech: bigTechActivos
                 });
                 actualizarMetricasConectores();
             } else {
                 throw new Error('Respuesta corta');
             }
         } catch(e) {
-            // Fallback local
             const fallback = `📰 ANÁLISIS PERIODÍSTICO DESDE ${pais}
 
 TÍTULO: Ecuador en la encrucijada: desafíos y oportunidades para el futuro
@@ -1049,7 +1165,6 @@ El futuro de Ecuador dependerá de la capacidad de sus líderes para generar con
             document.getElementById('opinionContent').innerHTML = `<p>${fallback.replace(/\n/g,'<br>')}</p>`;
         }
         
-        // Agregar feedback buttons
         const fb = document.createElement('div'); 
         fb.className='feedback-buttons';
         const btnLike = document.createElement('button');
@@ -1119,7 +1234,7 @@ El futuro de Ecuador dependerá de la capacidad de sus líderes para generar con
         localStorage.removeItem('fecha_de_v5');
         cargarEdicion();
         _analizarConPotenciacion();
-        showToast("📰 Edición actualizada · jsllm7 404M · Conectores activos");
+        showToast("📰 Edición actualizada · 403M DECIDE · jsllm7 404M · Conectores activos");
     });
     
     document.querySelectorAll('.nav-btn').forEach(b => {
@@ -1176,11 +1291,10 @@ El futuro de Ecuador dependerá de la capacidad de sus líderes para generar con
     _analizarConPotenciacion();
     cargarDesdeURL();
     
-    // Inicializar métricas de conectores
     actualizarMetricasConectores();
     
     let _int = 0;
-    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ Redacción IA lista · jsllm7 404M · Conectores activos · ${_RED_PAISES.length}+ periodistas · 10 herramientas`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
+    const _chk = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(_chk); showToast(`✅ 403M DECIDE · Redacción IA lista · jsllm7 404M · Conectores activos · ${_RED_PAISES.length}+ periodistas · 10 herramientas`); } else if (_int > 30) clearInterval(_chk); _int++; }, 500);
 </script>
 
 <script type="module">
@@ -1217,8 +1331,8 @@ function initVR() {
     ctx.font = 'Bold 28px "Inter"';
     ctx.fillStyle = '#e67e22';
     ctx.textAlign = 'center';
-    ctx.fillText('DIARIO ECUADOR HOY', 256, 64);
-    const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.2), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(canvas) }));
+    ctx.fillText('DIARIO ECUADOR HOY · 403M DECIDE', 256, 64);
+    const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(6, 1.2), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(canvas) }));
     textPlane.position.set(0, 2.5, -3);
     scene.add(textPlane);
     function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
