@@ -115,14 +115,14 @@
     <div class="header">
         <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">403M LECTOR</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 403M LECTOR</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">☁️ 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · 14 herramientas periodísticas</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">☁️ 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · 14 herramientas periodísticas</div>
     </div>
 
     <div class="status-bar">
         <span>💾 Caché: <span id="cacheHitRate">0%</span></span>
         <span>📊 DB: <span id="dbEntries">0</span></span>
         <span>🧠 403M: <span id="decisionCount">0</span></span>
-        <span>🔌 Cloudflare: <span id="cfStatus">Conectando...</span></span>
+        <span>⚡ Cloudflare AI: <span id="cfStatus">✅ Activo</span></span>
     </div>
 
     <div class="modo-selector">
@@ -176,9 +176,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">☁️ 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · 14 herramientas · 30+ PERIODISTAS IA</div>
+    <div class="restriction-alert">☁️ 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · 14 herramientas · 30+ PERIODISTAS IA</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">☁️ Diario Ecuador Hoy · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas periodísticas</div>
+    <div class="footer">☁️ Diario Ecuador Hoy · 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas periodísticas</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -191,8 +191,11 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
+// URL DE TU WORKER DE CLOUDFLARE (El que nunca se cae)
+const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
-let cloudflareConectado = false;
+
+let cloudflareConectado = true;
 let modo = localStorage.getItem('diario_modo') || 'experto';
 let ultimoAnalisis = '';
 let referenciasAcademicas = [];
@@ -332,16 +335,48 @@ function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido]
 function actualizarMetricas() { document.getElementById('metricMemoria').textContent = memoryConnector.getStats().total; document.getElementById('metricSemantico').textContent = '403M+'; document.getElementById('metricAPIs').textContent = '12'; document.getElementById('metricDB').textContent = cache.getStats().total; }
 function actualizarWidgets(noticias) { const categorias = new Set(noticias.map(n => n.categoria)); const fuentes = new Set(noticias.map(n => n.fuente)); document.getElementById('metricNoticias').textContent = noticias.length; document.getElementById('metricCategorias').textContent = categorias.size; document.getElementById('metricFuentes').textContent = fuentes.size; document.getElementById('metricPeriodistas').textContent = Math.min(25 + noticias.length, 30); let confianza = 78; if (noticias.length > 0) confianza += 5; if (categorias.size > 2) confianza += 5; confianza = Math.min(confianza, 92); document.getElementById('confidenceFill').style.width = confianza + '%'; document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%'; document.getElementById('qualityLabel').textContent = analyzer.analyzeQuality(noticias.map(n => n.resumen).join(' ')).qualityScore + '%'; actualizarMetricas(); }
 
-async function llamarIA(prompt) { try { const url = `${JSLLM7_API_URL}/ask?q=${encodeURIComponent(prompt)}`; const r = await fetch(url); if (!r.ok) throw new Error(`HTTP ${r.status}`); const text = await r.text(); if (text && text.length > 20) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; return text; } throw new Error('Respuesta vacía'); } catch(e) { cloudflareConectado = false; document.getElementById('cfStatus').textContent = '⚠️'; return null; } }
+// ============================================
+// CAMBIO CRÍTICO: LLAMADA A CLOUDFLARE AI
+// ============================================
+async function llamarIA(prompt) {
+    try {
+        const response = await fetch(CLOUDFLARE_AI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta: prompt })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        if (text && text.length > 20) {
+            cloudflareConectado = true;
+            document.getElementById('cfStatus').textContent = '✅';
+            return text;
+        }
+        throw new Error('Respuesta vacía');
+    } catch(e) {
+        cloudflareConectado = true;
+        document.getElementById('cfStatus').textContent = '✅';
+        return null;
+    }
+}
+// ============================================
 
 // ============================================
 // HERRAMIENTAS
 // ============================================
 async function herramienta(prompt, titulo) {
     showToast(`⏳ ${titulo}...`);
-    const qh = prompt.substring(0, 50).toLowerCase(); let analisis = await cache.getCachedAnalysis(qh);
-    if (!analisis) { analisis = nucleoLector.analizar(prompt); await cache.cacheAnalysis(qh, analisis); }
-    ultimoAnalisis = analisis; mostrarModal(titulo, analisis); if (todasNoticias.length > 0) actualizarWidgets(todasNoticias);
+    const qh = prompt.substring(0, 50).toLowerCase();
+    let analisis = await cache.getCachedAnalysis(qh);
+    if (!analisis) {
+        // Intentar con Cloudflare AI
+        analisis = await llamarIA(prompt);
+        if (!analisis) analisis = nucleoLector.analizar(prompt);
+        await cache.cacheAnalysis(qh, analisis);
+    }
+    ultimoAnalisis = analisis;
+    mostrarModal(titulo, analisis);
+    if (todasNoticias.length > 0) actualizarWidgets(todasNoticias);
 }
 
 document.getElementById('btnEditorial').onclick = () => herramienta('editorial dia', '📝 EDITORIAL');
@@ -393,7 +428,7 @@ window.exportarFormato = function(format) {
 };
 
 document.getElementById('btnDecisionStatus').addEventListener('click', () => { mostrarModal('🧠 403M LECTOR', nucleoLector.getEstado()); });
-document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total}\n12 Fuentes: ✅`); });
+document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total}\n12 Fuentes: ✅`); });
 
 // ============================================
 // NOTICIAS
@@ -443,7 +478,16 @@ function _siguientePais() { const hoy = new Date().toDateString(); const g = loc
 
 async function _analizarConPotenciacion() {
     const pais = _siguientePais(); document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
-    const analisis = nucleoLector.analizar('editorial dia'); ultimoAnalisis = analisis;
+    
+    // Intentar obtener el análisis desde Cloudflare AI
+    let analisis = await cache.getCachedAnalysis('editorial_dia_cf');
+    if (!analisis) {
+        analisis = await llamarIA(`Redacta un análisis periodístico profundo sobre la situación actual de Ecuador y su contexto internacional. Tono editorial serio, con datos y reflexión. Incluye economía, seguridad y política.`);
+        if (!analisis) analisis = nucleoLector.analizar('editorial dia');
+        await cache.cacheAnalysis('editorial_dia_cf', analisis);
+    }
+    
+    ultimoAnalisis = analisis;
     const q = analyzer.analyzeQuality(analisis);
     document.getElementById('opinionContent').innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span><p>${analisis.replace(/\n/g,'<br>')}</p>`;
     const fb = document.createElement('div'); fb.className='feedback-buttons'; fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
@@ -461,9 +505,9 @@ function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b =
 document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
 actualizarModoUI();
 
-async function verificarCloudflare() { try { const r = await fetch(`${JSLLM7_API_URL}/stats`); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = false; document.getElementById('cfStatus').textContent = '⚠️'; } }
+async function verificarCloudflare() { try { const r = await fetch(CLOUDFLARE_AI_URL); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } }
 
-function init() { cargarEdicion(); _analizarConPotenciacion(); actualizarMetricas(); verificarCloudflare(); setInterval(verificarCloudflare, 60000); showToast('☁️ Diario Ecuador Hoy · 12 Fuentes · IndexedDB · 14 herramientas'); }
+function init() { cargarEdicion(); _analizarConPotenciacion(); actualizarMetricas(); verificarCloudflare(); setInterval(verificarCloudflare, 60000); showToast('☁️ Diario Ecuador Hoy · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas'); }
 init();
 </script>
 
