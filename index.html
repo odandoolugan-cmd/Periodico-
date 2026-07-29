@@ -106,6 +106,51 @@
         .modal-close-herramienta { margin-top: 1rem; background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
         .loading-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #e67e22; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         
+        /* Estilo para el botón de temas relacionados */
+        .temas-relacionados-btn {
+            background: #e67e22; 
+            border: none; 
+            color: white; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 0.75rem;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .temas-relacionados-btn:hover {
+            background: #d97706;
+            transform: scale(1.02);
+        }
+        .temas-relacionados-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .temas-container {
+            margin-top: 10px;
+            background: rgba(230, 126, 34, 0.08);
+            border-left: 3px solid #e67e22;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        .temas-container.visible {
+            display: block;
+        }
+        .temas-container .titulo {
+            font-weight: 600;
+            color: #e67e22;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+        .temas-container .texto {
+            color: #1a2c3e;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
         @media (max-width: 700px) { h1 { font-size: 1.8rem; } .news-grid { grid-template-columns: 1fr; } .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -191,7 +236,6 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
-// URL DE TU WORKER DE CLOUDFLARE (El que nunca se cae)
 const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
 
@@ -200,6 +244,7 @@ let modo = localStorage.getItem('diario_modo') || 'experto';
 let ultimoAnalisis = '';
 let referenciasAcademicas = [];
 let todasNoticias = [], currentCategory = "all";
+let analisisEnProgreso = false;
 
 // ============================================
 // 12 FUENTES GRATUITAS SIN API KEY
@@ -266,11 +311,45 @@ class PersistentCache {
 const cache = new PersistentCache();
 
 // ============================================
-// ANALIZADOR + PLAGIO + EXPORTADOR
+// ANALIZADOR MEJORADO (ContentAnalyzer con estructura periodística)
 // ============================================
 class ContentAnalyzer {
-    constructor() { this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']); this.journalismWords = { 'noticia':3,'fuente':3,'verificación':3,'análisis':2.5,'reportaje':2.5,'periodismo':3,'editorial':2.5,'entrevista':2.5,'investigación':3,'datos':2,'información':2,'contexto':2.5,'contraste':2.5,'objetividad':3,'ética':3 }; }
-    analyzeQuality(text) { const w = text.toLowerCase().split(/\s+/); const f = w.filter(w => !this.stopWords.has(w)); let s = 0; f.forEach(w => { if (this.journalismWords[w]) s += this.journalismWords[w]; }); const q = Math.min((s / Math.max(f.length, 1)) * 100 + 30, 100); return { qualityScore: Math.round(q), qualityLevel: q > 70 ? 'alta' : q > 40 ? 'media' : 'baja' }; }
+    constructor() { 
+        this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']); 
+        this.journalismWords = { 
+            'noticia':3,'fuente':3,'verificación':3,'análisis':2.5,'reportaje':2.5,'periodismo':3,
+            'editorial':2.5,'entrevista':2.5,'investigación':3,'datos':2,'información':2,
+            'contexto':2.5,'contraste':2.5,'objetividad':3,'ética':3,'conclusión':2,
+            'debate':2,'encuesta':2,'declaración':2,'cifras':2,'tendencia':2
+        };
+        this.estructuraPalabras = {
+            'introducción': 8, 'desarrollo': 10, 'conclusión': 8,
+            '1.': 5, '2.': 5, '3.': 5,
+            'primero': 3, 'segundo': 3, 'finalmente': 3
+        };
+    }
+    
+    analyzeQuality(text) {
+        const w = text.toLowerCase().split(/\s+/);
+        const f = w.filter(w => !this.stopWords.has(w));
+        let s = 0;
+        f.forEach(w => { if (this.journalismWords[w]) s += this.journalismWords[w]; });
+        
+        // BONIFICACIÓN POR ESTRUCTURA PERIODÍSTICA
+        let estructuraBonus = 0;
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('introducción')) estructuraBonus += 8;
+        if (lowerText.includes('desarrollo')) estructuraBonus += 10;
+        if (lowerText.includes('conclusión')) estructuraBonus += 8;
+        if (lowerText.includes('1.')) estructuraBonus += 5;
+        if (lowerText.includes('2.')) estructuraBonus += 5;
+        if (lowerText.includes('análisis')) estructuraBonus += 6;
+        if (lowerText.includes('contexto')) estructuraBonus += 6;
+        
+        const base = (s / Math.max(f.length, 1)) * 100 + 30 + estructuraBonus;
+        const q = Math.min(Math.round(base), 100);
+        return { qualityScore: q, qualityLevel: q > 70 ? 'alta' : q > 40 ? 'media' : 'baja' };
+    }
 }
 const analyzer = new ContentAnalyzer();
 
@@ -336,14 +415,38 @@ function actualizarMetricas() { document.getElementById('metricMemoria').textCon
 function actualizarWidgets(noticias) { const categorias = new Set(noticias.map(n => n.categoria)); const fuentes = new Set(noticias.map(n => n.fuente)); document.getElementById('metricNoticias').textContent = noticias.length; document.getElementById('metricCategorias').textContent = categorias.size; document.getElementById('metricFuentes').textContent = fuentes.size; document.getElementById('metricPeriodistas').textContent = Math.min(25 + noticias.length, 30); let confianza = 78; if (noticias.length > 0) confianza += 5; if (categorias.size > 2) confianza += 5; confianza = Math.min(confianza, 92); document.getElementById('confidenceFill').style.width = confianza + '%'; document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%'; document.getElementById('qualityLabel').textContent = analyzer.analyzeQuality(noticias.map(n => n.resumen).join(' ')).qualityScore + '%'; actualizarMetricas(); }
 
 // ============================================
-// CAMBIO CRÍTICO: LLAMADA A CLOUDFLARE AI
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (CON CONTEXTO ACADÉMICO)
 // ============================================
-async function llamarIA(prompt) {
+async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
+        // FASE 2: Buscar en las 12 fuentes académicas
+        let contextoAcademico = '';
+        if (temaBusqueda) {
+            const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
+            if (resultados12.resumen.total_resultados > 0) {
+                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO PERIODÍSTICO ---\n';
+                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
+                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+                fuentesPrioritarias.forEach(key => {
+                    const f = resultados12.fuentes[key];
+                    if (f && f.exito && f.count > 0) {
+                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                        f.data.slice(0, 2).forEach(r => {
+                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                        });
+                    }
+                });
+                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
+            }
+        }
+
+        const promptCompleto = contextoAcademico + prompt;
+        
         const response = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: prompt })
+            body: JSON.stringify({ pregunta: promptCompleto })
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const text = await response.text();
@@ -359,56 +462,74 @@ async function llamarIA(prompt) {
         return null;
     }
 }
+
+async function llamarIA(prompt) {
+    return llamarIAConContexto(prompt, '');
+}
+
 // ============================================
+// EFECTO MÁQUINA DE ESCRIBIR
+// ============================================
+function typeWriter(element, text, speed = 20) {
+    element.innerHTML = '';
+    let i = 0;
+    return new Promise((resolve) => {
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}
 
 // ============================================
 // HERRAMIENTAS
 // ============================================
-async function herramienta(prompt, titulo) {
+async function herramienta(prompt, titulo, temaBusqueda = '') {
+    if (analisisEnProgreso) { showToast('⏳ Espera a que termine el análisis actual', true); return; }
+    analisisEnProgreso = true;
     showToast(`⏳ ${titulo}...`);
+    
     const qh = prompt.substring(0, 50).toLowerCase();
     let analisis = await cache.getCachedAnalysis(qh);
+    
     if (!analisis) {
-        // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
-        const resultados12 = await fuentes12.buscarTodasLasFuentes(prompt.substring(0, 100));
-        let contextoAcademico = "";
-        if (resultados12.resumen.total_resultados > 0) {
-            contextoAcademico = `\n\n--- INICIO DE ANÁLISIS ACADÉMICO PERIODÍSTICO ---\n`;
-            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos sobre el tema.\n\n`;
-            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-            fuentesPrioritarias.forEach(key => {
-                const f = resultados12.fuentes[key];
-                if (f && f.exito && f.count > 0) {
-                    contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                    f.data.slice(0, 2).forEach(r => {
-                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                        contextoAcademico += `  Resumen: ${(r.abstract || r.descripcion || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
-                    });
-                }
-            });
-            contextoAcademico += `\n--- FIN DE ANÁLISIS ACADÉMICO PERIODÍSTICO ---\n\n`;
-        }
-
-        const promptConContexto = `Contexto académico:\n${contextoAcademico}\n\n${prompt}`;
-        analisis = await llamarIA(promptConContexto);
+        analisis = await llamarIAConContexto(prompt, temaBusqueda || 'periodismo Ecuador');
         if (!analisis) analisis = nucleoLector.analizar(prompt);
         await cache.cacheAnalysis(qh, analisis);
     }
+    
     ultimoAnalisis = analisis;
-    mostrarModal(titulo, analisis);
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `<div class="modal-content-herramienta"><h3>${titulo}</h3><div id="contenidoModal" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;"></div><button class="modal-close-herramienta">Cerrar</button></div>`;
+    document.body.appendChild(modal);
+    
+    // Efecto máquina de escribir
+    const contenidoDiv = modal.querySelector('#contenidoModal');
+    await typeWriter(contenidoDiv, analisis, 15);
+    
+    modal.querySelector('.modal-close-herramienta').onclick = () => modal.remove();
+    analisisEnProgreso = false;
+    
     if (todasNoticias.length > 0) actualizarWidgets(todasNoticias);
 }
 
-document.getElementById('btnEditorial').onclick = () => herramienta('editorial dia', '📝 EDITORIAL');
-document.getElementById('btnEntrevista').onclick = async () => { const p = prompt("Entrevistar a:", "experto en economía"); if (p) await herramienta(`entrevista ${p}`, '🎙️ ENTREVISTA'); };
-document.getElementById('btnAnalisis').onclick = () => herramienta('analisis datos', '📊 ANÁLISIS');
-document.getElementById('btnCronica').onclick = async () => { const c = prompt("Ciudad:", "Quito"); if (c) await herramienta(`cronica ${c}`, `📖 CRÓNICA: ${c.toUpperCase()}`); };
-document.getElementById('btnCultura').onclick = () => herramienta('agenda cultural', '🎭 CULTURA');
-document.getElementById('btnOpinion').onclick = async () => { const t = prompt("Tema:", "seguridad"); if (t) await herramienta(`opinion ${t}`, `🗣️ OPINIÓN`); };
-document.getElementById('btnDeportes').onclick = () => herramienta('resumen deportivo', '⚽ DEPORTES');
-document.getElementById('btnTecnologia').onclick = () => herramienta('tecnologia hoy', '💻 TECNOLOGÍA');
-document.getElementById('btnSalud').onclick = () => herramienta('salud bienestar', '🏥 SALUD');
-document.getElementById('btnCartas').onclick = async () => { const t = prompt("Tema:", "servicios públicos"); if (t) await herramienta(`cartas ${t}`, '✉️ CARTAS'); };
+document.getElementById('btnEditorial').onclick = () => herramienta('Redacta un editorial sobre la situación actual de Ecuador. Incluye economía, seguridad y política.', '📝 EDITORIAL', 'Ecuador economía seguridad política');
+document.getElementById('btnEntrevista').onclick = async () => { const p = prompt("Entrevistar a:", "experto en economía"); if (p) await herramienta(`Entrevista a ${p}. Preguntas y respuestas sobre su área.`, '🎙️ ENTREVISTA', p); };
+document.getElementById('btnAnalisis').onclick = () => herramienta('Analiza los datos económicos actuales de Ecuador. Incluye cifras y proyecciones.', '📊 ANÁLISIS', 'Ecuador economía datos');
+document.getElementById('btnCronica').onclick = async () => { const c = prompt("Ciudad:", "Quito"); if (c) await herramienta(`Crónica de ${c}: describe la vida cotidiana, los problemas y las esperanzas de sus habitantes.`, `📖 CRÓNICA: ${c.toUpperCase()}`, c); };
+document.getElementById('btnCultura').onclick = () => herramienta('Agenda cultural en Ecuador. Eventos destacados de la semana.', '🎭 CULTURA', 'Ecuador cultura eventos');
+document.getElementById('btnOpinion').onclick = async () => { const t = prompt("Tema:", "seguridad"); if (t) await herramienta(`Artículo de opinión sobre ${t} en Ecuador.`, '🗣️ OPINIÓN', t); };
+document.getElementById('btnDeportes').onclick = () => herramienta('Resumen deportivo de Ecuador. Fútbol, resultados y noticias.', '⚽ DEPORTES', 'Ecuador deportes fútbol');
+document.getElementById('btnTecnologia').onclick = () => herramienta('Tecnología hoy en Ecuador. Innovaciones y startups.', '💻 TECNOLOGÍA', 'Ecuador tecnología innovación');
+document.getElementById('btnSalud').onclick = () => herramienta('Salud y bienestar en Ecuador. Avances médicos y campañas.', '🏥 SALUD', 'Ecuador salud medicina');
+document.getElementById('btnCartas').onclick = async () => { const t = prompt("Tema:", "servicios públicos"); if (t) await herramienta(`Cartas al director sobre ${t}.`, '✉️ CARTAS', t); };
 
 // ============================================
 // BOTONES ACADÉMIA PRO
@@ -461,14 +582,14 @@ function generarNoticias() {
     const tsoc = ["Programas sociales","Vacunación","Nuevo hospital","Retorno clases","Protección adulto","Ferias empleo"];
     const tc = ["Festival Cine","Patrimonio","Conciertos","Libro premiado","Museo Nacional","Danza contemporánea"];
     return [
-        { id:"1", titulo:`Seguridad: ${ts[s%6]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Autoridades presentaron plan integral.", contenido:"Detalles de los operativos contra el crimen organizado.", fuente:"El Universo", categoriaNombre:"🚔 Seguridad" },
-        { id:"2", titulo:`Economía: ${te[(Math.floor(s/7))%6]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Análisis impacto económico.", contenido:"Proyecciones del Banco Central.", fuente:"El Universo", categoriaNombre:"📊 Economía" },
-        { id:"3", titulo:`Política: ${tp[(Math.floor(s/13))%6]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"politica", resumen:"Legisladores debaten.", contenido:"Cobertura de debates en la Asamblea.", fuente:"El Comercio", categoriaNombre:"🏛️ Política" },
-        { id:"4", titulo:`Sociedad: ${tsoc[(Math.floor(s/19))%6]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Beneficiarios celebran.", contenido:"Impacto de programas sociales.", fuente:"El Comercio", categoriaNombre:"👥 Sociedad" },
-        { id:"5", titulo:"Seguridad: Récord incautaciones", autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Balance semestral.", contenido:"Cifras oficiales de incautaciones.", fuente:"Primicias", categoriaNombre:"🚔 Seguridad" },
-        { id:"6", titulo:`Economía: ${te[(Math.floor(s/7)+2)%6]}`, autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Proyecciones económicas.", contenido:"Indicadores macroeconómicos.", fuente:"Primicias", categoriaNombre:"📊 Economía" },
-        { id:"7", titulo:`Cultura: ${tc[(Math.floor(s/23))%6]}`, autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"cultura", resumen:"Agenda cultural.", contenido:"Actividades del fin de semana.", fuente:"Expreso", categoriaNombre:"🎭 Cultura" },
-        { id:"8", titulo:"Sociedad: Inversión salud", autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Mejoras hospitalarias.", contenido:"Inversión en infraestructura de salud.", fuente:"Expreso", categoriaNombre:"👥 Sociedad" }
+        { id:"1", titulo:`Seguridad: ${ts[s%6]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Autoridades presentaron plan integral.", contenido:`Detalles de los operativos contra el crimen organizado. ${ts[s%6]} ha sido el foco de atención.`, fuente:"El Universo", categoriaNombre:"🚔 Seguridad" },
+        { id:"2", titulo:`Economía: ${te[(Math.floor(s/7))%6]}`, autor:"El Universo", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Análisis impacto económico.", contenido:`Proyecciones del Banco Central. ${te[(Math.floor(s/7))%6]} es la tendencia del momento.`, fuente:"El Universo", categoriaNombre:"📊 Economía" },
+        { id:"3", titulo:`Política: ${tp[(Math.floor(s/13))%6]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"politica", resumen:"Legisladores debaten.", contenido:`Cobertura de debates en la Asamblea. ${tp[(Math.floor(s/13))%6]} marca el pulso político.`, fuente:"El Comercio", categoriaNombre:"🏛️ Política" },
+        { id:"4", titulo:`Sociedad: ${tsoc[(Math.floor(s/19))%6]}`, autor:"El Comercio", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Beneficiarios celebran.", contenido:`Impacto de programas sociales. ${tsoc[(Math.floor(s/19))%6]} cambia vidas.`, fuente:"El Comercio", categoriaNombre:"👥 Sociedad" },
+        { id:"5", titulo:"Seguridad: Récord incautaciones", autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"seguridad", resumen:"Balance semestral.", contenido:"Cifras oficiales de incautaciones. Operaciones coordinadas dan resultados.", fuente:"Primicias", categoriaNombre:"🚔 Seguridad" },
+        { id:"6", titulo:`Economía: ${te[(Math.floor(s/7)+2)%6]}`, autor:"Primicias", fecha:h.toLocaleDateString('es-ES'), categoria:"economia", resumen:"Proyecciones económicas.", contenido:"Indicadores macroeconómicos. Optimismo en los mercados.", fuente:"Primicias", categoriaNombre:"📊 Economía" },
+        { id:"7", titulo:`Cultura: ${tc[(Math.floor(s/23))%6]}`, autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"cultura", resumen:"Agenda cultural.", contenido:`Actividades del fin de semana. ${tc[(Math.floor(s/23))%6]} atrae a miles.`, fuente:"Expreso", categoriaNombre:"🎭 Cultura" },
+        { id:"8", titulo:"Sociedad: Inversión salud", autor:"Expreso", fecha:h.toLocaleDateString('es-ES'), categoria:"sociedad", resumen:"Mejoras hospitalarias.", contenido:"Inversión en infraestructura de salud. Nuevos equipos médicos.", fuente:"Expreso", categoriaNombre:"👥 Sociedad" }
     ];
 }
 
@@ -476,10 +597,80 @@ function renderNoticias() {
     const c = document.getElementById('newsContainer');
     let filtered = currentCategory === 'all' ? todasNoticias : todasNoticias.filter(n => n.categoria === currentCategory);
     if (filtered.length === 0) { c.innerHTML = '<div class="loading-text">📭 No hay noticias.</div>'; return; }
-    c.innerHTML = filtered.map(n => { const q = analyzer.analyzeQuality(n.resumen); return `<div class="news-card" onclick="abrirModal('${n.id}')"><div class="card-category">${n.categoriaNombre}</div><div class="card-content"><h3 class="card-title">${n.titulo} <span style="background:#e67e22;color:white;border-radius:4px;padding:2px 8px;font-size:0.6rem;">${n.fuente}</span></h3><p class="card-summary">${n.resumen}</p><div class="card-meta"><span>${n.fecha}</span><span>Calidad: <span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span></span></div></div></div>`; }).join('');
+    c.innerHTML = filtered.map(n => { 
+        const q = analyzer.analyzeQuality(n.resumen + ' ' + n.contenido);
+        return `<div class="news-card" onclick="abrirModal('${n.id}')">
+            <div class="card-category">${n.categoriaNombre}</div>
+            <div class="card-content">
+                <h3 class="card-title">${n.titulo} <span style="background:#e67e22;color:white;border-radius:4px;padding:2px 8px;font-size:0.6rem;">${n.fuente}</span></h3>
+                <p class="card-summary">${n.resumen}</p>
+                <div class="card-meta">
+                    <span>${n.fecha}</span>
+                    <span>Calidad: <span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span></span>
+                </div>
+                <!-- Botón para cargar temas relacionados bajo demanda -->
+                <button class="temas-relacionados-btn" onclick="event.stopPropagation(); cargarTemasRelacionados(this, '${n.titulo}')">
+                    💡 Cargar temas relacionados
+                </button>
+                <div class="temas-container" id="temas-${n.id}">
+                    <div class="titulo">📌 Temas relacionados sugeridos:</div>
+                    <div class="texto" id="temas-texto-${n.id}">Cargando...</div>
+                </div>
+            </div>
+        </div>`; 
+    }).join('');
 }
 
-window.abrirModal = function(id) { const n = todasNoticias.find(n => n.id === id); if (!n) return; document.getElementById('modalContent').innerHTML = `<div style="background:#e67e22;color:white;padding:0.3rem 1rem;border-radius:20px;font-size:0.7rem;margin-bottom:1rem;">${n.categoriaNombre}</div><h2>${n.titulo}</h2><div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;">${n.fecha} · ${n.autor} · ${n.fuente}</div><div>${n.contenido}</div>`; document.getElementById('newsModal').classList.add('active'); };
+// ============================================
+// FUNCIÓN PARA CARGAR TEMAS RELACIONADOS (BAJO DEMANDA)
+// ============================================
+window.cargarTemasRelacionados = async function(btn, tituloNoticia) {
+    const container = btn.nextElementSibling;
+    const textoDiv = document.getElementById(container.id.replace('temas-', 'temas-texto-'));
+    
+    btn.disabled = true;
+    btn.textContent = '⏳ Cargando...';
+    container.classList.add('visible');
+    textoDiv.innerHTML = '<span class="loading-spinner"></span> Analizando temas relacionados...';
+    
+    try {
+        // Usar el contexto académico para generar temas relacionados
+        const prompt = `Basándote en la noticia "${tituloNoticia}", genera 3 temas de investigación periodística profundos y relacionados con el periodismo en Ecuador y el contexto latinoamericano. Proporciona solo los títulos, sin numeración.`;
+        const temas = await llamarIAConContexto(prompt, 'periodismo Ecuador investigación');
+        
+        if (temas) {
+            textoDiv.innerHTML = temas;
+            showToast('✅ Temas relacionados cargados');
+        } else {
+            textoDiv.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
+        }
+    } catch (e) {
+        textoDiv.innerHTML = '❌ Error al conectar con el servidor.';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '💡 Cargar temas relacionados';
+    }
+};
+
+window.abrirModal = function(id) { 
+    const n = todasNoticias.find(n => n.id === id); 
+    if (!n) return; 
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = `
+        <div style="background:#e67e22;color:white;padding:0.3rem 1rem;border-radius:20px;font-size:0.7rem;margin-bottom:1rem;">${n.categoriaNombre}</div>
+        <h2>${n.titulo}</h2>
+        <div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;">${n.fecha} · ${n.autor} · ${n.fuente}</div>
+        <div style="white-space:pre-wrap;">${n.contenido}</div>
+        <button class="temas-relacionados-btn" onclick="cargarTemasRelacionados(this, '${n.titulo}')" style="margin-top:16px;">
+            💡 Cargar temas relacionados
+        </button>
+        <div class="temas-container" id="temas-modal">
+            <div class="titulo">📌 Temas relacionados sugeridos:</div>
+            <div class="texto" id="temas-texto-modal">Cargando...</div>
+        </div>
+    `;
+    document.getElementById('newsModal').classList.add('active'); 
+};
 
 function cargarEdicion() { const hoy = new Date().toDateString(); const g = localStorage.getItem('noticias_de_v7'); const f = localStorage.getItem('fecha_de_v7'); if (g && f === hoy) { todasNoticias = JSON.parse(g); } else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v7', hoy); } renderNoticias(); document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`; actualizarWidgets(todasNoticias); }
 
@@ -490,51 +681,48 @@ document.getElementById('modalCloseBtn').addEventListener('click', () => documen
 window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
 
 // ============================================
-// ANÁLISIS PRINCIPAL
+// ANÁLISIS PRINCIPAL CON EFECTO MÁQUINA DE ESCRIBIR
 // ============================================
 const _RED_PAISES = ["Alemania","China","Francia","Brasil","India","Japón","México","España","Reino Unido","Argentina","Colombia","Perú","Ecuador"];
 let _idxPais = 0;
 function _siguientePais() { const hoy = new Date().toDateString(); const g = localStorage.getItem('_idx_pais_diario'); const f = localStorage.getItem('_fecha_pais_diario'); if(f===hoy && g!==null) _idxPais=parseInt(g); else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais_diario',_idxPais); localStorage.setItem('_fecha_pais_diario',hoy); } return _RED_PAISES[_idxPais]; }
 
 async function _analizarConPotenciacion() {
-    const pais = _siguientePais(); document.getElementById('paisAnalistaBadge').innerHTML = `🌍 ${pais}`;
+    const pais = _siguientePais(); 
+    const badge = document.getElementById('paisAnalistaBadge');
+    if (badge) badge.innerHTML = `🌍 ${pais}`;
     
-    // Intentar obtener el análisis desde Cloudflare AI
-    let analisis = await cache.getCachedAnalysis('editorial_dia_cf');
+    const contentDiv = document.getElementById('opinionContent');
+    contentDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">Conectando con redacción internacional...</div>';
+    
+    let analisis = await cache.getCachedAnalysis('editorial_dia_cf_v2');
     if (!analisis) {
-        // === FASE 2 y 3 en el análisis principal ===
-        const resultados12 = await fuentes12.buscarTodasLasFuentes('Ecuador economy security politics');
-        let contextoAcademico = "";
-        if (resultados12.resumen.total_resultados > 0) {
-            contextoAcademico = `\n\nContexto académico sobre Ecuador:\n`;
-            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
-            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-            fuentesPrioritarias.forEach(key => {
-                const f = resultados12.fuentes[key];
-                if (f && f.exito && f.count > 0) {
-                    contextoAcademico += `[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                    f.data.slice(0, 2).forEach(r => {
-                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                        contextoAcademico += `  Resumen: ${(r.abstract || r.descripcion || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
-                    });
-                }
-            });
-        }
-
-        analisis = await llamarIA(`${contextoAcademico}\n\nRedacta un análisis periodístico profundo sobre la situación actual de Ecuador y su contexto internacional. Tono editorial serio, con datos y reflexión. Incluye economía, seguridad y política. Usa el contexto académico si es relevante.`);
+        const prompt = `Redacta un análisis periodístico profundo sobre la situación actual de Ecuador y su contexto internacional. 
+Tono editorial serio, con datos y reflexión. Incluye economía, seguridad y política. 
+Estructura: Introducción, Desarrollo (con 3 subpuntos) y Conclusión.`;
+        analisis = await llamarIAConContexto(prompt, 'Ecuador economía seguridad política');
         if (!analisis) analisis = nucleoLector.analizar('editorial dia');
-        await cache.cacheAnalysis('editorial_dia_cf', analisis);
+        await cache.cacheAnalysis('editorial_dia_cf_v2', analisis);
     }
     
     ultimoAnalisis = analisis;
     const q = analyzer.analyzeQuality(analisis);
-    document.getElementById('opinionContent').innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span><p>${analisis.replace(/\n/g,'<br>')}</p>`;
-    const fb = document.createElement('div'); fb.className='feedback-buttons'; fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
-    fb.querySelectorAll('.feedback-btn')[0].onclick = () => { fb.remove(); showToast('✅ Gracias'); };
-    fb.querySelectorAll('.feedback-btn')[1].onclick = () => { fb.remove(); showToast('📝 Mejoraremos'); };
+    
+    // Mostrar con efecto máquina de escribir
+    contentDiv.innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span><div id="opinionTexto"></div>`;
+    await typeWriter(document.getElementById('opinionTexto'), analisis, 15);
+    
+    // Botones de feedback
+    const fb = document.createElement('div'); fb.className='feedback-buttons'; 
+    fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
+    fb.querySelectorAll('.feedback-btn')[0].onclick = () => { fb.remove(); showToast('✅ Gracias por tu feedback'); };
+    fb.querySelectorAll('.feedback-btn')[1].onclick = () => { fb.remove(); showToast('📝 Mejoraremos con tu opinión'); };
+    contentDiv.appendChild(fb);
+    
+    // Botones de exportación
     const exportDiv = document.createElement('div'); exportDiv.className = 'export-buttons';
     ['latex','markdown','bibtex','apa'].forEach(f => { const btn = document.createElement('button'); btn.className = 'export-btn'; btn.textContent = f.toUpperCase(); btn.onclick = () => window.exportarFormato(f); exportDiv.appendChild(btn); });
-    document.getElementById('opinionContent').appendChild(fb); document.getElementById('opinionContent').appendChild(exportDiv);
+    contentDiv.appendChild(exportDiv);
 }
 
 // ============================================
@@ -544,9 +732,16 @@ function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b =
 document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
 actualizarModoUI();
 
-async function verificarCloudflare() { try { const r = await fetch(CLOUDFLARE_AI_URL); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } }
+async function verificarCloudflare() { try { const r = await fetch(CLOUDFLARE_AI_URL, { method: 'HEAD' }); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } }
 
-function init() { cargarEdicion(); _analizarConPotenciacion(); actualizarMetricas(); verificarCloudflare(); setInterval(verificarCloudflare, 60000); showToast('☁️ Diario Ecuador Hoy · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas'); }
+function init() { 
+    cargarEdicion(); 
+    _analizarConPotenciacion(); 
+    actualizarMetricas(); 
+    verificarCloudflare(); 
+    setInterval(verificarCloudflare, 60000); 
+    showToast('☁️ Diario Ecuador Hoy · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas'); 
+}
 init();
 </script>
 
