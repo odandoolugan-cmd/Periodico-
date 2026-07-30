@@ -17,6 +17,7 @@
         .date { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-alemania { background: linear-gradient(90deg, #000000, #DD0000, #FFCC00); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #FFCC00; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #1a2c3e; }
@@ -38,7 +39,7 @@
         .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
         .opinion-title i { color: #e67e22; }
         .pais-badge { background: #e67e22; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
-        .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
+        .opinion-content { font-size: 0.95rem; line-height: 1.6; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; max-height: 600px; overflow-y: auto; }
         .quality-badge { position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 10px; font-size: 0.55rem; }
         .quality-alta { background: #10b981; color: white; }
         .quality-media { background: #f59e0b; color: black; }
@@ -157,9 +158,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">403M LECTOR</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 403M LECTOR</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">403M LECTOR</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 403M LECTOR</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">☁️ 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · 14 herramientas periodísticas</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">☁️ 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · 14 herramientas periodísticas · 🇩🇪</div>
     </div>
 
     <div class="status-bar">
@@ -194,9 +195,9 @@
     </div>
 
     <div class="opinion-card" id="opinionCard">
-        <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span id="paisAnalistaBadge" class="pais-badge">🌍 Internacional</span></div>
+        <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span id="paisAnalistaBadge" class="pais-badge">🇩🇪 Alemania</span></div>
         <div class="opinion-content" id="opinionContent"><div class="spinner"></div><div class="loading-text">Conectando con redacción internacional...</div></div>
-        <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador + Mirada mundial</span><span><i class="fas fa-sync-alt"></i> Actualización diaria</span></div>
+        <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador + Mirada desde Alemania</span><span><i class="fas fa-sync-alt"></i> Actualización diaria</span></div>
     </div>
 
     <div class="widget-container">
@@ -220,9 +221,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">☁️ 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · 14 herramientas · 30+ PERIODISTAS IA</div>
+    <div class="restriction-alert">☁️ 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · 14 herramientas · 30+ PERIODISTAS IA · 🇩🇪</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">☁️ Diario Ecuador Hoy · 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas periodísticas</div>
+    <div class="footer">☁️ Diario Ecuador Hoy · 403M LECTOR · Cloudflare AI · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas periodísticas · 🇩🇪</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -237,6 +238,7 @@
 // ============================================
 const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
+const PAIS_FIJO = 'alemania';
 
 let cloudflareConectado = true;
 let modo = localStorage.getItem('diario_modo') || 'experto';
@@ -252,24 +254,24 @@ class FuentesGratuitas12 {
     constructor() { this.cache = new Map(); this.maxCacheAge = 3600000; console.log('🔬 12 FUENTES GRATUITAS inicializadas'); }
     
     async buscarSemanticScholar(tema) {
-        try { const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema)}+journalism+media+reporting&limit=10&fields=title,authors,year,abstract,citationCount,url`); const d = await r.json(); return d.data?.map(p => ({ titulo: p.title, autor: p.authors?.map(a => a.name).join(', '), year: p.year, abstract: p.abstract, citas: p.citationCount, fuente: 'Semantic Scholar', url: p.url })) || []; } catch(e) { return []; }
+        try { const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema)}+journalism+media+reporting+alemania&limit=10&fields=title,authors,year,abstract,citationCount,url`); const d = await r.json(); return d.data?.map(p => ({ titulo: p.title, autor: p.authors?.map(a => a.name).join(', '), year: p.year, abstract: p.abstract, citas: p.citationCount, fuente: 'Semantic Scholar', url: p.url })) || []; } catch(e) { return []; }
     }
     async buscarCORE(tema) {
-        try { const r = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(tema)}+news+reporting&limit=10`); const d = await r.json(); return d.results?.map(r => ({ titulo: r.title, autor: r.authors?.join(', '), year: r.yearPublished, abstract: r.abstract, fuente: 'CORE', url: r.downloadUrl || r.doi })) || []; } catch(e) { return []; }
+        try { const r = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(tema)}+news+reporting+alemania&limit=10`); const d = await r.json(); return d.results?.map(r => ({ titulo: r.title, autor: r.authors?.join(', '), year: r.yearPublished, abstract: r.abstract, fuente: 'CORE', url: r.downloadUrl || r.doi })) || []; } catch(e) { return []; }
     }
     async buscarArxiv(tema) {
-        try { const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}+media&max_results=10`); const text = await r.text(); const xml = new DOMParser().parseFromString(text, 'text/xml'); return Array.from(xml.querySelectorAll('entry')).map(e => ({ titulo: e.querySelector('title')?.textContent?.trim(), autor: Array.from(e.querySelectorAll('author name')).map(n => n.textContent).join(', '), year: e.querySelector('published')?.textContent?.substring(0,4), fuente: 'arXiv', url: e.querySelector('id')?.textContent })); } catch(e) { return []; }
+        try { const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}+media+alemania&max_results=10`); const text = await r.text(); const xml = new DOMParser().parseFromString(text, 'text/xml'); return Array.from(xml.querySelectorAll('entry')).map(e => ({ titulo: e.querySelector('title')?.textContent?.trim(), autor: Array.from(e.querySelectorAll('author name')).map(n => n.textContent).join(', '), year: e.querySelector('published')?.textContent?.substring(0,4), fuente: 'arXiv', url: e.querySelector('id')?.textContent })); } catch(e) { return []; }
     }
     async buscarInternetArchive(tema) { return [{ titulo: `${tema} - Media Archive`, autor: 'Internet Archive', year: '2024', fuente: 'Internet Archive', url: '#' }]; }
     async buscarWikipedia(tema) {
-        try { const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema)}+periodismo&format=json&origin=*&srlimit=10`); const d = await r.json(); return d.query?.search?.map(r => ({ titulo: r.title, snippet: r.snippet?.replace(/<\/?[^>]+(>|$)/g, ''), fuente: 'Wikipedia', url: `https://es.wikipedia.org/wiki/${encodeURIComponent(r.title.replace(/\s+/g, '_'))}` })) || []; } catch(e) { return []; }
+        try { const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema)}+periodismo+alemania&format=json&origin=*&srlimit=10`); const d = await r.json(); return d.query?.search?.map(r => ({ titulo: r.title, snippet: r.snippet?.replace(/<\/?[^>]+(>|$)/g, ''), fuente: 'Wikipedia', url: `https://es.wikipedia.org/wiki/${encodeURIComponent(r.title.replace(/\s+/g, '_'))}` })) || []; } catch(e) { return []; }
     }
     async buscarWikidata(tema) { return [{ titulo: `${tema} - Wikidata`, fuente: 'Wikidata', url: '#' }]; }
     async buscarPubMed(tema) { return []; }
     async buscarDOAJ(tema) { return [{ titulo: `${tema} - Open Access`, autor: 'DOAJ', year: '2024', fuente: 'DOAJ', url: '#' }]; }
     async buscarOpenLibrary(tema) { return [{ titulo: `${tema} - Digital Library`, autor: 'Open Library', year: '2024', fuente: 'Open Library', url: '#' }]; }
     async buscarHackerNews(tema) { return [{ titulo: `${tema} - Discussion`, autor: 'HN', year: '2024', fuente: 'Hacker News', url: '#' }]; }
-    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: Media Analysis`, autor: 'Scholar', year: '2024', fuente: 'Google Scholar', url: '#' }]; }
+    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: Media Analysis en Alemania`, autor: 'Scholar', year: '2024', fuente: 'Google Scholar', url: '#' }]; }
     async buscarResearchGate(tema) { return [{ titulo: `Research: ${tema}`, autor: 'ResearchGate', year: '2024', fuente: 'ResearchGate', url: '#' }]; }
     
     async buscarTodasLasFuentes(tema) {
@@ -408,7 +410,7 @@ const memoryConnector = new MemoryConnector();
 // FUNCIONES UTILITARIAS
 // ============================================
 function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-function mostrarModal(titulo, contenido) { const modal = document.createElement('div'); modal.className = 'modal-overlay'; modal.innerHTML = `<div class="modal-content-herramienta"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;"></div><button class="modal-close-herramienta">Cerrar</button></div>`; document.body.appendChild(modal); 
+function mostrarModal(titulo, contenido) { const modal = document.createElement('div'); modal.className = 'modal-overlay'; modal.innerHTML = `<div class="modal-content-herramienta"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close-herramienta">Cerrar</button></div>`; document.body.appendChild(modal); 
     const textoDiv = modal.querySelector('#modalTexto');
     typeWriter(textoDiv, contenido, 15);
     modal.querySelector('.modal-close-herramienta').onclick = () => modal.remove();
@@ -438,7 +440,7 @@ function typeWriter(element, text, speed = 20) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA PARA ARTÍCULOS COMPLETOS)
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT DE PERIODISTA SENIOR
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
@@ -446,45 +448,171 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
         if (temaBusqueda) {
             const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
             if (resultados12.resumen.total_resultados > 0) {
-                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO PERIODÍSTICO ---\n';
-                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
+                contextoAcademico = '\n\n--- contexto académico periodístico ---\n';
+                contextoAcademico += `se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
                 const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
                 fuentesPrioritarias.forEach(key => {
                     const f = resultados12.fuentes[key];
                     if (f && f.exito && f.count > 0) {
                         contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
                         f.data.slice(0, 2).forEach(r => {
-                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                            contextoAcademico += `• título: ${r.titulo || 'sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  resumen: ${r.abstract.substring(0, 200)}...\n`;
                         });
                     }
                 });
-                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
+                contextoAcademico += '\n--- fin contexto académico ---\n\n';
             }
         }
 
-        // PROMPT OPTIMIZADO PARA ARTÍCULOS PERIODÍSTICOS COMPLETOS
-        const promptCompleto = `${contextoAcademico}
+        // PROMPT DE PERIODISTA SENIOR CON ENFOQUE ALEMANIA
+        const promptPeriodista = `${contextoAcademico}
 
 ${prompt}
 
-⚠️ INSTRUCCIONES OBLIGATORIAS PARA EL PERIODISTA IA:
-1. El artículo DEBE ser COMPLETO y EXTENSO (mínimo 400-600 palabras).
-2. Estructura OBLIGATORIA: 
-   - INTRODUCCIÓN: Presentación del tema y su importancia (2-3 párrafos).
-   - DESARROLLO: 3-5 subtemas con análisis detallado, datos y contexto.
-   - CONCLUSIÓN: Síntesis de ideas y reflexión final (1-2 párrafos).
-3. NO te detengas hasta haber completado TODA la respuesta.
-4. Usa el contexto académico proporcionado como base fundamental.
-5. Incluye datos, cifras o referencias cuando sea posible.
-6. Mantén un tono periodístico serio, objetivo y profesional.
+═══════════════════════════════════════════════════════════
+📰 rol: eres un periodista senior y editor de investigación 
+con más de 15 años de experiencia en medios de referencia 
+internacional. dominas periodismo de datos, verificación 
+de fuentes, narrativa long-form y estándares editoriales 
+de rigor (ap stylebook, libro de estilo de el país, 
+principios de reuters trust). tu firma es sinónimo de 
+credibilidad.
+═══════════════════════════════════════════════════════════
 
-RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD PERIODÍSTICA:`;
+⚠️ instrucciones obligatorias y no negociables:
+
+📊 extensión y profundidad:
+• mínimo 700-1000 palabras de contenido periodístico sustancial
+• cero relleno: cada párrafo debe aportar información, contexto o análisis
+• densidad informativa alta, prosa ágil y legible
+
+📋 estructura obligatoria (formato periodístico profesional):
+
+1️⃣ **titular** 🏷️
+   - máximo 12 palabras, informativo y preciso
+   - sin clickbait, sin sensacionalismo
+   - debe contener el hecho central, no una pregunta vaga
+
+2️⃣ **subtítulo / bajada** 
+   - 1-2 líneas que amplíen el titular
+   - aporta el dato o ángulo complementario más relevante
+
+3️⃣ **lead / entradilla** (párrafo de apertura)
+   - responde las 5w+h: qué, quién, cuándo, dónde, por qué y cómo
+   - máximo 40-50 palabras
+   - debe funcionar como resumen autónomo de la noticia
+
+4️⃣ **cuerpo — pirámide invertida** 📐
+   organiza la información de mayor a menor relevancia:
+
+   a) **los hechos centrales**
+   - qué ocurrió exactamente, con precisión cronológica
+   - datos verificables: fechas, cifras, lugares, nombres
+
+   b) **contexto y antecedentes**
+   - por qué esto importa ahora
+   - qué sucedió antes que explique la situación actual
+   - marco más amplio en el que se inscribe el hecho
+
+   c) **voces y perspectivas** (mínimo 2-3 ángulos)
+   - posición de los actores implicados
+   - opiniones de expertos o analistas
+   - contrastación de versiones cuando existan discrepancias
+   - formato: atribución clara ("según...", "de acuerdo con...")
+
+   d) **datos y evidencia** 📊
+   - cifras concretas con su fuente
+   - comparativas históricas o internacionales
+   - estadísticas relevantes contextualizadas (no cifras sueltas)
+
+   e) **implicaciones y proyección**
+   - qué puede pasar a continuación
+   - escenarios posibles según los expertos
+   - qué queda pendiente de resolverse
+
+5️⃣ **subtemas desarrollados** (3-5 bloques con intertítulos)
+   - cada bloque con intertítulo descriptivo
+   - profundización en aristas específicas del tema
+   - transiciones fluidas entre bloques
+
+6️⃣ **contexto comparado** 🌐 (si aplica)
+   - casos similares en otros países o momentos históricos
+   - qué se puede aprender de esas experiencias
+
+7️⃣ **cierre periodístico** 🏁
+   - síntesis sin repetir literalmente el lead
+   - dato final potente, cita significativa o interrogante abierto
+   - nada de moralejas ni conclusiones editorializantes
+
+8️⃣ **ficha de datos clave** 📌 (recuadro final)
+   - 4-6 bullets con los datos esenciales del artículo
+   - cifras, fechas y nombres para lectura rápida
+
+═══════════════════════════════════════════════════════════
+🧠 estándares de rigor periodístico:
+═══════════════════════════════════════════════════════════
+
+✅ debes:
+• separar radicalmente hechos de opiniones e interpretaciones
+• atribuir toda afirmación no evidente a una fuente identificable
+• contrastar versiones cuando el tema sea controvertido
+• usar el contexto académico proporcionado como base documental
+• señalar explícitamente cuando un dato es estimado, preliminar o no confirmado
+• contextualizar toda cifra (¿es mucho? ¿comparado con qué?)
+• emplear lenguaje preciso: "aumentó un 12%" en vez de "aumentó mucho"
+• mantener neutralidad en la selección de adjetivos
+• incluir la perspectiva de los afectados, no solo de las autoridades
+
+❌ no debes:
+• inventar declaraciones, citas textuales, cifras o fuentes
+• usar adjetivos valorativos innecesarios ("terrible", "increíble", "brutal")
+• editorializar en un texto informativo
+• usar frases hechas de redacción: "cabe destacar", "no es menos cierto que", "en el marco de"
+• recurrir al sensacionalismo o al alarmismo
+• presentar una sola versión de un hecho disputado
+• usar fuentes anónimas sin justificar por qué son anónimas
+• confundir correlación con causalidad
+• detenerte antes de completar todas las secciones
+
+⚠️ manejo de incertidumbre:
+• si un dato no está confirmado, dilo: "según fuentes preliminares"
+• si hay versiones contradictorias, expón ambas con equilibrio
+• si falta información clave, señálalo: "no se ha aclarado aún..."
+• nunca rellenes vacíos informativos con suposiciones presentadas como hechos
+
+═══════════════════════════════════════════════════════════
+✍️ estilo y redacción:
+═══════════════════════════════════════════════════════════
+
+• frases cortas y directas: sujeto-verbo-predicado
+• voz activa por defecto ("el gobierno aprobó" > "fue aprobado por")
+• párrafos de 3-5 líneas máximo (legibilidad web)
+• un idea principal por párrafo
+• lenguaje accesible: explica tecnicismos la primera vez que aparecen
+• ritmo variado: alterna frases informativas con otras más narrativas
+• evita la jerga institucional y el lenguaje burocrático
+
+💡 formato de salida:
+• titular en negrita y destacado
+• intertítulos claros para navegar el texto
+• negritas solo en datos críticos (no abusar)
+• citas textuales entrecomilladas con atribución
+• recuadro final de datos clave
+• listo para publicar sin edición adicional
+
+⚡ redacta ahora el artículo más completo, riguroso y 
+profesional posible. tu credibilidad como periodista y la 
+del medio dependen de la precisión, el equilibrio y la 
+calidad narrativa de esta pieza:`;
+
+        console.log('📚 enviando prompt de periodista senior a cloudflare ai');
+        console.log('🇩🇪 enfoque geográfico fijo:', PAIS_FIJO);
 
         const response = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: promptCompleto })
+            body: JSON.stringify({ pregunta: promptPeriodista })
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const text = await response.text();
@@ -493,12 +621,11 @@ RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD PERIODÍSTICA:`;
             cloudflareConectado = true;
             document.getElementById('cfStatus').textContent = '✅';
             
-            // Si el artículo es muy corto (< 250 caracteres), reintentar
-            if (text.length < 250) {
-                console.warn('⚠️ Artículo corto, reintentando...');
-                const retryPrompt = `Escribe un artículo periodístico COMPLETO Y EXTENSO sobre: "${prompt}". 
-                Estructura: Introducción, Desarrollo con subtemas, Conclusión. 
-                Extensión mínima: 400 palabras. No te detengas hasta completar.`;
+            if (text.length < 350) {
+                console.warn('⚠️ artículo corto, reintentando...');
+                const retryPrompt = `escribe un artículo periodístico completo y extenso sobre: "${prompt}" con enfoque en ${PAIS_FIJO}. 
+                estructura: titular, subtítulo, lead, cuerpo (pirámide invertida), subtemas, contexto, cierre, ficha de datos.
+                extensión mínima: 700 palabras. no te detengas hasta completar.`;
                 const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -507,16 +634,16 @@ RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD PERIODÍSTICA:`;
                 if (retryResponse.ok) {
                     const retryText = await retryResponse.text();
                     if (retryText.length > text.length) {
-                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
+                        console.log('✅ reintento exitoso:', retryText.length, 'caracteres');
                         return retryText;
                     }
                 }
             }
             return text;
         }
-        throw new Error('Respuesta vacía');
+        throw new Error('respuesta vacía');
     } catch(e) {
-        console.warn('⚠️ Error en llamada IA:', e.message);
+        console.warn('⚠️ error en llamada ia:', e.message);
         cloudflareConectado = true;
         document.getElementById('cfStatus').textContent = '✅';
         return null;
@@ -531,7 +658,7 @@ async function llamarIA(prompt) {
 // HERRAMIENTAS
 // ============================================
 async function herramienta(prompt, titulo, temaBusqueda = '') {
-    if (analisisEnProgreso) { showToast('⏳ Espera a que termine el análisis actual', true); return; }
+    if (analisisEnProgreso) { showToast('⏳ espera a que termine el análisis actual', true); return; }
     analisisEnProgreso = true;
     showToast(`⏳ ${titulo}...`);
     
@@ -555,60 +682,60 @@ async function herramienta(prompt, titulo, temaBusqueda = '') {
     
     modal.querySelector('.modal-close-herramienta').onclick = () => modal.remove();
     analisisEnProgreso = false;
-    showToast(`📰 ${titulo} · ${analisis.length} caracteres`);
+    showToast(`📰 ${titulo} · ${analisis.length} caracteres · 🇩🇪`);
     if (todasNoticias.length > 0) actualizarWidgets(todasNoticias);
 }
 
-document.getElementById('btnEditorial').onclick = () => herramienta('Redacta un editorial completo sobre la situación actual de Ecuador. Incluye economía, seguridad y política.', '📝 EDITORIAL', 'Ecuador economía seguridad política');
-document.getElementById('btnEntrevista').onclick = async () => { const p = prompt("Entrevistar a:", "experto en economía"); if (p) await herramienta(`Entrevista completa a ${p}. Preguntas y respuestas detalladas sobre su área.`, '🎙️ ENTREVISTA', p); };
-document.getElementById('btnAnalisis').onclick = () => herramienta('Analiza los datos económicos actuales de Ecuador. Incluye cifras detalladas y proyecciones.', '📊 ANÁLISIS', 'Ecuador economía datos');
-document.getElementById('btnCronica').onclick = async () => { const c = prompt("Ciudad:", "Quito"); if (c) await herramienta(`Crónica detallada de ${c}: describe la vida cotidiana, los problemas y las esperanzas de sus habitantes.`, `📖 CRÓNICA: ${c.toUpperCase()}`, c); };
-document.getElementById('btnCultura').onclick = () => herramienta('Agenda cultural completa en Ecuador. Eventos destacados de la semana.', '🎭 CULTURA', 'Ecuador cultura eventos');
-document.getElementById('btnOpinion').onclick = async () => { const t = prompt("Tema:", "seguridad"); if (t) await herramienta(`Artículo de opinión profundo sobre ${t} en Ecuador.`, '🗣️ OPINIÓN', t); };
-document.getElementById('btnDeportes').onclick = () => herramienta('Resumen deportivo completo de Ecuador. Fútbol, resultados y noticias.', '⚽ DEPORTES', 'Ecuador deportes fútbol');
-document.getElementById('btnTecnologia').onclick = () => herramienta('Tecnología hoy en Ecuador. Innovaciones y startups.', '💻 TECNOLOGÍA', 'Ecuador tecnología innovación');
-document.getElementById('btnSalud').onclick = () => herramienta('Salud y bienestar en Ecuador. Avances médicos y campañas.', '🏥 SALUD', 'Ecuador salud medicina');
-document.getElementById('btnCartas').onclick = async () => { const t = prompt("Tema:", "servicios públicos"); if (t) await herramienta(`Cartas al director sobre ${t}.`, '✉️ CARTAS', t); };
+document.getElementById('btnEditorial').onclick = () => herramienta('redacta un editorial completo sobre la situación actual de Ecuador con mirada desde Alemania. incluye economía, seguridad y política.', '📝 editorial', 'Ecuador economía seguridad política');
+document.getElementById('btnEntrevista').onclick = async () => { const p = prompt("entrevistar a:", "experto en economía"); if (p) await herramienta(`entrevista completa a ${p} desde la perspectiva alemana. preguntas y respuestas detalladas sobre su área.`, '🎙️ entrevista', p); };
+document.getElementById('btnAnalisis').onclick = () => herramienta('analiza los datos económicos actuales de Ecuador con comparativa con Alemania. incluye cifras detalladas y proyecciones.', '📊 análisis', 'Ecuador economía datos');
+document.getElementById('btnCronica').onclick = async () => { const c = prompt("ciudad:", "Quito"); if (c) await herramienta(`crónica detallada de ${c} con mirada de corresponsal alemán: describe la vida cotidiana, los problemas y las esperanzas de sus habitantes.`, `📖 crónica: ${c.toUpperCase()}`, c); };
+document.getElementById('btnCultura').onclick = () => herramienta('agenda cultural completa en Ecuador desde la perspectiva de un periodista alemán. eventos destacados de la semana.', '🎭 cultura', 'Ecuador cultura eventos');
+document.getElementById('btnOpinion').onclick = async () => { const t = prompt("tema:", "seguridad"); if (t) await herramienta(`artículo de opinión profundo sobre ${t} en Ecuador con mirada desde Alemania.`, '🗣️ opinión', t); };
+document.getElementById('btnDeportes').onclick = () => herramienta('resumen deportivo completo de Ecuador con contexto alemán. fútbol, resultados y noticias.', '⚽ deportes', 'Ecuador deportes fútbol');
+document.getElementById('btnTecnologia').onclick = () => herramienta('tecnología hoy en Ecuador comparada con Alemania. innovaciones y startups.', '💻 tecnología', 'Ecuador tecnología innovación');
+document.getElementById('btnSalud').onclick = () => herramienta('salud y bienestar en Ecuador con mirada del sistema alemán. avances médicos y campañas.', '🏥 salud', 'Ecuador salud medicina');
+document.getElementById('btnCartas').onclick = async () => { const t = prompt("tema:", "servicios públicos"); if (t) await herramienta(`cartas al director sobre ${t} desde la perspectiva de un corresponsal alemán.`, '✉️ cartas', t); };
 
 // ============================================
 // BOTONES ACADÉMIA PRO
 // ============================================
 document.getElementById('btn12Fuentes').addEventListener('click', async () => {
-    showToast('🔬 Buscando en 12 fuentes...');
+    showToast('🔬 buscando en 12 fuentes...');
     const resultados = await fuentes12.buscarTodasLasFuentes('journalism media reporting Ecuador');
-    mostrarModal('🔬 12 FUENTES ACADÉMICAS GRATIS', fuentes12.formatearResultados(resultados));
+    mostrarModal('🔬 12 fuentes académicas gratis', fuentes12.formatearResultados(resultados));
     showToast(`✅ ${resultados.resumen.total_resultados} resultados de ${resultados.resumen.fuentes_exitosas}/12 fuentes`);
 });
 
 document.getElementById('btnBuscarAcademico').addEventListener('click', async () => {
-    showToast('📚 Buscando referencias...');
+    showToast('📚 buscando referencias...');
     referenciasAcademicas = await fuentes12.buscarSemanticScholar('journalism media reporting Ecuador');
-    if (referenciasAcademicas.length > 0) { mostrarModal('📚 REFERENCIAS', referenciasAcademicas.map((r, i) => `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}.`).join('\n\n')); }
-    else { mostrarModal('📚 SIN RESULTADOS', 'No se encontraron referencias.'); }
+    if (referenciasAcademicas.length > 0) { mostrarModal('📚 referencias', referenciasAcademicas.map((r, i) => `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}.`).join('\n\n')); }
+    else { mostrarModal('📚 sin resultados', 'no se encontraron referencias.'); }
 });
 
 document.getElementById('btnVerificarPlagio').addEventListener('click', () => {
-    if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+    if (!ultimoAnalisis) { showToast('⚠️ realiza un análisis primero', true); return; }
     const resultado = plagiarismDetector.check(ultimoAnalisis, Object.values(BASE_DATOS_403M.periodismo).map(p => p.analisis));
-    mostrarModal('⚠️ PLAGIO', `Riesgo: ${resultado.overallRisk}\nSimilitud: ${Math.round(resultado.maxSimilarity * 100)}%\n\n${resultado.details.slice(0,5).map(d => `• ${d.source}: ${Math.round(d.similarity*100)}%`).join('\n')}`);
+    mostrarModal('⚠️ plagio', `riesgo: ${resultado.overallRisk}\nsimilitud: ${Math.round(resultado.maxSimilarity * 100)}%\n\n${resultado.details.slice(0,5).map(d => `• ${d.source}: ${Math.round(d.similarity*100)}%`).join('\n')}`);
 });
 
 document.getElementById('btnExportar').addEventListener('click', () => {
-    if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+    if (!ultimoAnalisis) { showToast('⚠️ realiza un análisis primero', true); return; }
     const buttons = ['latex','markdown','bibtex','apa'].map(f => `<button style="margin:5px;padding:8px 16px;background:#e67e22;color:white;border:none;border-radius:20px;cursor:pointer;" onclick="window.exportarFormato('${f}')">📄 ${f.toUpperCase()}</button>`).join('');
-    mostrarModal('📤 EXPORTAR', `Selecciona formato:\n\n${buttons}`);
+    mostrarModal('📤 exportar', `selecciona formato:\n\n${buttons}`);
 });
 
 window.exportarFormato = function(format) {
     if (!ultimoAnalisis) return;
-    const title = 'Artículo Periodístico'; let content = '', filename = 'articulo';
+    const title = 'artículo periodístico'; let content = '', filename = 'articulo';
     switch(format) { case 'latex': content = exporter.toLatex(ultimoAnalisis, title); filename += '.tex'; break; case 'markdown': content = exporter.toMarkdown(ultimoAnalisis, title); filename += '.md'; break; case 'bibtex': content = exporter.toBibTeX(title, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{fuente:'403M LECTOR'}]); filename += '.bib'; break; case 'apa': content = exporter.toAPA(title, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{fuente:'403M LECTOR'}]); filename += '.txt'; break; }
     descargarArchivo(content, filename); document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    showToast(`📤 Exportado como ${format.toUpperCase()}`);
+    showToast(`📤 exportado como ${format.toUpperCase()}`);
 };
 
 document.getElementById('btnDecisionStatus').addEventListener('click', () => { mostrarModal('🧠 403M LECTOR', nucleoLector.getEstado()); });
-document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total}\n12 Fuentes: ✅`); });
+document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 estado', `cloudflare ai: ${cloudflareConectado ? '✅' : '⚠️'}\ncaché: ${cache.getStats().total}\n12 fuentes: ✅\n🇩🇪 enfoque: ${PAIS_FIJO}`); });
 
 // ============================================
 // NOTICIAS
@@ -672,20 +799,20 @@ window.cargarTemasRelacionados = async function(btn, tituloNoticia) {
     textoDiv.innerHTML = '<span class="loading-spinner"></span> Analizando temas relacionados...';
     
     try {
-        const prompt = `Basándote en la noticia "${tituloNoticia}", genera 3 temas de investigación periodística profundos y relacionados con el periodismo en Ecuador y el contexto latinoamericano. Proporciona solo los títulos, sin numeración.`;
+        const prompt = `basándote en la noticia "${tituloNoticia}", genera 3 temas de investigación periodística profundos desde la perspectiva de la prensa alemana. temas sobre política, economía o cultura en Ecuador con mirada europea. proporciona solo los títulos, sin numeración.`;
         const temas = await llamarIAConContexto(prompt, 'periodismo Ecuador investigación');
         
         if (temas && temas.length > 10) {
             textoDiv.innerHTML = temas;
-            showToast('✅ Temas relacionados cargados');
+            showToast('✅ temas relacionados cargados');
         } else {
-            textoDiv.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
+            textoDiv.innerHTML = '⚠️ no se pudieron cargar los temas relacionados en este momento.';
         }
     } catch (e) {
-        textoDiv.innerHTML = '❌ Error al conectar con el servidor.';
+        textoDiv.innerHTML = '❌ error al conectar con el servidor.';
     } finally {
         btn.disabled = false;
-        btn.textContent = '💡 Cargar temas relacionados';
+        btn.textContent = '💡 cargar temas relacionados';
     }
 };
 
@@ -699,45 +826,37 @@ window.abrirModal = function(id) {
         <div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;">${n.fecha} · ${n.autor} · ${n.fuente}</div>
         <div style="white-space:pre-wrap;">${n.contenido}</div>
         <button class="temas-relacionados-btn" onclick="cargarTemasRelacionados(this, '${n.titulo}')" style="margin-top:16px;">
-            💡 Cargar temas relacionados
+            💡 cargar temas relacionados
         </button>
         <div class="temas-container" id="temas-modal">
-            <div class="titulo">📌 Temas relacionados sugeridos:</div>
-            <div class="texto" id="temas-texto-modal">Cargando...</div>
+            <div class="titulo">📌 temas relacionados sugeridos:</div>
+            <div class="texto" id="temas-texto-modal">cargando...</div>
         </div>
     `;
     document.getElementById('newsModal').classList.add('active'); 
 };
 
-function cargarEdicion() { const hoy = new Date().toDateString(); const g = localStorage.getItem('noticias_de_v7'); const f = localStorage.getItem('fecha_de_v7'); if (g && f === hoy) { todasNoticias = JSON.parse(g); } else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v7', hoy); } renderNoticias(); document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`; actualizarWidgets(todasNoticias); }
+function cargarEdicion() { const hoy = new Date().toDateString(); const g = localStorage.getItem('noticias_de_v7'); const f = localStorage.getItem('fecha_de_v7'); if (g && f === hoy) { todasNoticias = JSON.parse(g); } else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v7', hoy); } renderNoticias(); document.getElementById('updateStatus').innerHTML = `📰 edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias`; actualizarWidgets(todasNoticias); }
 
-document.getElementById('updateBtn').addEventListener('click', () => { localStorage.removeItem('noticias_de_v7'); localStorage.removeItem('fecha_de_v7'); cargarEdicion(); showToast("📰 Edición actualizada"); });
+document.getElementById('updateBtn').addEventListener('click', () => { localStorage.removeItem('noticias_de_v7'); localStorage.removeItem('fecha_de_v7'); cargarEdicion(); showToast("📰 edición actualizada"); });
 document.querySelectorAll('.nav-btn').forEach(b => { b.addEventListener('click', () => { document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); currentCategory = b.dataset.category; renderNoticias(); }); });
 document.getElementById('currentDate').innerHTML = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('newsModal').classList.remove('active'));
 window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
 
 // ============================================
-// ANÁLISIS PRINCIPAL CON EFECTO MÁQUINA DE ESCRIBIR
+// ANÁLISIS PRINCIPAL CON PROMPT DE PERIODISTA SENIOR
 // ============================================
-const _RED_PAISES = ["Alemania","China","Francia","Brasil","India","Japón","México","España","Reino Unido","Argentina","Colombia","Perú","Ecuador"];
-let _idxPais = 0;
-function _siguientePais() { const hoy = new Date().toDateString(); const g = localStorage.getItem('_idx_pais_diario'); const f = localStorage.getItem('_fecha_pais_diario'); if(f===hoy && g!==null) _idxPais=parseInt(g); else{ _idxPais=(_idxPais+1)%_RED_PAISES.length; localStorage.setItem('_idx_pais_diario',_idxPais); localStorage.setItem('_fecha_pais_diario',hoy); } return _RED_PAISES[_idxPais]; }
-
 async function _analizarConPotenciacion() {
-    const pais = _siguientePais(); 
-    const badge = document.getElementById('paisAnalistaBadge');
-    if (badge) badge.innerHTML = `🌍 ${pais}`;
-    
     const contentDiv = document.getElementById('opinionContent');
     contentDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">Conectando con redacción internacional...</div>';
     
     let analisis = await cache.getCachedAnalysis('editorial_dia_cf_v2');
     if (!analisis) {
-        const prompt = `Redacta un artículo periodístico completo y profundo sobre la situación actual de Ecuador y su contexto internacional. 
-Tono editorial serio, con datos y reflexión. Incluye economía, seguridad y política. 
-Estructura OBLIGATORIA: Introducción, Desarrollo (con 3 subpuntos) y Conclusión.
-Extensión: 500-700 palabras.`;
+        const prompt = `redacta un artículo periodístico completo y profundo sobre la situación actual de Ecuador y su contexto internacional desde la mirada de un corresponsal alemán. 
+tono editorial serio, con datos y reflexión. incluye economía, seguridad y política. 
+estructura obligatoria: titular, subtítulo, lead, cuerpo (pirámide invertida), subtemas (3), contexto comparado con Alemania, cierre, ficha de datos.
+extensión: 700-900 palabras.`;
         analisis = await llamarIAConContexto(prompt, 'Ecuador economía seguridad política');
         if (!analisis) analisis = nucleoLector.analizar('editorial dia');
         await cache.cacheAnalysis('editorial_dia_cf_v2', analisis);
@@ -751,33 +870,34 @@ Extensión: 500-700 palabras.`;
     
     const fb = document.createElement('div'); fb.className='feedback-buttons'; 
     fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
-    fb.querySelectorAll('.feedback-btn')[0].onclick = () => { fb.remove(); showToast('✅ Gracias por tu feedback'); };
-    fb.querySelectorAll('.feedback-btn')[1].onclick = () => { fb.remove(); showToast('📝 Mejoraremos con tu opinión'); };
+    fb.querySelectorAll('.feedback-btn')[0].onclick = () => { fb.remove(); showToast('✅ gracias por tu feedback'); };
+    fb.querySelectorAll('.feedback-btn')[1].onclick = () => { fb.remove(); showToast('📝 mejoraremos con tu opinión'); };
     contentDiv.appendChild(fb);
     
     const exportDiv = document.createElement('div'); exportDiv.className = 'export-buttons';
     ['latex','markdown','bibtex','apa'].forEach(f => { const btn = document.createElement('button'); btn.className = 'export-btn'; btn.textContent = f.toUpperCase(); btn.onclick = () => window.exportarFormato(f); exportDiv.appendChild(btn); });
     contentDiv.appendChild(exportDiv);
     
-    showToast(`📰 Editorial · ${analisis.length} caracteres`);
+    showToast(`📰 editorial · ${analisis.length} caracteres · 🇩🇪`);
 }
 
 // ============================================
 // MODOS E INICIALIZACIÓN
 // ============================================
 function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
+document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('diario_modo', modo); actualizarModoUI(); showToast(`✨ modo ${modo === 'experto' ? 'experto' : 'básico'}`); }); });
 actualizarModoUI();
 
 async function verificarCloudflare() { try { const r = await fetch(CLOUDFLARE_AI_URL, { method: 'HEAD' }); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } }
 
 function init() { 
+    console.log(`🇩🇪 enfoque geográfico fijo: ${PAIS_FIJO}`);
     cargarEdicion(); 
     _analizarConPotenciacion(); 
     actualizarMetricas(); 
     verificarCloudflare(); 
     setInterval(verificarCloudflare, 60000); 
-    showToast('☁️ Diario Ecuador Hoy · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas'); 
+    showToast(`☁️ diario ecuador hoy · cloudflare ai · 12 fuentes · indexedDB · 14 herramientas · 🇩🇪 enfoque ${PAIS_FIJO}`); 
 }
 init();
 </script>
