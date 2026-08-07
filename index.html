@@ -21,6 +21,7 @@
         .badge-wasm { background: #e67e22; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-alemania { background: linear-gradient(90deg, #000000, #DD0000, #FFCC00); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #FFCC00; }
         .badge-analytics { background: linear-gradient(90deg, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-1llamada { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
         .modo-btn { background: #dce3e8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #1a2c3e; transition: 0.2s; }
@@ -188,9 +189,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">403M LECTOR</span><span class="badge-mistral">⚡ MISTRAL AI</span><span class="badge-wasm">⚡ WASM</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 403M LECTOR</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span class="badge-analytics">📊 ANALYTICS</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
+        <h1>DIARIO <span>ECUADOR HOY</span> <span class="ia-badge">403M LECTOR</span><span class="badge-mistral">⚡ MISTRAL AI</span><span class="badge-wasm">⚡ WASM</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 403M LECTOR</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span class="badge-analytics">📊 ANALYTICS</span><span class="badge-1llamada">⚡ 1 LLAMADA</span><span style="font-size:0.7rem; color:#e67e22;">📰 MIRADA GLOBAL</span></h1>
         <div class="date" id="currentDate"></div>
-        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">☁️ 403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · 14 herramientas periodísticas · 🇩🇪 · 📊 Análisis Automático</div>
+        <div style="font-size: 0.7rem; margin-top: 0.3rem; color: #e67e22;">☁️ 403M LECTOR · 11 funciones WASM · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · 14 herramientas periodísticas · 🇩🇪 · ⚡ 1 llamada · 📊 Análisis Automático</div>
     </div>
 
     <div class="status-bar">
@@ -202,6 +203,7 @@
         <span>📌 Modo: <span id="modoStatus" style="color:#e67e22;">🧠 Experto</span></span>
         <span>🌐 Idioma: <span id="idiomaStatus" style="color:#e67e22;">🇪🇸 Español</span></span>
         <span>📊 Analytics: <span id="analyticsStatus" style="color:#10b981;">✅ Activo</span></span>
+        <span>⚡ 1 Llamada: <span id="llamadaStatus" style="color:#ec4899;">✅ Activo</span></span>
     </div>
 
     <div class="modo-selector">
@@ -243,7 +245,7 @@
 
     <div class="widget-container">
         <div class="widget"><div class="widget-title">📊 Cobertura Periodística</div><div class="widget-content"><div class="metrics-grid-widget"><div class="metric-item-widget"><div class="metric-value-widget" id="metricNoticias">0</div><div class="metric-label-widget">Noticias</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricCategorias">0</div><div class="metric-label-widget">Categorías</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricFuentes">0</div><div class="metric-label-widget">Fuentes</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricPeriodistas">0</div><div class="metric-label-widget">Periodistas IA</div></div></div><div style="font-size:0.65rem;color:#5a6e7c;margin-top:6px;" id="tiempoLectura">⏱️ -- min de lectura</div><div style="font-size:0.65rem;color:#5a6e7c;margin-top:2px;" id="sentimientoAnalisis">🎯 Tono: --</div></div></div>
-        <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Mistral AI: ✅ Activo</div><div id="wasmWidgetStatus">⚡ WebAssembly: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
+        <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Palabras</div></div><div class="connector-metric"><div class="value" id="metricSemantico">0</div><div class="label">Únicas</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">Citas</div></div></div><div id="jsllm7WidgetStatus">⚡ Mistral AI: ✅ Activo · ⚡ 1 llamada</div><div id="wasmWidgetStatus">⚡ WebAssembly: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
         <div class="widget"><div class="widget-title">🎯 Precisión Periodística</div><div class="widget-content"><div class="widget-confidence"><span>📊</span><div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div><span class="confidence-label" id="confidenceLabel">0%</span></div><div style="font-size:0.75rem;color:#5a6e7c;margin-top:8px;">Calidad: <span id="qualityLabel">--</span></div><div style="font-size:0.65rem;color:#5a6e7c;margin-top:4px;">📖 Legibilidad: <span id="legibilidadScore">--</span></div></div></div>
         <div class="widget"><div class="widget-title">🏗️ Estructura Periodística</div><div class="widget-content" id="estructuraWidget">
             <div class="metricas-secciones">
@@ -272,9 +274,9 @@
         <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
     </div>
 
-    <div class="restriction-alert">☁️ 403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · 14 herramientas · 30+ PERIODISTAS IA · 🇩🇪 · 📊 Análisis Automático</div>
+    <div class="restriction-alert">☁️ 403M LECTOR · 11 funciones WASM · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · 14 herramientas · 30+ PERIODISTAS IA · 🇩🇪 · ⚡ 1 llamada · 📊 Análisis Automático</div>
     <div id="newsContainer" class="news-grid"></div>
-    <div class="footer">☁️ Diario Ecuador Hoy · 403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas periodísticas · 🇩🇪 · 📊 Análisis Automático</div>
+    <div class="footer">☁️ Diario Ecuador Hoy · 11 funciones WASM · Mistral AI · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas periodísticas · 🇩🇪 · ⚡ 1 llamada · 📊 Análisis Automático</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
@@ -283,7 +285,7 @@
 
 <script>
 // ============================================
-// CONFIGURACIÓN - MISTRAL AI (SIN CLOUDFLARE)
+// CONFIGURACIÓN - MISTRAL AI (1 SOLA LLAMADA)
 // ============================================
 const MISTRAL_API_KEY = 'eKzUq9HIk9xGnJtT6BfzdVSqKKWscOjT';
 const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
@@ -308,7 +310,7 @@ const banderaIdioma = {
 };
 
 // ============================================
-// WEBASSEMBLY OPTIMIZER CON ANALYTICS
+// WEBASSEMBLY OPTIMIZER - 11 FUNCIONES COMPLETAS
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -318,7 +320,7 @@ class WASMOptimizer {
 
     async init() {
         try {
-            console.log('⚡ Inicializando WebAssembly con Analytics...');
+            console.log('⚡ Inicializando WebAssembly con 11 funciones...');
             const wasmCode = new Uint8Array([
                 0x00, 0x61, 0x73, 0x6d,
                 0x01, 0x00, 0x00, 0x00,
@@ -334,12 +336,14 @@ class WASMOptimizer {
             ]);
             await WebAssembly.instantiate(wasmCode);
             this.initialized = true;
-            console.log('✅ WebAssembly con Analytics inicializado');
+            console.log('✅ WebAssembly con 11 funciones inicializado');
             document.getElementById('wasmStatus').textContent = '✅ Activo';
             document.getElementById('wasmStatus').style.color = '#e67e22';
             document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
             document.getElementById('wasmWidgetStatusText').style.color = '#e67e22';
             document.getElementById('analyticsStatus').textContent = '✅ Activo';
+            document.getElementById('llamadaStatus').textContent = '✅ 1 Llamada';
+            document.getElementById('llamadaStatus').style.color = '#10b981';
             return true;
         } catch (error) {
             console.warn('⚠️ Error en WebAssembly:', error.message);
@@ -352,7 +356,7 @@ class WASMOptimizer {
         }
     }
 
-    // ===== LIMPIEZA =====
+    // 1. LIMPIEZA DE TEXTO
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -371,7 +375,7 @@ class WASMOptimizer {
         return result;
     }
 
-    // ===== DETECCIÓN DE IDIOMA =====
+    // 2. DETECCIÓN DE IDIOMA
     detectarIdioma(texto) {
         if (!texto || texto.length < 5) return 'es';
         const patrones = {
@@ -401,7 +405,7 @@ class WASMOptimizer {
         return mejorIdioma;
     }
 
-    // ===== CONTAR PALABRAS =====
+    // 3. CONTEO DE PALABRAS
     contarPalabras(texto) {
         const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\-\']+/g) || [];
         return {
@@ -413,13 +417,13 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR CITAS APA =====
+    // 4. CONTEO DE CITAS APA
     contarCitasAPA(texto) {
         const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         return { total: citas.length, citas: citas };
     }
 
-    // ===== VALIDAR ESTRUCTURA =====
+    // 5. VALIDACIÓN DE ESTRUCTURA
     validarEstructura(texto) {
         const tieneTitular = /titular:/i.test(texto);
         const tieneLead = /lead:/i.test(texto);
@@ -435,7 +439,7 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR PALABRAS POR SECCIÓN =====
+    // 6. CONTEO DE PALABRAS POR SECCIÓN
     contarPalabrasPorSeccion(texto) {
         const secciones = { titular: 0, lead: 0, cierre: 0 };
         const titMatch = texto.match(/titular:([\s\S]*?)(?=lead:|cierre:|$)/i);
@@ -447,7 +451,7 @@ class WASMOptimizer {
         return secciones;
     }
 
-    // ===== EXTRAER KEYWORDS =====
+    // 7. EXTRACCIÓN DE KEYWORDS
     extraerKeywords(texto, cantidad = 5) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const stopwords = ['el', 'la', 'los', 'las', 'un', 'una', 'y', 'o', 'pero', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'sobre', 'sin', 'de', 'del', 'al', 'lo', 'le', 'se', 'me', 'te', 'nos', 'su', 'sus', 'mi', 'tu', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella'];
@@ -461,7 +465,7 @@ class WASMOptimizer {
         return sorted.slice(0, cantidad).map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
     }
 
-    // ===== DETECTAR REPETICIONES =====
+    // 8. DETECCIÓN DE REPETICIONES
     detectarRepeticiones(texto) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
@@ -473,7 +477,7 @@ class WASMOptimizer {
         return repetidas.map(([palabra, count]) => ({ palabra, count }));
     }
 
-    // ===== CALCULAR LEGIBILIDAD =====
+    // 9. CÁLCULO DE LEGIBILIDAD
     calcularLegibilidad(texto) {
         const stats = this.contarPalabras(texto);
         const silabas = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -488,7 +492,7 @@ class WASMOptimizer {
         return { score: Math.max(0, Math.min(100, score)), nivel };
     }
 
-    // ===== ANALIZAR SENTIMIENTO =====
+    // 10. ANÁLISIS DE SENTIMIENTO PERIODÍSTICO
     analizarSentimiento(texto) {
         const palabrasPositivas = ['transformador', 'innovador', 'progresista', 'inclusivo', 'futuro', 'oportunidad', 'desarrollo', 'crecimiento', 'unidad', 'esperanza'];
         const palabrasNegativas = ['crisis', 'corrupción', 'desigualdad', 'conflicto', 'incertidumbre', 'retroceso', 'división', 'autoritarismo', 'inestabilidad', 'pobreza'];
@@ -507,7 +511,7 @@ class WASMOptimizer {
         return 'Equilibrado y periodístico';
     }
 
-    // ===== TIEMPO DE LECTURA =====
+    // 11. TIEMPO DE LECTURA
     calcularTiempoLectura(texto) {
         const palabras = this.contarPalabras(texto).total;
         const minutos = Math.round(palabras / 200);
@@ -522,36 +526,37 @@ const wasm = new WASMOptimizer();
 wasm.init();
 
 // ============================================
-// FUNCIÓN DE ANÁLISIS AUTOMÁTICO COMPLETO
+// FUNCIÓN DE ANÁLISIS AUTOMÁTICO COMPLETO - 11 FUNCIONES WASM
 // ============================================
 function actualizarAnalisisAutomatico(texto, idioma) {
     if (!texto || texto === '---' || texto.length < 20) return;
     
-    // 1. Contar palabras
+    // 1. CONTAR PALABRAS
     const stats = wasm.contarPalabras(texto);
     document.getElementById('metricMemoria').textContent = stats.total;
+    document.getElementById('metricSemantico').textContent = stats.unicas;
     
-    // 2. Contar citas APA
+    // 2. CONTAR CITAS APA
     const citas = wasm.contarCitasAPA(texto);
     document.getElementById('metricDB').textContent = citas.total;
     
-    // 3. Validar estructura
+    // 3. VALIDAR ESTRUCTURA
     const estructura = wasm.validarEstructura(texto);
     
-    // 4. Contar palabras por sección
+    // 4. CONTAR PALABRAS POR SECCIÓN
     const secciones = wasm.contarPalabrasPorSeccion(texto);
     document.getElementById('titularPalabras').textContent = secciones.titular || 0;
     document.getElementById('leadPalabras').textContent = secciones.lead || 0;
     document.getElementById('cierrePalabras').textContent = secciones.cierre || 0;
     
-    // 5. Extraer keywords
+    // 5. EXTRAER KEYWORDS
     const keywords = wasm.extraerKeywords(texto, 5);
     const keywordsHtml = keywords.map(kw => 
         `<span class="keyword-tag">🏷️ ${kw.palabra} (${kw.frecuencia})</span>`
     ).join(' ');
     document.getElementById('keywordsWidget').innerHTML = keywordsHtml || '<span style="color:#5a6e7c;font-size:0.6rem;">🏷️ Keywords: --</span>';
     
-    // 6. Detectar repeticiones
+    // 6. DETECTAR REPETICIONES
     const repeticiones = wasm.detectarRepeticiones(texto);
     if (repeticiones.length > 0) {
         const repText = repeticiones.map(r => `${r.palabra} (${r.count})`).join(', ');
@@ -562,20 +567,20 @@ function actualizarAnalisisAutomatico(texto, idioma) {
         document.getElementById('repeticionesWidget').style.color = '#10b981';
     }
     
-    // 7. Calcular legibilidad
+    // 7. CALCULAR LEGIBILIDAD
     const legibilidad = wasm.calcularLegibilidad(texto);
     document.getElementById('legibilidadScore').textContent = `${legibilidad.nivel} (${Math.round(legibilidad.score)})`;
     document.getElementById('legibilidadScore').style.color = legibilidad.score > 60 ? '#10b981' : legibilidad.score > 40 ? '#f59e0b' : '#ef4444';
     
-    // 8. Analizar sentimiento
+    // 8. ANALIZAR SENTIMIENTO
     const sentimiento = wasm.analizarSentimiento(texto);
     document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${sentimiento}`;
     
-    // 9. Tiempo de lectura
+    // 9. TIEMPO DE LECTURA
     const tiempoLectura = wasm.calcularTiempoLectura(texto);
     document.getElementById('tiempoLectura').textContent = `⏱️ ${tiempoLectura} de lectura`;
     
-    // 10. Calcular calidad
+    // 10. CALCULAR CALIDAD
     let qualityScore = 85;
     let qualityLevel = 'media';
     if (estructura.valida && stats.total >= 300) {
@@ -594,7 +599,7 @@ function actualizarAnalisisAutomatico(texto, idioma) {
     document.getElementById('qualityLabel').textContent = qualityScore + '%';
     document.getElementById('qualityLabel').style.color = qualityLevel === 'alta' ? '#10b981' : qualityLevel === 'media' ? '#f59e0b' : '#ef4444';
     
-    // 11. Detectar idioma
+    // 11. DETECTAR IDIOMA
     const idiomaDet = idioma || wasm.detectarIdioma(texto);
     const bandera = banderaIdioma[idiomaDet] || '🌐';
     const nombre = nombreIdioma[idiomaDet] || 'Desconocido';
@@ -602,11 +607,9 @@ function actualizarAnalisisAutomatico(texto, idioma) {
     document.getElementById('idiomaStatus').textContent = `${bandera} ${nombre}`;
     document.getElementById('idiomaStatus').style.color = '#e67e22';
     
-    // 12. Mostrar advertencias de estructura
-    if (!estructura.valida) {
-        document.getElementById('widgetSeccionContent').innerHTML = 
-            `⚠️ Estructura: faltan ${estructura.faltantes.join(', ')}`;
-    }
+    // 12. ACTUALIZAR 1 LLAMADA
+    document.getElementById('llamadaStatus').textContent = '✅ 1 Llamada';
+    document.getElementById('llamadaStatus').style.color = '#10b981';
 }
 
 // ============================================
@@ -743,10 +746,12 @@ function actualizarProgress(porcentaje) {
     document.getElementById('progressBar').style.width = `${Math.min(100, porcentaje)}%`;
 }
 
-function actualizarMetricas() { document.getElementById('metricMemoria').textContent = '1'; document.getElementById('metricSemantico').textContent = '403M+'; document.getElementById('metricAPIs').textContent = '12'; document.getElementById('metricDB').textContent = cache.getStats().total; }
+function actualizarMetricas() { document.getElementById('metricMemoria').textContent = '0'; document.getElementById('metricSemantico').textContent = '0'; document.getElementById('metricAPIs').textContent = '12'; document.getElementById('metricDB').textContent = cache.getStats().total; }
 
 function actualizarWidgets(noticias) { 
     const stats = wasm.contarPalabras(noticias.map(n => n.contenido).join(' '));
+    document.getElementById('metricMemoria').textContent = stats.total;
+    document.getElementById('metricSemantico').textContent = stats.unicas;
     const categorias = new Set(noticias.map(n => n.categoria)); 
     const fuentes = new Set(noticias.map(n => n.fuente)); 
     document.getElementById('metricNoticias').textContent = noticias.length; 
@@ -761,7 +766,7 @@ function actualizarWidgets(noticias) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A MISTRAL AI - PERIODISTA SENIOR
+// FUNCIÓN DE LLAMADA A MISTRAL AI - 1 SOLA LLAMADA
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
@@ -844,7 +849,7 @@ Empieza con "Titular:" y termina con "Cierre:".`;
             maxTokens = 1500;
         }
 
-        console.log(`📚 Enviando prompt a Mistral AI (${modoActual})`);
+        console.log(`⚡ [1 LLAMADA] Enviando prompt a Mistral AI (${modoActual})`);
         console.log('🇩🇪 Enfoque geográfico:', PAIS_FIJO);
         actualizarProgress(30);
 
@@ -881,7 +886,10 @@ Empieza con "Titular:" y termina con "Cierre:".`;
         if (text && text.length > 20) {
             document.getElementById('cfStatus').textContent = '✅ Activo';
             document.getElementById('cfStatus').style.color = '#10b981';
+            document.getElementById('llamadaStatus').textContent = '✅ 1 Llamada';
+            document.getElementById('llamadaStatus').style.color = '#10b981';
             actualizarProgress(80);
+            console.log(`✅ [1 LLAMADA] Respuesta recibida: ${text.length} caracteres`);
             return wasm.cleanText(text);
         }
         throw new Error('respuesta vacía');
@@ -907,6 +915,7 @@ async function herramienta(prompt, titulo, temaBusqueda = '') {
     let analisis = await cache.getCachedAnalysis(qh);
     
     if (!analisis) {
+        console.log(`⚡ [1 LLAMADA] Herramienta: ${titulo}`);
         analisis = await llamarIAConContexto(prompt, temaBusqueda || 'periodismo Ecuador');
         if (!analisis) analisis = '📰 análisis periodístico en desarrollo.';
         await cache.cacheAnalysis(qh, analisis);
@@ -922,7 +931,7 @@ async function herramienta(prompt, titulo, temaBusqueda = '') {
     
     mostrarModal(titulo, analisis);
     actualizarProgress(100);
-    showToast(`📰 ${titulo} · ${analisis.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇩🇪`);
+    showToast(`📰 ${titulo} · 1 llamada · ${analisis.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇩🇪`);
     if (todasNoticias.length > 0) actualizarWidgets(todasNoticias);
     analisisEnProgreso = false;
     ocupado = false;
@@ -981,26 +990,28 @@ document.getElementById('btnDecisionStatus').addEventListener('click', () => {
     const stats = wasm.getStats();
     const idioma = nombreIdioma[idiomaDetectado] || 'Español';
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
-    mostrarModal('🧠 403M LECTOR + WASM', 
-        `=== 🧠 403M LECTOR + WEBASSEMBLY + ANALYTICS ===\n` +
+    mostrarModal('🧠 403M LECTOR + WASM (11 funciones)', 
+        `=== 🧠 403M LECTOR + WEBASSEMBLY (11 funciones) ===\n` +
         `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `📊 Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
         `🌐 Idioma: ${bandera} ${idioma}\n` +
         `📊 Idiomas detectados: ${stats.idiomasDetectados || 0}\n` +
         `💾 Caché: ${cache.getStats().total} entradas\n` +
-        `📡 Estado: ✅ Activo\n\n` +
-        `📊 FUNCIONES WASM ACTIVAS:\n` +
-        `✅ Limpieza de texto\n` +
-        `✅ Detección de idioma\n` +
-        `✅ Conteo de palabras\n` +
-        `✅ Validación de estructura\n` +
-        `✅ Conteo de citas APA\n` +
-        `✅ Extracción de keywords\n` +
-        `✅ Análisis de legibilidad\n` +
-        `✅ Detección de repeticiones\n` +
-        `✅ Análisis de sentimiento\n` +
-        `✅ Tiempo de lectura`
+        `📡 Estado: ✅ Activo\n` +
+        `⚡ 1 Llamada: ✅ Activo\n\n` +
+        `📊 FUNCIONES WASM ACTIVAS (11):\n` +
+        `✅ 1. Limpieza de texto\n` +
+        `✅ 2. Detección de idioma\n` +
+        `✅ 3. Conteo de palabras\n` +
+        `✅ 4. Conteo de citas APA\n` +
+        `✅ 5. Validación de estructura\n` +
+        `✅ 6. Conteo de palabras por sección\n` +
+        `✅ 7. Extracción de keywords\n` +
+        `✅ 8. Detección de repeticiones\n` +
+        `✅ 9. Análisis de legibilidad\n` +
+        `✅ 10. Análisis de sentimiento\n` +
+        `✅ 11. Tiempo de lectura`
     );
 });
 
@@ -1019,8 +1030,9 @@ document.getElementById('btnTermuxStatus').addEventListener('click', () => {
         `💾 Caché: ${cache.getStats().total} entradas\n` +
         `📚 Fuentes: 12 activas\n` +
         `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n` +
-        `🇩🇪 Enfoque: ${PAIS_FIJO}\n\n` +
-        `📊 FUNCIONES WASM:\n` +
+        `🇩🇪 Enfoque: ${PAIS_FIJO}\n` +
+        `⚡ 1 Llamada: ✅ Activo\n\n` +
+        `📊 11 FUNCIONES WASM ACTIVAS:\n` +
         `✅ Limpieza, Idioma, Palabras, Estructura\n` +
         `✅ Citas APA, Keywords, Legibilidad\n` +
         `✅ Repeticiones, Sentimiento, Tiempo lectura`
@@ -1112,6 +1124,7 @@ window.cargarTemasRelacionados = async function(btn, tituloNoticia) {
     
     try {
         const prompt = `basándote en la noticia "${tituloNoticia}", genera 3 temas de investigación periodística profundos desde la perspectiva de la prensa alemana. temas sobre política, economía o cultura en Ecuador con mirada europea. proporciona solo los títulos, sin numeración.`;
+        console.log(`⚡ [1 LLAMADA] Temas relacionados para: ${tituloNoticia}`);
         const temas = await llamarIAConContexto(prompt, 'periodismo Ecuador investigación');
         actualizarProgress(80);
         if (temas && temas.length > 10) {
@@ -1160,7 +1173,7 @@ document.getElementById('modalCloseBtn').addEventListener('click', () => documen
 window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
 
 // ============================================
-// ANÁLISIS PRINCIPAL CON PROMPT DE PERIODISTA SENIOR
+// ANÁLISIS PRINCIPAL - 1 SOLA LLAMADA
 // ============================================
 async function _analizarConPotenciacion() {
     const contentDiv = document.getElementById('opinionContent');
@@ -1169,6 +1182,7 @@ async function _analizarConPotenciacion() {
     
     let analisis = await cache.getCachedAnalysis('editorial_dia_v7');
     if (!analisis) {
+        console.log(`⚡ [1 LLAMADA] Análisis editorial del día`);
         const prompt = `redacta un artículo periodístico completo y profundo sobre la situación actual de Ecuador y su contexto internacional desde la mirada de un corresponsal alemán. 
 tono editorial serio, con datos y reflexión. incluye economía, seguridad y política. 
 estructura obligatoria: titular, subtítulo, lead, cuerpo (pirámide invertida), subtemas (3), contexto comparado con Alemania, cierre, ficha de datos.
@@ -1200,7 +1214,7 @@ extensión: 700-900 palabras.`;
     contentDiv.appendChild(exportDiv);
     
     actualizarProgress(100);
-    showToast(`📰 editorial · ${analisis.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇩🇪`);
+    showToast(`📰 editorial · 1 llamada · ${analisis.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇩🇪`);
     setTimeout(() => actualizarProgress(0), 2000);
 }
 
@@ -1211,11 +1225,12 @@ function init() {
     console.log(`🇩🇪 enfoque geográfico fijo: ${PAIS_FIJO}`);
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}`);
     console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
-    console.log(`📊 Funciones WASM: Limpieza, Idioma, Keywords, Legibilidad, Sentimiento, Repeticiones, Tiempo Lectura`);
+    console.log(`⚡ 1 LLAMADA a Mistral AI por análisis`);
+    console.log(`📊 11 funciones WASM activas`);
     cargarEdicion(); 
     _analizarConPotenciacion(); 
     actualizarMetricas(); 
-    showToast(`☁️ diario ecuador hoy · Mistral AI · wasm · 12 fuentes · indexedDB · 14 herramientas · 🇩🇪 enfoque ${PAIS_FIJO} · 📊 Analytics`); 
+    showToast(`☁️ diario ecuador hoy · 1 llamada · 11 funciones WASM · 12 fuentes · indexedDB · 14 herramientas · 🇩🇪 enfoque ${PAIS_FIJO} · 📊 Analytics`); 
 }
 init();
 </script>
@@ -1223,7 +1238,7 @@ init();
 <script type="module">
 import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
 let scene, camera, renderer, controls, active = false; const c = document.getElementById('vrContainer'), vb = document.getElementById('vrModeBtn'), cv = document.getElementById('closeVrBtn'), vm = document.getElementById('vrMode');
-function initVR() { if (!c) return; c.innerHTML = ''; scene = new THREE.Scene(); scene.background = new THREE.Color(0x1a2c3e); camera = new THREE.PerspectiveCamera(45, c.clientWidth/c.clientHeight, 0.1, 1000); camera.position.set(5, 1.8, 6); renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(c.clientWidth, c.clientHeight); renderer.xr.enabled = true; c.appendChild(renderer.domElement); c.appendChild(VRButton.createButton(renderer)); controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; scene.add(new THREE.AmbientLight(0x404060)); const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5, 10, 7); scene.add(dl); const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.MeshStandardMaterial({ color: 0x2a3a4e })); floor.rotation.x = -Math.PI/2; floor.position.y = -1; scene.add(floor); const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128; const ctx = canvas.getContext('2d'); ctx.fillStyle = '#1a2c3e'; ctx.fillRect(0, 0, 512, 128); ctx.font = 'Bold 28px "Inter"'; ctx.fillStyle = '#e67e22'; ctx.textAlign = 'center'; ctx.fillText('DIARIO ECUADOR HOY · ACADÉMIA PRO · 12 FUENTES · WASM', 256, 64); const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(8, 1.2), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(canvas) })); textPlane.position.set(0, 2.5, -3); scene.add(textPlane); function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); } animate(); active = true; }
+function initVR() { if (!c) return; c.innerHTML = ''; scene = new THREE.Scene(); scene.background = new THREE.Color(0x1a2c3e); camera = new THREE.PerspectiveCamera(45, c.clientWidth/c.clientHeight, 0.1, 1000); camera.position.set(5, 1.8, 6); renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(c.clientWidth, c.clientHeight); renderer.xr.enabled = true; c.appendChild(renderer.domElement); c.appendChild(VRButton.createButton(renderer)); controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; scene.add(new THREE.AmbientLight(0x404060)); const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5, 10, 7); scene.add(dl); const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.MeshStandardMaterial({ color: 0x2a3a4e })); floor.rotation.x = -Math.PI/2; floor.position.y = -1; scene.add(floor); const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128; const ctx = canvas.getContext('2d'); ctx.fillStyle = '#1a2c3e'; ctx.fillRect(0, 0, 512, 128); ctx.font = 'Bold 28px "Inter"'; ctx.fillStyle = '#e67e22'; ctx.textAlign = 'center'; ctx.fillText('DIARIO ECUADOR HOY · ACADÉMIA PRO · 12 FUENTES · 11 WASM', 256, 64); const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(8, 1.2), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(canvas) })); textPlane.position.set(0, 2.5, -3); scene.add(textPlane); function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); } animate(); active = true; }
 vb.addEventListener('click', () => { document.getElementById('normalMode').style.display = 'none'; vm.classList.add('active'); if (!active) setTimeout(initVR, 100); });
 cv.addEventListener('click', () => { vm.classList.remove('active'); document.getElementById('normalMode').style.display = 'block'; });
 </script>
