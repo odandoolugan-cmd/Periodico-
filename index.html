@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · WASM Rust · Core 403M · Multi-IA · Agent-Reach · GNews · ♾️</title>
+    <title>Diario Ecuador Hoy · WASM Rust · Core 403M · Multi-IA · Agent-Reach · APIs Periodismo · ♾️</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -23,24 +23,22 @@
         .b-agent { background: linear-gradient(90deg, #f59e0b, #8b5cf6); color: white; animation: pulse 1.5s infinite; }
         .b-multiia { background: linear-gradient(90deg, #10b981, #3b82f6); color: white; animation: glow 2s infinite; }
         .b-gnews { background: linear-gradient(90deg, #3b82f6, #10b981); color: white; animation: glow 2s infinite; }
+        .b-newsapi { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; animation: glow 2s infinite; }
         .b-12f { background: linear-gradient(90deg, #10b981, #059669); color: white; animation: glow 2s infinite; }
         .b-ilim { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981, #3b82f6, #8b5cf6); color: white; animation: glow 2s infinite; }
         .b-alemania { background: linear-gradient(90deg, #000, #DD0000, #FFCC00); color: white; }
-        .b-1llamada { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981); color: white; animation: glow 2s infinite; }
-        .b-memoria { background: #8b5cf6; color: white; animation: glow 2s infinite; }
-        .b-analytics { background: linear-gradient(90deg, #10b981, #f59e0b); color: white; animation: glow 2s infinite; }
+        .b-osint { background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 10px #f59e0b; } 50% { box-shadow: 0 0 25px #f59e0b; } }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 20px #ec4899; } }
         .sub { color: #5a6e7c; margin-top: .6rem; font-size: .72rem; line-height: 1.6; padding: 0 1rem; }
         .status-strip { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
         .status-row { background: rgba(255,255,255,0.7); border-radius: 0.75rem; padding: 0.5rem 0.8rem; font-size: 0.62rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border: 1px solid #cbd5e1; }
         .status-row.rust { border-color: rgba(206,66,43,.5); background: rgba(206,66,43,.08); }
-        .status-row.core { border-color: rgba(139,92,246,.4); background: rgba(139,92,246,.06); }
-        .status-row.ar { border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.06); }
         .status-row.multiia { border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.06); }
-        .status-row.gnews { border-color: rgba(59,130,246,.4); background: rgba(59,130,246,.06); }
+        .status-row.news { border-color: rgba(59,130,246,.4); background: rgba(59,130,246,.06); }
         .status-row .ok { color: #10b981; font-weight: bold; }
         .status-row .bad { color: #ef4444; font-weight: bold; }
+        .status-row .warn { color: #f59e0b; font-weight: bold; }
         .status-row .lbl { color: #8b5cf6; font-weight: 600; }
         .status-row .item { background: rgba(0,0,0,.05); padding: 3px 9px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
@@ -49,36 +47,24 @@
         .modo-activo-indicator { display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 0.65rem; font-weight: 600; margin-left: 10px; }
         .modo-experto { background: #e67e22; color: white; }
         .modo-basico { background: #f97316; color: white; }
-        .progress-track { width: 100%; height: 4px; background: #dce3e8; border-radius: 2px; margin: 8px 0; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #ec4899); width: 0%; transition: width 0.5s; border-radius: 2px; }
+        .progress-track { width: 100%; height: 6px; background: #dce3e8; border-radius: 3px; margin: 8px 0; overflow: hidden; position: relative; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #ec4899, #8b5cf6, #10b981); width: 0%; transition: width 0.5s; border-radius: 3px; background-size: 200% 100%; animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .tools-bar { display: flex; flex-wrap: wrap; gap: 6px; margin: 15px 0; justify-content: center; }
         .tool { background: #dce3e8; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; font-weight: 500; color: #1a2c3e; transition: 0.2s; }
         .tool:hover { background: #e67e22; color: white; border-color: #e67e22; transform: scale(1.03); }
         .tool.rust { border-color: #ce422b; color: #c1440e; background: rgba(206,66,43,.12); }
-        .tool.rust:hover { background: linear-gradient(90deg, #ce422b, #ff6b3d); color: white; }
         .tool.multiia { border-color: #10b981; color: #065f46; background: rgba(16,185,129,.12); }
-        .tool.multiia:hover { background: linear-gradient(90deg, #10b981, #3b82f6); color: white; }
-        .tool.core { border-color: #8b5cf6; color: #6d28d9; background: rgba(139,92,246,.12); }
-        .tool.core:hover { background: linear-gradient(90deg, #8b5cf6, #f59e0b, #ec4899); color: white; }
         .tool.agent { border-color: #f59e0b; color: #92400e; background: rgba(245,158,11,.15); }
-        .tool.agent:hover { background: linear-gradient(90deg, #f59e0b, #8b5cf6); color: white; }
         .tool.gnews { border-color: #3b82f6; color: #1e40af; background: rgba(59,130,246,.15); }
-        .tool.gnews:hover { background: linear-gradient(90deg, #3b82f6, #10b981); color: white; }
-        .tool.f12 { border-color: #10b981; color: #065f46; background: rgba(16,185,129,.12); }
-        .tool.f12:hover { background: linear-gradient(135deg, #10b981, #059669); color: white; }
-        .tool.ilim { border-color: #f59e0b; color: #92400e; background: rgba(245,158,11,.15); }
-        .tool.ilim:hover { background: linear-gradient(90deg, #f59e0b, #d97706); color: white; }
+        .tool.osint { border-color: #14b8a6; color: #0f766e; background: rgba(20,184,166,.12); }
+        .tool.diag { border-color: #ef4444; color: #991b1b; background: rgba(239,68,68,.12); }
         .main-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; box-shadow: 0 0 40px rgba(139,92,246,.08); }
-        .notice { background: rgba(59,130,246,.08); border-left: 4px solid #3b82f6; border-radius: .8rem; padding: .8rem 1rem; margin-bottom: 1rem; font-size: .7rem; color: #1a2c3e; line-height: 1.7; }
-        .status-msg { background: #f1f5f9; border-radius: 1rem; padding: .6rem 1rem; margin: .5rem 0; font-size: .72rem; text-align: center; color: #8b5cf6; display: none; }
-        .status-msg.show { display: block; }
-        .fase-info { font-size: .7rem; color: #5a6e7c; margin-top: .5rem; text-align: center; padding: .6rem; background: rgba(0,0,0,.03); border-radius: .6rem; }
+        .fase-info { font-size: .72rem; color: #5a6e7c; margin-top: .5rem; text-align: center; padding: .7rem; background: linear-gradient(90deg, #fff7ed, #fef3c7); border-radius: .6rem; border: 1px solid #f59e0b; font-weight: 600; }
         .ultra-stats { background: rgba(139,92,246,.08); border-radius: .6rem; padding: .6rem; margin-top: .75rem; font-size: .63rem; color: #5a6e7c; display: flex; flex-wrap: wrap; gap: 6px; border: 1px solid #f59e0b; }
         .ultra-stats span { background: rgba(255,255,255,.6); padding: 3px 9px; border-radius: 10px; }
-        .ultra-stats .velocidad { color: #f59e0b; font-weight: bold; animation: pulse 1.5s infinite; }
         .widgets { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 1rem; }
         .widget { background: #fff; border: 1px solid #f59e0b; border-radius: 12px; padding: 15px; transition: .3s; }
-        .widget:hover { border-color: #d97706; box-shadow: 0 0 25px rgba(139,92,246,.15); }
         .widget-title { font-weight: 700; color: #e67e22; font-size: .8rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .widget-content { font-size: .82rem; line-height: 1.6; color: #1a2c3e; }
         .conf-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding: 8px; background: rgba(0,0,0,.03); border-radius: 8px; }
@@ -91,40 +77,40 @@
         .cm .l { font-size: .55rem; color: #5a6e7c; margin-top: 2px; }
         .chip { display: inline-block; background: #f1f5f9; padding: 3px 10px; border-radius: 15px; font-size: .65rem; border: 1px solid #8b5cf6; margin: 2px; color: #6d28d9; }
         .kw-chip { background: #fef3c7; padding: 3px 10px; border-radius: 12px; font-size: .6rem; border: 1px solid #f59e0b; color: #92400e; margin: 2px; display: inline-block; }
-        .results { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid #cbd5e1; display: none; box-shadow: 0 0 40px rgba(139,92,246,.1); margin-bottom: 1rem; }
-        .results.show { display: block; }
-        .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; border-left: 4px solid #8b5cf6; padding-left: 1rem; color: #1a2c3e; }
-        .content-box { background: #f8fafc; border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.8; white-space: pre-wrap; max-height: 600px; overflow-y: auto; font-size: .9rem; border: 1px solid #e2e8f0; }
-        .cite-box { background: rgba(139,92,246,.1); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: .8rem; margin-bottom: 1.5rem; font-family: monospace; font-size: .82rem; }
-        .bib-list { background: #f8fafc; border-radius: 1rem; padding: 1.2rem; max-height: 300px; overflow-y: auto; }
-        .bib-item { padding: .8rem 0 .8rem 2rem; border-bottom: 1px solid #e2e8f0; font-size: .78rem; text-indent: -2rem; margin-left: 2rem; line-height: 1.6; }
-        .bib-item:last-child { border-bottom: none; }
-        .bib-item a { color: #3b82f6; text-decoration: none; margin-left: 6px; font-size: .7rem; }
-        .copy-btn { background: #64748b; border: none; padding: .5rem 1rem; border-radius: 2rem; color: #fff; cursor: pointer; font-size: .7rem; margin-top: .5rem; margin-left: .5rem; transition: .2s; }
-        .copy-btn:hover { background: #8b5cf6; }
         .opinion-card { background: linear-gradient(135deg, #1e3a5f, #0f2b45); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; color: white; border-left: 5px solid #f59e0b; position: relative; }
         .opinion-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-        .opinion-content { font-size: 0.95rem; line-height: 1.8; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; max-height: 60vh; overflow-y: auto; padding: 1rem; background: rgba(0,0,0,0.15); border-radius: 0.75rem; }
+        .opinion-content { font-size: 0.95rem; line-height: 1.8; margin-top: 0.8rem; color: #e0e0e0; white-space: pre-wrap; max-height: 70vh; overflow-y: auto; padding: 1rem; background: rgba(0,0,0,0.15); border-radius: 0.75rem; }
         .opinion-content::-webkit-scrollbar { width: 6px; }
         .opinion-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 3px; }
         .opinion-content::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 3px; }
         .opinion-meta { font-size: 0.7rem; color: #aaa; margin-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
         .pais-badge { background: #f59e0b; color: black; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
+        
+        /* Panel de diagnóstico */
+        .diagnostico-panel { background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 2px solid #ef4444; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; font-size: 0.72rem; }
+        .diagnostico-panel.collapsed .diagnostico-lista { display: none; }
+        .diagnostico-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; color: #991b1b; font-size: 0.85rem; }
+        .diagnostico-lista { margin-top: 0.7rem; max-height: 200px; overflow-y: auto; }
+        .diag-item { padding: 4px 10px; background: white; border-radius: 6px; margin-bottom: 3px; border-left: 3px solid #ef4444; font-family: monospace; font-size: 0.65rem; }
+        .diag-item.ok { border-left-color: #10b981; }
+        .diag-item.warn { border-left-color: #f59e0b; }
+        .diag-item.info { border-left-color: #3b82f6; }
+        
         .nav-bar { background: #1a2c3e; border-radius: 50px; padding: 0.5rem 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
         .nav-btn { background: transparent; border: none; padding: 0.5rem 1.2rem; border-radius: 50px; color: #cbd5e1; cursor: pointer; font-weight: 500; transition: all 0.2s; }
         .nav-btn:hover, .nav-btn.active { background: #e67e22; color: white; }
         .nav-btn.internacional { background: rgba(59,130,246,0.3); color: #93c5fd; }
         .nav-btn.internacional:hover, .nav-btn.internacional.active { background: #3b82f6; color: white; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
         .news-card { background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: all 0.2s; cursor: pointer; border: 1px solid #dce3e8; position: relative; }
         .news-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); border-color: #f59e0b; }
         .news-card.internacional { border-left: 4px solid #3b82f6; }
         .news-card.internacional .card-category { background: linear-gradient(90deg, #3b82f6, #10b981); }
         .card-category { background: #e67e22; color: white; display: inline-block; padding: 0.3rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
-        .card-content { padding: 1.2rem; }
-        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; line-height: 1.4; color: #1a2c3e; }
-        .card-summary { font-size: 0.85rem; color: #5a6e7c; margin-bottom: 1rem; line-height: 1.5; }
-        .card-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: #8a9aa8; border-top: 1px solid #e2e8f0; padding-top: 0.8rem; }
+        .card-content { padding: 1rem; }
+        .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.4; color: #1a2c3e; }
+        .card-summary { font-size: 0.8rem; color: #5a6e7c; margin-bottom: 0.8rem; line-height: 1.5; }
+        .card-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: #8a9aa8; border-top: 1px solid #e2e8f0; padding-top: 0.6rem; }
         .update-bar { display: flex; justify-content: space-between; align-items: center; background: #dce3e8; border-radius: 1rem; padding: 0.8rem 1.2rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem; }
         .update-btn { background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; font-weight: 600; }
         .footer { text-align: center; margin-top: 2rem; padding: 1.5rem; border-top: 1px solid #dce3e8; font-size: 0.7rem; color: #8a9aa8; }
@@ -143,16 +129,6 @@
         .modal-close-herramienta { margin-top: 1rem; background: #e67e22; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; font-weight: 600; }
         .modal-body { font-size: 0.85rem; line-height: 1.8; color: #1a2c3e; white-space: pre-wrap; }
         .loading-spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #e67e22; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
-        .temas-relacionados-btn { background: #e67e22; border: none; color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.75rem; transition: 0.2s; margin-top: 8px; }
-        .temas-relacionados-btn:hover { background: #d97706; transform: scale(1.02); }
-        .temas-container { margin-top: 10px; background: rgba(230, 126, 34, 0.08); border-left: 3px solid #e67e22; padding: 12px 16px; border-radius: 8px; display: none; }
-        .temas-container.visible { display: block; }
-        .temas-container .titulo { font-weight: 600; color: #e67e22; font-size: 0.8rem; margin-bottom: 6px; }
-        .temas-container .texto { color: #1a2c3e; font-size: 0.9rem; line-height: 1.6; }
-        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #e67e22, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(230, 126, 34, 0.5); }
-        .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
-        .vr-mode.active { display: block; }
-        .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e67e22; padding: 8px 16px; border-radius: 30px; color: #e67e22; cursor: pointer; z-index: 1001; }
         .chat-container { background: #fff; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid #f59e0b; max-height: 400px; overflow-y: auto; display: none; }
         .chat-container.show { display: block; }
         .chat-msg { padding: 0.6rem 1rem; margin: 0.5rem 0; border-radius: 1rem; font-size: 0.8rem; line-height: 1.5; }
@@ -161,15 +137,16 @@
         .chat-input-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
         .chat-input { flex: 1; padding: 0.6rem 1rem; border-radius: 2rem; border: 1px solid #cbd5e1; font-size: 0.8rem; }
         .chat-send { background: #e67e22; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 2rem; cursor: pointer; font-weight: 600; }
-        .auto-banner { text-align: center; padding: 1rem; background: linear-gradient(135deg, #fff7ed, #fef3c7); border-radius: 1rem; border: 2px dashed #f59e0b; margin-bottom: 1rem; }
-        .auto-banner-title { font-size: 1.1rem; font-weight: 700; color: #e67e22; margin-bottom: 0.5rem; }
-        .auto-banner-sub { font-size: 0.75rem; color: #5a6e7c; }
+        .auto-banner { text-align: center; padding: 0.8rem; background: linear-gradient(135deg, #fff7ed, #fef3c7); border-radius: 1rem; border: 2px dashed #f59e0b; margin-bottom: 1rem; }
+        .auto-banner-title { font-size: 1rem; font-weight: 700; color: #e67e22; margin-bottom: 0.3rem; }
+        .auto-banner-sub { font-size: 0.72rem; color: #5a6e7c; }
         @media (max-width: 700px) {
             h1 { font-size: 1.4rem; }
             .main-card { padding: 1rem; }
             .widgets { grid-template-columns: 1fr; }
             .connector-metrics { grid-template-columns: repeat(2, 1fr); }
             .news-grid { grid-template-columns: 1fr; }
+            .opinion-content { max-height: 50vh; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -178,59 +155,44 @@
 
     <header class="header">
         <h1>📰 Diario <span>Ecuador Hoy</span>
-            <span class="badge b-mistral">⚡ MULTI-IA</span>
-            <span class="badge b-openrouter">🔄 FALLBACK</span>
-            <span class="badge b-multiia">🔄 9 PROVEEDORES</span>
+            <span class="badge b-mistral">⚡ MISTRAL</span>
+            <span class="badge b-openrouter">🔄 OPENROUTER</span>
+            <span class="badge b-multiia">🔄 MULTI-IA</span>
             <span class="badge b-wasm">⚡ WASM RUST</span>
             <span class="badge b-core">🧬 CORE 403M</span>
             <span class="badge b-agent">🔌 AGENT-REACH</span>
-            <span class="badge b-12f">🔬 12 FUENTES</span>
             <span class="badge b-gnews">🌍 GNEWS</span>
+            <span class="badge b-osint">🕵️ OSINT</span>
             <span class="badge b-ilim">♾️ ILIMITADO</span>
             <span class="badge b-alemania">🇩🇪</span>
-            <span class="badge b-1llamada">⚡ 1 LLAMADA</span>
-            <span class="badge b-memoria">🧠 MEMORIA</span>
-            <span class="badge b-analytics">📊 ANALYTICS</span>
         </h1>
         <div class="date" id="currentDate"></div>
-        <div class="sub">Core 403M · Agent-Reach · WASM Rust REAL · Multi-IA (9 proveedores con fallback) · 12 Fuentes + Ilimitadas · GNews Internacional · APA 7 · 🇩🇪 Enfoque Alemán · ⚡ 1 sola llamada · ♾️ Sin límites</div>
+        <div class="sub">⚡ Todos los modelos free · Fallback inteligente entre APIs · Diagnóstico en vivo</div>
     </header>
 
+    <!-- PANEL DE DIAGNÓSTICO (colapsable) -->
+    <div class="diagnostico-panel collapsed" id="diagPanel">
+        <div class="diagnostico-header" onclick="document.getElementById('diagPanel').classList.toggle('collapsed')">
+            <span>🔍 Diagnóstico en vivo <span id="diagContador" style="font-size:0.7rem;font-weight:600;">(0 eventos)</span></span>
+            <span style="font-size:1rem;">▼</span>
+        </div>
+        <div class="diagnostico-lista" id="diagLista"></div>
+    </div>
+
     <div class="status-strip">
-        <div class="status-row rust">
-            <span class="lbl">🦀 WASM Rust:</span>
-            <span class="item"><strong id="rustStatus">⏳ Cargando…</strong></span>
-            <span class="item">📊 Funciones: <strong id="rustFuncCount">0</strong></span>
-            <span class="item">⏱️ Tiempo: <strong id="rustTiempo">0ms</strong></span>
-            <span class="item">📦 Caché: <strong id="rustCache">0</strong></span>
-            <span class="item">🧠 <strong id="rustVersion">—</strong></span>
-        </div>
-        <div class="status-row core">
-            <span class="lbl">🧬 Core 403M:</span>
-            <span class="item"><strong id="coreStatus" class="ok">⏳ Iniciando…</strong></span>
-            <span class="item">📡 Consultas: <strong id="coreConsultas">0</strong></span>
-            <span class="item">📚 Temas: <strong id="coreTemas">0</strong></span>
-            <span class="item">🔄 Evoluciones: <strong id="coreEvoluciones">0</strong></span>
-        </div>
-        <div class="status-row ar">
-            <span class="lbl">🔌 Agent-Reach:</span>
-            <span class="item"><strong id="arStatus" class="ok">⏳ Iniciando…</strong></span>
-            <span class="item">📦 GitHub <strong id="arGitHub">0</strong></span>
-            <span class="item">📖 Reddit <strong id="arReddit">0</strong></span>
-            <span class="item">🌐 Wiki <strong id="arWiki">0</strong></span>
-        </div>
         <div class="status-row multiia">
             <span class="lbl">🔄 Multi-IA:</span>
             <span class="item"><strong id="multiiaStatus" class="ok">⏳ Iniciando…</strong></span>
-            <span class="item">🥇 Google: <strong id="mistralStatus">⏳</strong></span>
-            <span class="item">🥈 Cerebras: <strong id="openrouterStatus">⏳</strong></span>
             <span class="item">📊 Activo: <strong id="proveedorActivo">—</strong></span>
+            <span class="item">✅ OK: <strong id="iaOk">0</strong></span>
+            <span class="item">❌ Fallos: <strong id="iaFails">0</strong></span>
         </div>
-        <div class="status-row gnews">
-            <span class="lbl">🌍 GNews:</span>
+        <div class="status-row news">
+            <span class="lbl">📡 APIs News:</span>
             <span class="item"><strong id="gnewsStatus" class="ok">⏳ Iniciando…</strong></span>
-            <span class="item">📰 Noticias: <strong id="gnewsTotal">0</strong></span>
-            <span class="item">📅 Últ. actualización: <strong id="ultimaActualizacionStatus">—</strong></span>
+            <span class="item">📰 Total: <strong id="gnewsTotal">0</strong></span>
+            <span class="item">✅ OK: <strong id="newsOk">0</strong></span>
+            <span class="item">❌ Fallos: <strong id="newsFails">0</strong></span>
         </div>
     </div>
 
@@ -238,7 +200,6 @@
         <button class="modo-btn active" data-modo="experto">🧠 EXPERTO</button>
         <button class="modo-btn" data-modo="basico">⚡ BÁSICO</button>
         <span id="modoActualIndicator" class="modo-activo-indicator modo-experto">🧠 Experto</span>
-        <span id="idiomaIndicator" style="display:inline-block;padding:2px 10px;border-radius:12px;font-size:0.6rem;font-weight:600;margin-left:8px;background:#e67e22;color:white;">🌐 Español</span>
     </div>
 
     <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
@@ -246,73 +207,33 @@
     <div class="main-card">
         <div class="auto-banner">
             <div class="auto-banner-title">📰 Edición generada automáticamente</div>
-            <div class="auto-banner-sub">El diario se actualiza solo al entrar · WASM Rust + Multi-IA (9 proveedores) + Core 403M + Agent-Reach + GNews</div>
+            <div class="auto-banner-sub">⚡ Prueba todos los modelos free · Fallback entre APIs · Timeout dinámico</div>
         </div>
-
-        <div class="notice">
-            📌 <strong>Multi-IA</strong> (9 proveedores con fallback) · Core 403M · Agent-Reach · 12 fuentes + Ilimitadas · <strong style="color:#f59e0b;">WASM Rust REAL (50x)</strong> · 🌍 <strong style="color:#3b82f6;">GNews Internacional</strong> · ⚡ <strong style="color:#ec4899;">1 sola llamada</strong> · 🔌 <strong style="color:#f59e0b;">GitHub + Reddit + Wikipedia</strong> · 🧬 <strong style="color:#8b5cf6;">Core 403M</strong> · ♾️ <strong style="color:#f59e0b;">Sin límites</strong>
-        </div>
-
-        <div class="status-msg" id="statusMessage"><span class="loading-spinner"></span><span id="statusText">Procesando…</span></div>
         <div class="fase-info" id="faseInfo">💡 Iniciando sistema…</div>
-
         <div class="ultra-stats">
-            <span>⚡ Optimizaciones: <strong id="ultraOptimizaciones">0</strong></span>
-            <span>⏱️ Tiempo WASM: <strong id="ultraTiempo">0ms</strong></span>
-            <span>🌐 Idiomas: <strong id="ultraIdiomas">0</strong></span>
-            <span>📊 Funciones: <strong id="ultraFunciones">0</strong></span>
-            <span>🧠 Memoria: <strong id="ultraMemoria">0 KB</strong></span>
-            <span>🤖 Agente: <strong id="ultraAgente">✅ Activo</strong></span>
-            <span>♾️ Fuentes: <strong id="ultraFuentes">0</strong></span>
-            <span>🌍 Internacionales: <strong id="ultraInternacionales">0</strong></span>
+            <span>⏱️ Tiempo: <strong id="ultraTiempo">0ms</strong></span>
+            <span>🌍 Noticias: <strong id="ultraInternacionales">0</strong></span>
             <span>🔄 IA: <strong id="ultraProveedor">Multi-IA</strong></span>
-            <span>🦀 WASM: <strong id="ultraWasm">⏳</strong></span>
-            <span>⚡ <strong class="velocidad">50x MÁS RÁPIDO</strong></span>
+            <span>⚡ <strong style="color:#f59e0b;">Fallback inteligente</strong></span>
         </div>
     </div>
 
-    <div class="tools-bar">
-        <button class="tool rust" id="btnRustStatus">🦀 Estado WASM</button>
-        <button class="tool rust" id="btnRustTest">⚡ Test Rust</button>
-        <button class="tool multiia" id="btnMultiIA">🔄 MULTI-IA</button>
-        <button class="tool core" id="btnCoreStatus">🧬 CORE 403M</button>
-        <button class="tool core" id="btnDecisionStatus">🧠 403M Decide</button>
-        <button class="tool core" id="btnMemoriaStatus">🧠 Memoria WASM</button>
-        <button class="tool agent" id="btnAgentReach">🔌 AGENT-REACH</button>
-        <button class="tool f12" id="btn12Fuentes">🔬 12 FUENTES</button>
-        <button class="tool ilim" id="btnIlimitado">♾️ ILIMITADO</button>
-        <button class="tool gnews" id="btnNoticiasInternacionales">🌍 NOTICIAS INTERNACIONALES</button>
-        <button class="tool gnews" id="btnActualizarNoticiasDiarias">🔄 ACTUALIZAR DIARIO</button>
-        <button class="tool" id="btnExamen">🎯 Examen</button>
-        <button class="tool" id="btnAbstract">📌 Abstract</button>
-        <button class="tool" id="btnComparar">🔍 Comparar</button>
-        <button class="tool" id="btnPlagio">⚠️ Plagio</button>
-        <button class="tool" id="btnTarjetas">🃏 Tarjetas</button>
-        <button class="tool" id="btnRelacionados">💡 Relacionados</button>
-        <button class="tool" id="btnChat">💬 CHAT IA</button>
-        <button class="tool" id="btnExportar">📤 Exportar</button>
-        <button class="tool" id="btnAnalisisCompleto">📊 Análisis Completo</button>
-        <button class="tool" id="btnEstadoSistema">🔌 Estado Sistema</button>
+    <!-- SOLO EL CUADRO DE REDACCIÓN (opinion-card) -->
+    <div class="opinion-card" id="opinionCard">
+        <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span class="pais-badge">🇩🇪 Alemania</span></div>
+        <div class="opinion-content" id="opinionContent"><div class="spinner"></div><div class="loading-text">⚡ Iniciando análisis…</div></div>
+        <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador · Mirada desde Alemania</span><span id="opinionMetaProveedor"></span></div>
     </div>
 
-    <div class="chat-container" id="chatContainer">
-        <div class="widget-title" style="color:#e67e22;font-weight:700;font-size:0.85rem;margin-bottom:10px;">💬 Chat con Multi-IA (9 proveedores) + Core 403M + Agent-Reach</div>
-        <div id="chatMensajes"></div>
-        <div class="chat-input-row">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta…">
-            <button class="chat-send" id="chatSend">Enviar</button>
-        </div>
-    </div>
-
+    <!-- Widgets -->
     <div class="widgets">
         <div class="widget">
-            <div class="widget-title">📝 Análisis (WASM Rust)</div>
+            <div class="widget-title">📝 Análisis</div>
             <div class="widget-content" id="widgetTextoContent">Esperando análisis…</div>
             <div style="font-size:.65rem;color:#5a6e7c;margin-top:6px;" id="tiempoLectura">⏱️ — min</div>
-            <div style="font-size:.65rem;color:#5a6e7c;margin-top:2px;" id="sentimientoAnalisis">🎯 Tono: —</div>
         </div>
         <div class="widget">
-            <div class="widget-title">🎯 Confianza y Calidad</div>
+            <div class="widget-title">🎯 Confianza</div>
             <div class="widget-content">
                 <div class="conf-row">
                     <span>📊</span>
@@ -320,8 +241,6 @@
                     <span class="conf-label" id="confidenceLabel">0%</span>
                 </div>
                 <div style="font-size:.68rem;color:#5a6e7c;margin-top:8px;">📈 Calidad: <span id="qualityScore">—</span></div>
-                <div style="font-size:.62rem;color:#5a6e7c;margin-top:2px;">📖 Legibilidad: <span id="legibilidadScore">—</span></div>
-                <div style="font-size:.62rem;color:#5a6e7c;margin-top:2px;">📚 Riqueza: <span id="riquezaVocabulario">—%</span></div>
             </div>
         </div>
         <div class="widget">
@@ -331,7 +250,7 @@
                     <div class="cm"><div class="v" id="metricMemoria">0</div><div class="l">Palabras</div></div>
                     <div class="cm"><div class="v" id="metricSemantico">0</div><div class="l">Únicas</div></div>
                     <div class="cm"><div class="v" id="metricAPIs">15</div><div class="l">APIs</div></div>
-                    <div class="cm"><div class="v" id="metricDB">0</div><div class="l">Citas</div></div>
+                    <div class="cm"><div class="v" id="metricDB">0</div><div class="l">Fuentes</div></div>
                 </div>
             </div>
         </div>
@@ -342,78 +261,130 @@
                     <span class="chip">📖 Intro: <span id="introPalabras">0</span></span>
                     <span class="chip">🔬 Desarrollo: <span id="desarrolloPalabras">0</span></span>
                     <span class="chip">📊 Conclusión: <span id="conclusionPalabras">0</span></span>
-                    <span class="chip" id="idiomaWidget" style="background:#3b82f6;border-color:#3b82f6;color:white;">🌐 ES</span>
                 </div>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;" id="keywordsWidget">
                     <span style="color:#5a6e7c;font-size:.6rem;">🏷️ Keywords: —</span>
                 </div>
-                <div style="font-size:.6rem;color:#5a6e7c;margin-top:6px;" id="repeticionesWidget">🔄 Repeticiones: —</div>
-                <div style="font-size:.6rem;color:#5a6e7c;margin-top:2px;" id="completitudWidget">📊 Completitud: —%</div>
-                <div style="font-size:.55rem;color:#f59e0b;margin-top:6px;border-top:1px solid #e2e8f0;padding-top:6px;" id="fuentesWidget">♾️ Fuentes ilimitadas + Agent-Reach + Core 403M activos</div>
             </div>
         </div>
     </div>
 
-    <div class="results" id="resultsCard">
-        <div class="section-title">📖 CONTENIDO</div>
-        <div class="content-box" id="contenido">—</div>
-        <div class="section-title">📝 CITAR</div>
-        <div class="cite-box">
-            <span id="citaTexto">—</span>
-            <button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar</button>
-        </div>
-        <div class="section-title">📚 REFERENCIAS APA 7</div>
-        <div class="bib-list" id="bibliografiaList">—</div>
-        <button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar Referencias</button>
+    <div class="tools-bar">
+        <button class="tool multiia" id="btnMultiIA">🔄 Multi-IA</button>
+        <button class="tool diag" id="btnDiagnostico">🔍 Diagnóstico</button>
+        <button class="tool gnews" id="btnActualizar">🔄 Reintentar análisis</button>
+        <button class="tool osint" id="btnChat">💬 Chat IA</button>
+        <button class="tool" id="btnExportar">📤 Exportar</button>
     </div>
 
-    <div class="opinion-card" id="opinionCard">
-        <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span class="pais-badge">🇩🇪 Alemania</span></div>
-        <div class="opinion-content" id="opinionContent"><div class="spinner"></div><div class="loading-text">⚡ WASM Rust + 🤖 Agente + 🌍 GNews + Core 403M recopilando información…</div></div>
-        <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador + Mirada desde Alemania</span><span><i class="fas fa-sync-alt"></i> Actualización diaria</span></div>
+    <div class="chat-container" id="chatContainer">
+        <div class="widget-title" style="color:#e67e22;font-weight:700;font-size:0.85rem;margin-bottom:10px;">💬 Chat con Multi-IA (todos los modelos free)</div>
+        <div id="chatMensajes"></div>
+        <div class="chat-input-row">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta…">
+            <button class="chat-send" id="chatSend">Enviar</button>
+        </div>
     </div>
 
     <div class="nav-bar">
         <button class="nav-btn active" data-category="all">📰 Todas</button>
-        <button class="nav-btn" data-category="politica">🏛️ Política</button>
-        <button class="nav-btn" data-category="economia">📊 Economía</button>
-        <button class="nav-btn" data-category="sociedad">👥 Sociedad</button>
-        <button class="nav-btn" data-category="seguridad">🚔 Seguridad</button>
-        <button class="nav-btn" data-category="cultura">🎭 Cultura</button>
         <button class="nav-btn internacional" data-category="internacional">🌍 Internacional</button>
     </div>
 
     <div class="update-bar">
-        <span id="updateStatus">📰 Edición del día · Noticias actualizadas</span>
-        <button class="update-btn" id="updateBtn">🔄 Actualizar edición</button>
+        <span id="updateStatus">📰 Edición del día</span>
+        <button class="update-btn" id="updateBtn">🔄 Actualizar</button>
     </div>
 
     <div id="newsContainer" class="news-grid"></div>
 
     <div class="footer">
-        ⚡ Diario Ecuador Hoy · WASM Rust · Multi-IA · Core 403M · Agent-Reach · GNews · 12 Fuentes + Ilimitadas · APA 7 · 🇩🇪 · ⚡ 1 sola llamada · ♾️ Sin límites
+        ⚡ Diario Ecuador Hoy · Multi-IA · Fallback entre APIs · Datos reales · ♾️ Sin límites
     </div>
 </div>
 
-<button class="vr-button" id="vrModeBtn">🔮 SALA DE REDACCIÓN VR</button>
-<div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 <div class="modal" id="newsModal"><div class="modal-content"><button class="modal-close" id="modalCloseBtn">✕</button><div id="modalContent"></div></div></div>
 
 <script type="module">
-// ============================================
-// CONFIG — 9 PROVEEDORES MULTI-IA CON FALLBACK
-// ============================================
+// ═══════════════════════════════════════════════════════════
+// 🔧 FIX: Definir showToast en scope global ANTES de todo
+// ═══════════════════════════════════════════════════════════
+window.showToast = function(msg, isErr) {
+    const t = document.createElement('div');
+    t.className = 'toast-msg';
+    t.style.background = isErr ? '#ef4444' : '#e67e22';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+};
+window.mostrarModal = function(titulo, contenido) {
+    const ov = document.createElement('div');
+    ov.className = 'modal-overlay';
+    ov.innerHTML = `<div class="modal-content-herramienta"><h3>${titulo}</h3><div class="modal-body">${contenido}</div><button class="modal-close-herramienta">✕ Cerrar</button></div>`;
+    ov.querySelector('.modal-close-herramienta').onclick = () => ov.remove();
+    ov.onclick = e => { if (e.target === ov) ov.remove(); };
+    document.body.appendChild(ov);
+};
+
+const showToast = window.showToast;
+const mostrarModal = window.mostrarModal;
+
+// ═══════════════════════════════════════════════════════════
+// 🔍 DIAGNÓSTICO
+// ═══════════════════════════════════════════════════════════
+const Diagnostico = {
+    contador: 0,
+    log(mensaje, tipo = 'info') {
+        this.contador++;
+        const icono = tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'error' ? '❌' : 'ℹ️';
+        const hora = new Date().toLocaleTimeString('es-ES');
+        document.getElementById('diagContador').textContent = `(${this.contador} eventos)`;
+        const lista = document.getElementById('diagLista');
+        if (lista) {
+            lista.innerHTML += `<div class="diag-item ${tipo}">[${hora}] ${icono} ${mensaje}</div>`;
+            lista.scrollTop = lista.scrollHeight;
+        }
+        console.log(`[${tipo.toUpperCase()}] ${mensaje}`);
+    }
+};
+
+// ═══════════════════════════════════════════════════════════
+// 🔄 MULTI-IA — TODOS LOS MODELOS FREE DE CADA API
+// ═══════════════════════════════════════════════════════════
+// Estrategia: probar todos los modelos free de cada proveedor
+// Si un modelo falla → siguiente modelo del mismo proveedor
+// Si todos los modelos fallan → siguiente proveedor
 const IA_PROVEEDORES = [
-    // ---- Google Gemini (Free) ----
     {
-        nombre: 'Google',
-        url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
-        key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
-        modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'],
-        color: '#4285F4',
-        tipo: 'google'
+        nombre: 'OpenRouter',
+        url: 'https://openrouter.ai/api/v1/chat/completions',
+        key: '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',
+        modelos: [
+            'mistralai/mistral-7b-instruct:free',
+            'meta-llama/llama-3.1-8b-instruct:free',
+            'google/gemma-2-9b-it:free',
+            'qwen/qwen-2.5-7b-instruct:free',
+            'microsoft/phi-3-mini-128k-instruct:free',
+            'huggingfaceh4/zephyr-7b-beta:free',
+            'openchat/openchat-7b:free',
+            'undi95/toppy-m-7b:free'
+        ],
+        color: '#10b981',
+        extraHeaders: { 'HTTP-Referer': 'https://diario-ecuador-hoy.local', 'X-Title': 'Diario' }
     },
-    // ---- Cerebras (Free) ----
+    {
+        nombre: 'Mistral AI',
+        url: 'https://api.mistral.ai/v1/chat/completions',
+        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
+        modelos: [
+            'open-mistral-7b',
+            'mistral-small-latest',
+            'open-mixtral-8x7b',
+            'mistral-tiny',
+            'open-mistral-nemo'
+        ],
+        color: '#f97316'
+    },
     {
         nombre: 'Cerebras',
         url: 'https://api.cerebras.ai/v1/chat/completions',
@@ -421,891 +392,518 @@ const IA_PROVEEDORES = [
         modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b', 'qwen-2.5-coder-32b'],
         color: '#FF6B35'
     },
-    // ---- Z.ai (Free) ----
     {
         nombre: 'Z.ai',
         url: 'https://api.z.ai/api/paas/v4/chat/completions',
         key: '864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP',
         modelos: ['glm-4-flash', 'glm-4.5-flash'],
         color: '#7C3AED'
-    },
-    // ---- Mistral (Free) ----
-    {
-        nombre: 'Mistral AI',
-        url: 'https://api.mistral.ai/v1/chat/completions',
-        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
-        modelos: ['mistral-small-latest', 'mistral-large-latest', 'open-mistral-7b'],
-        color: '#f97316'
-    },
-    // ---- GitHub (Free) ----
-    {
-        nombre: 'GitHub',
-        url: 'https://models.inference.ai.azure.com/chat/completions',
-        key: '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',
-        modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'],
-        color: '#24292E'
-    },
-    // ---- Ollama Cloud (Free) ----
-    {
-        nombre: 'Ollama Cloud',
-        url: 'https://api.ollama.cloud/v1/chat/completions',
-        key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
-        modelos: ['llama3.2', 'mistral', 'gemma2', 'qwen2.5'],
-        color: '#333333'
-    },
-    // ---- Kiro (Free) ----
-    {
-        nombre: 'Kiro',
-        url: 'https://api.kiro.ai/v1/chat/completions',
-        key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
-        modelos: ['kiro-chat', 'kiro-pro'],
-        color: '#00A3FF'
-    },
-    // ---- Orca Router (Free) ----
-    {
-        nombre: 'Orca Router',
-        url: 'https://api.orcarouter.ai/v1/chat/completions',
-        key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
-        modelos: ['orca-mini', 'orca-2-7b', 'orca-2-13b'],
-        color: '#8B5CF6'
-    },
-    // ---- OpenRouter (Free) ----
-    {
-        nombre: 'OpenRouter',
-        url: 'https://openrouter.ai/api/v1/chat/completions',
-        key: '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',
-        modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free'],
-        color: '#10b981',
-        extraHeaders: { 'HTTP-Referer': 'https://diario-ecuador-hoy.local', 'X-Title': 'Diario Ecuador Hoy' }
     }
 ];
-const GNEWS_API_KEY = '91145ca5b48bdf9464f6bc8330633fe8';
-const GNEWS_API_URL = 'https://gnews.io/api/v4/top-headlines';
-const GNEWS_SEARCH_URL = 'https://gnews.io/api/v4/search';
-const ACTUALIZACION_DIARIA_KEY = 'diario_ultima_actualizacion';
-const HORAS_ENTRE_ACTUALIZACIONES = 24;
 
-const PAIS_FIJO = 'Alemania';
-let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, idiomasTotal = 0;
-const nombreIdioma = { 'es': 'Español', 'en': 'Inglés', 'de': 'Alemán', 'fr': 'Francés', 'pt': 'Portugués', 'it': 'Italiano' };
-const banderaIdioma = { 'es': '🇪🇸', 'en': '🇬🇧', 'de': '🇩🇪', 'fr': '🇫🇷', 'pt': '🇵🇹', 'it': '🇮🇹' };
-const autoresPorIdioma = {
-    'es': ['García, J.', 'Martínez, L.', 'López, M.', 'Fernández, R.', 'Gómez, P.', 'Sánchez, C.'],
-    'en': ['Smith, J.', 'Johnson, R.', 'Williams, M.', 'Brown, D.', 'Jones, P.', 'Miller, S.'],
-    'de': ['Müller, J.', 'Schmidt, H.', 'Weber, K.', 'Fischer, L.', 'Wagner, M.', 'Becker, R.'],
-    'fr': ['Martin, J.', 'Bernard, H.', 'Dubois, K.', 'Thomas, L.', 'Robert, M.', 'Richard, P.'],
-    'pt': ['Silva, J.', 'Santos, H.', 'Oliveira, K.', 'Souza, L.', 'Rodrigues, M.', 'Ferreira, P.'],
-    'it': ['Rossi, J.', 'Russo, H.', 'Ferrari, K.', 'Esposito, L.', 'Bianchi, M.', 'Romano, P.']
-};
+const TIMEOUT_IA = 25000;
+const TIMEOUT_API_NEWS = 15000;
 
-// ============================================
-// WASM RUST
-// ============================================
-class RustWASM {
-    constructor() { this.wasm = null; this.cargado = false; this.stats = { funciones: 0, tiempo: 0, optimizaciones: 0 }; }
-    async cargar() {
-        try {
-            console.log('🦀 Cargando WASM Rust desde ./pkg/academia_wasm.js…');
-            const mod = await import('./pkg/academia_wasm.js');
-            await mod.default('./pkg/academia_wasm_bg.wasm');
-            this.wasm = mod; this.cargado = true;
-            const v = mod.wasm_version ? mod.wasm_version() : '1.0';
-            const funcs = ['contar_palabras', 'contar_caracteres_sin_espacios', 'contar_oraciones', 'process_text_full', 'extract_keywords', 'extract_authors_fast', 'detectar_idioma', 'resumir_texto', 'process_agent_context', 'cache_response', 'get_cached_response', 'get_cache_size', 'clear_cache'].filter(f => typeof mod[f] === 'function');
-            console.log(`✅ WASM Rust cargado (v${v}) · ${funcs.length}/13 funciones`);
-            document.getElementById('rustStatus').textContent = '✅ Activo';
-            document.getElementById('rustStatus').className = 'ok';
-            document.getElementById('rustFuncCount').textContent = funcs.length;
-            document.getElementById('rustVersion').textContent = `v${v}`;
-            document.getElementById('ultraWasm').textContent = `v${v}`;
-            document.getElementById('ultraFunciones').textContent = funcs.length;
-            return true;
-        } catch (e) {
-            console.warn('⚠️ WASM Rust no disponible:', e.message);
-            document.getElementById('rustStatus').textContent = '⚠️ Fallback JS';
-            document.getElementById('rustStatus').className = 'bad';
-            document.getElementById('ultraWasm').textContent = 'JS';
-            return false;
-        }
-    }
-    _js(t) { const p = (t.match(/\S+/g) || []).filter(x => /[a-záéíóúñ]/i.test(x)); const u = new Set((t.toLowerCase().match(/[a-záéíóúüñ]+/g) || [])).size; const c = t.replace(/\s/g, '').length; const o = (t.match(/[.!?]+/g) || []).length; return { palabras: p.length, unicas: u, caracteres: c, oraciones: o }; }
-    contarPalabras(t) { if (!this.cargado) return this._js(t); try { const p = this.wasm.contar_palabras(t); const u = new Set((t.toLowerCase().match(/[a-záéíóúüñ]+/g) || [])).size; const c = this.wasm.contar_caracteres_sin_espacios(t); const o = this.wasm.contar_oraciones(t); this.stats.funciones++; this.stats.optimizaciones++; return { palabras: p, unicas: u, caracteres: c, oraciones: o }; } catch (e) { return this._js(t); } }
-    processFull(t) { if (!this.cargado) return null; try { this.stats.funciones++; const r = JSON.parse(this.wasm.process_text_full(t)); if (r.tiempo_us) this.stats.tiempo += r.tiempo_us / 1000; return r; } catch (e) { return null; } }
-    keywords(t, n = 8) { if (!this.cargado) return []; try { this.stats.funciones++; return JSON.parse(this.wasm.extract_keywords(t, n)); } catch (e) { return []; } }
-    autores(t) { if (!this.cargado) return []; try { this.stats.funciones++; return JSON.parse(this.wasm.extract_authors_fast(t)); } catch (e) { return []; } }
-    idioma(t) { if (!this.cargado) return 'es'; try { this.stats.funciones++; return this.wasm.detectar_idioma(t); } catch (e) { return 'es'; } }
-    resumen(t, n = 3) { if (!this.cargado) return t.substring(0, 500); try { this.stats.funciones++; return this.wasm.resumir_texto(t, n); } catch (e) { return t.substring(0, 500); } }
-    cache(k, v) { if (this.cargado) try { this.wasm.cache_response(k, v); } catch (e) {} }
-    getCache(k) { if (this.cargado) { try { const v = this.wasm.get_cached_response(k); return v && v.length > 0 ? v : null; } catch (e) {} } return null; }
-    getCacheSize() { if (this.cargado) try { return this.wasm.get_cache_size(); } catch (e) {} return 0; }
+let modoActual = 'experto';
+let proveedorActual = null;
+let iaOkCount = 0, iaFailsCount = 0, newsOkCount = 0, newsFailsCount = 0;
+
+// ═══════════════════════════════════════════════════════════
+// 🛠️ HELPER: FETCH CON TIMEOUT
+// ═══════════════════════════════════════════════════════════
+function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+    return fetch(url, { ...opciones, signal: ctrl.signal })
+        .finally(() => clearTimeout(tid));
 }
-const rustWASM = new RustWASM();
 
-// ============================================
-// MULTI-IA — FUNCIÓN DE LLAMADA CON FALLBACK
-// ============================================
-function actualizarProveedor(nombre, color) {
-    const el = document.getElementById('proveedorActivo');
-    if (nombre) { el.textContent = nombre; el.style.color = color || '#10b981'; document.getElementById('ultraProveedor').textContent = nombre; }
-    else { el.textContent = 'Multi-IA'; el.style.color = ''; document.getElementById('ultraProveedor').textContent = 'Multi-IA'; }
-}
-async function llamarIA(messages, maxTokens = 3000) {
-    let ultimoError = null;
+// ═══════════════════════════════════════════════════════════
+// 🚀 MULTI-IA: PROBAR TODOS LOS MODELOS FREE
+// ═══════════════════════════════════════════════════════════
+async function llamarIAParalelo(messages, maxTokens = 3000) {
+    Diagnostico.log(`Lanzando ${IA_PROVEEDORES.length} proveedores con TODOS sus modelos free…`, 'info');
+    
+    // Crear una promesa por CADA modelo de CADA proveedor
+    const promesas = [];
+    
     for (const prov of IA_PROVEEDORES) {
-        // Actualizar indicador visual
-        if (prov.nombre === 'Google') document.getElementById('mistralStatus').textContent = '⏳';
-        if (prov.nombre === 'Cerebras') document.getElementById('openrouterStatus').textContent = '⏳';
         for (const modelo of prov.modelos) {
-            try {
-                console.log(`🔄 Probando ${prov.nombre} (${modelo})…`);
-                actualizarFase(`🔄 Probando ${prov.nombre}…`);
-                const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
-                if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
-
-                let body;
-                let url = prov.url;
-
-                // ---- Google Gemini (formato especial) ----
-                if (prov.tipo === 'google') {
-                    url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${prov.key}`;
-                    body = {
-                        contents: messages.map(m => ({
-                            role: m.role === 'assistant' ? 'model' : m.role,
-                            parts: [{ text: m.content }]
-                        })),
-                        generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 }
-                    };
-                } else {
-                    body = {
-                        model: modelo,
-                        messages: messages,
-                        temperature: 0.7,
-                        max_tokens: maxTokens
-                    };
-                }
-
-                const ctrl = new AbortController();
-                const tid = setTimeout(() => ctrl.abort(), 60000);
-                const resp = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body), signal: ctrl.signal });
-                clearTimeout(tid);
-                if ([401, 403, 429].includes(resp.status)) { console.warn(`⚠️ ${prov.nombre}/${modelo} → ${resp.status}`); ultimoError = `${resp.status} en ${prov.nombre}`; continue; }
-                if (!resp.ok) { const err = await resp.json().catch(() => ({})); ultimoError = err.error?.message || `Error ${resp.status}`; continue; }
-
-                const data = await resp.json();
-                let texto = '';
-
-                if (prov.tipo === 'google') {
-                    texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                } else {
-                    texto = data.choices?.[0]?.message?.content || '';
-                }
-
-                if (texto.length < 50) { ultimoError = 'Respuesta muy corta'; continue; }
-                console.log(`✅ ${prov.nombre} (${modelo}): ${texto.length} chars`);
-                proveedorActual = prov.nombre;
-                actualizarProveedor(prov.nombre, prov.color);
-                if (prov.nombre === 'Google') { document.getElementById('mistralStatus').textContent = '✅'; document.getElementById('mistralStatus').style.color = '#10b981'; }
-                if (prov.nombre === 'Cerebras') { document.getElementById('openrouterStatus').textContent = '✅'; document.getElementById('openrouterStatus').style.color = '#10b981'; }
-                document.getElementById('multiiaStatus').textContent = `✅ ${prov.nombre}`;
-                return { texto, proveedor: prov.nombre, modelo };
-            } catch (e) { console.warn(`⚠️ ${prov.nombre}/${modelo}:`, e.message); ultimoError = e.name === 'AbortError' ? 'Timeout' : e.message; }
-        }
-        if (prov.nombre === 'Google') { document.getElementById('mistralStatus').textContent = '⚠️'; document.getElementById('mistralStatus').style.color = '#ef4444'; }
-        if (prov.nombre === 'Cerebras') { document.getElementById('openrouterStatus').textContent = '⚠️'; document.getElementById('openrouterStatus').style.color = '#ef4444'; }
-    }
-    actualizarProveedor(null);
-    throw new Error(`❌ Todos los proveedores fallaron. Último: ${ultimoError}`);
-}
-
-// ============================================
-// UTILIDADES
-// ============================================
-function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#e67e22'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3500); }
-window.copiarTexto = function (id) { const el = document.getElementById(id); if (!el) return; navigator.clipboard.writeText(el.innerText).then(() => showToast('📋 Copiado')).catch(() => showToast('⚠️ No se pudo copiar', true)); };
-function mostrarModal(titulo, contenido) { const ov = document.createElement('div'); ov.className = 'modal-overlay'; ov.innerHTML = `<div class="modal-content-herramienta"><h3>${titulo}</h3><div class="modal-body">${contenido}</div><button class="modal-close-herramienta">✕ Cerrar</button></div>`; ov.querySelector('.modal-close-herramienta').onclick = () => ov.remove(); ov.onclick = e => { if (e.target === ov) ov.remove(); }; document.body.appendChild(ov); }
-function actualizarStatus(msg) { const s = document.getElementById('statusMessage'); s.classList.add('show'); document.getElementById('statusText').textContent = msg; }
-function ocultarStatus() { document.getElementById('statusMessage').classList.remove('show'); }
-function actualizarFase(msg) { document.getElementById('faseInfo').textContent = msg; }
-function actualizarProgress(p) { document.getElementById('progressBar').style.width = `${Math.min(100, p)}%`; }
-function actualizarIndicadorIdioma(idioma) { const b = banderaIdioma[idioma] || '🌐'; const n = nombreIdioma[idioma] || 'Desconocido'; document.getElementById('idiomaIndicator').textContent = `${b} ${n}`; document.getElementById('idiomaWidget').textContent = `${b} ${idioma.toUpperCase()}`; }
-function generarBibliografia(texto, tema, idioma) {
-    const autores = autoresPorIdioma[idioma] || autoresPorIdioma['es'];
-    const temas = ['Fundamentos de la Investigación', 'Metodología Cuantitativa', 'Análisis Cualitativo', 'Estudios Interdisciplinarios', 'Innovación Científica', 'Ética en Investigación'];
-    const años = ['2020', '2021', '2022', '2023', '2024', '2025'];
-    let html = '';
-    const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
-    const unicas = [...new Set(citas)];
-    const usados = new Set();
-    unicas.forEach((cita, i) => { const autor = autores[i % autores.length]; const year = cita.match(/\d{4}/)?.[0] || años[i % años.length]; const ti = i % temas.length; const url = `https://scholar.google.com/scholar?q=${encodeURIComponent(autor + ' ' + year + ' ' + temas[ti])}`; const k = `${autor}_${year}`; if (!usados.has(k)) { usados.add(k); html += `<div class="bib-item">${autor} (${year}). <em>${temas[ti]}</em>. Editorial Académica.<a href="${url}" target="_blank">🔗 Scholar</a></div>`; } });
-    autores.slice(0, 4).forEach((autor, i) => { const year = años[(i + 2) % años.length]; const ti = (i + 3) % temas.length; const url = `https://scholar.google.com/scholar?q=${encodeURIComponent(autor + ' ' + year + ' ' + temas[ti] + ' ' + tema)}`; const k = `${autor}_${year}`; if (!usados.has(k)) { usados.add(k); html += `<div class="bib-item">${autor} (${year}). <em>${temas[ti]} sobre "${tema}"</em>. Editorial Académica.<a href="${url}" target="_blank">🔗 Scholar</a></div>`; } });
-    return html || '<div class="bib-item">Sin referencias generadas</div>';
-}
-
-// ============================================
-// AGENT-REACH
-// ============================================
-const agentReach = {
-    stats: { github: 0, reddit: 0, wiki: 0 },
-    async buscar(t) {
-        const [gh, rd, wk] = await Promise.allSettled([this.github(t), this.reddit(t), this.wiki(t)]);
-        const r = { github: gh.status === 'fulfilled' ? gh.value : [], reddit: rd.status === 'fulfilled' ? rd.value : [], wiki: wk.status === 'fulfilled' ? wk.value : [] };
-        this.stats.github += r.github.length; this.stats.reddit += r.reddit.length; this.stats.wiki += r.wiki.length;
-        document.getElementById('arGitHub').textContent = this.stats.github;
-        document.getElementById('arReddit').textContent = this.stats.reddit;
-        document.getElementById('arWiki').textContent = this.stats.wiki;
-        document.getElementById('arStatus').textContent = '✅ Activo';
-        return r;
-    },
-    async github(t) { try { const r = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(t)}&per_page=5`); const d = await r.json(); return (d.items || []).map(i => ({ titulo: i.full_name, descripcion: i.description, estrellas: i.stargazers_count, fuente: 'GitHub' })); } catch (e) { return []; } },
-    async reddit(t) { try { const r = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(t)}&limit=5`); const d = await r.json(); return (d.data?.children || []).map(i => ({ titulo: i.data.title, subreddit: i.data.subreddit, fuente: 'Reddit' })); } catch (e) { return []; } },
-    async wiki(t) { try { const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(t)}&format=json&origin=*&srlimit=5`); const d = await r.json(); return (d.query?.search || []).map(i => ({ titulo: i.title, descripcion: i.snippet?.replace(/<[^>]+>/g, ''), fuente: 'Wikipedia' })); } catch (e) { return []; } }
-};
-
-// ============================================
-// FUENTES (12)
-// ============================================
-const fuentes = {
-    async buscar(t) {
-        const [ss, ar, cr, oa, core, ia, wk, wd, pm, doaj, ol, hn] = await Promise.allSettled([this.semantic(t), this.arxiv(t), this.crossref(t), this.openalex(t), this.core(t), this.internetArchive(t), this.wikipedia(t), this.wikidata(t), this.pubmed(t), this.doaj(t), this.openLibrary(t), this.hackerNews(t)]);
-        const pick = (r) => r.status === 'fulfilled' ? r.value : [];
-        return { semantic: pick(ss), arxiv: pick(ar), crossref: pick(cr), openalex: pick(oa), core: pick(core), archive: pick(ia), wikipedia: pick(wk), wikidata: pick(wd), pubmed: pick(pm), doaj: pick(doaj), openLibrary: pick(ol), hackerNews: pick(hn) };
-    },
-    async semantic(t) { try { const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(t)}&limit=5&fields=title,authors,year`); const d = await r.json(); return (d.data || []).map(p => ({ titulo: p.title, autores: p.authors?.map(a => a.name).join(', '), año: p.year, fuente: 'Semantic Scholar' })); } catch (e) { return []; } },
-    async arxiv(t) { try { const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(t)}&max_results=5`); const text = await r.text(); const entries = text.split('<entry>'); const out = []; for (let i = 1; i < Math.min(entries.length, 6); i++) { const m = entries[i].match(/<title>(.*?)<\/title>/); if (m) out.push({ titulo: m[1].trim(), autores: 'Desconocido', año: 's.f.', fuente: 'arXiv' }); } return out; } catch (e) { return []; } },
-    async crossref(t) { try { const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(t)}&rows=5`); const d = await r.json(); return (d.message?.items || []).map(i => ({ titulo: i.title?.[0] || '', autores: i.author?.map(a => a.family).join(', ') || '', año: i.issued?.['date-parts']?.[0]?.[0] || 's.f.', fuente: 'Crossref' })); } catch (e) { return []; } },
-    async openalex(t) { try { const r = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&per-page=5`); const d = await r.json(); return (d.results || []).map(i => ({ titulo: i.title || '', autores: i.authorships?.map(a => a.author.display_name).join(', ') || '', año: i.publication_year || 's.f.', fuente: 'OpenAlex' })); } catch (e) { return []; } },
-    async core(t) { try { const r = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(t)}&limit=5`); const d = await r.json(); return (d.results || []).map(i => ({ titulo: i.title, autores: i.authors?.join(', '), año: i.yearPublished, fuente: 'CORE' })); } catch (e) { return []; } },
-    async internetArchive(t) { try { const r = await fetch(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(t)}&fl[]=title,creator,year&rows=5&output=json`); const d = await r.json(); return (d.response?.docs || []).map(i => ({ titulo: i.title, autores: i.creator, año: i.year, fuente: 'Internet Archive' })); } catch (e) { return []; } },
-    async wikipedia(t) { try { const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(t)}&format=json&origin=*&srlimit=5`); const d = await r.json(); return (d.query?.search || []).map(i => ({ titulo: i.title, autores: 'Wikipedia', año: 's.f.', fuente: 'Wikipedia' })); } catch (e) { return []; } },
-    async wikidata(t) { try { const r = await fetch(`https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(t)}&language=es&format=json&origin=*&limit=5`); const d = await r.json(); return (d.search || []).map(i => ({ titulo: i.label, autores: 'Wikidata', año: 's.f.', fuente: 'Wikidata' })); } catch (e) { return []; } },
-    async pubmed(t) { try { const r = await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURIComponent(t)}&retmax=5&retmode=json`); const d = await r.json(); return (d.esearchresult?.idlist || []).map(id => ({ titulo: `PubMed ID ${id}`, autores: 'PubMed', año: 's.f.', fuente: 'PubMed' })); } catch (e) { return []; } },
-    async doaj(t) { try { const r = await fetch(`https://doaj.org/api/search/articles/${encodeURIComponent(t)}?pageSize=5`); const d = await r.json(); return (d.results || []).map(i => ({ titulo: i.bibjson?.title, autores: i.bibjson?.author?.map(a => a.name).join(', '), año: i.bibjson?.year, fuente: 'DOAJ' })); } catch (e) { return []; } },
-    async openLibrary(t) { try { const r = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(t)}&limit=5`); const d = await r.json(); return (d.docs || []).map(i => ({ titulo: i.title, autores: i.author_name?.join(', '), año: i.first_publish_year, fuente: 'Open Library' })); } catch (e) { return []; } },
-    async hackerNews(t) { try { const r = await fetch(`https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(t)}&hitsPerPage=5`); const d = await r.json(); return (d.hits || []).map(i => ({ titulo: i.title, autores: i.author, año: 's.f.', fuente: 'Hacker News' })); } catch (e) { return []; } }
-};
-
-// ============================================
-// CORE 403M
-// ============================================
-class Core403M {
-    constructor() { this.consultas = 0; this.temas = {}; this.evoluciones = 0; this.cargar(); this.iniciar(); }
-    iniciar() {
-        document.getElementById('coreStatus').textContent = '✅ Activo';
-        setInterval(() => { this.evoluciones++; document.getElementById('coreEvoluciones').textContent = this.evoluciones; this.guardar(); }, 60000);
-    }
-    registrar(t, r) {
-        this.consultas++; this.temas[t] = (this.temas[t] || 0) + 1;
-        document.getElementById('coreConsultas').textContent = this.consultas;
-        document.getElementById('coreTemas').textContent = Object.keys(this.temas).length;
-        this.guardar();
-    }
-    guardar() { try { localStorage.setItem('core403m', JSON.stringify({ consultas: this.consultas, temas: this.temas, evoluciones: this.evoluciones })); } catch (e) {} }
-    cargar() { try { const d = JSON.parse(localStorage.getItem('core403m') || '{}'); this.consultas = d.consultas || 0; this.temas = d.temas || {}; this.evoluciones = d.evoluciones || 0; document.getElementById('coreConsultas').textContent = this.consultas; document.getElementById('coreTemas').textContent = Object.keys(this.temas).length; document.getElementById('coreEvoluciones').textContent = this.evoluciones; } catch (e) {} }
-}
-const core403M = new Core403M();
-
-// ============================================
-// GNEWS API
-// ============================================
-class GNewsAPI {
-    constructor() { this.cache = new Map(); this.maxCacheAge = 3600000; this.totalNoticias = 0; this.ultimaActualizacion = null; this.cargarFechaActualizacion(); this.actualizarUI(); }
-    cargarFechaActualizacion() { try { const g = localStorage.getItem(ACTUALIZACION_DIARIA_KEY); if (g) this.ultimaActualizacion = new Date(g); } catch (e) {} }
-    guardarFechaActualizacion() { const a = new Date(); this.ultimaActualizacion = a; try { localStorage.setItem(ACTUALIZACION_DIARIA_KEY, a.toISOString()); } catch (e) {} this.actualizarUI(); }
-    actualizarUI() { const el = document.getElementById('ultimaActualizacionStatus'); if (el && this.ultimaActualizacion) el.textContent = this.ultimaActualizacion.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); }
-    necesitaActualizacion() { if (!this.ultimaActualizacion) return true; const h = (new Date() - this.ultimaActualizacion) / 3600000; return h >= HORAS_ENTRE_ACTUALIZACIONES; }
-    async buscarNoticias(tema = '', categoria = 'world', idioma = 'es', pais = '') {
-        const ck = `gnews_${tema}_${categoria}_${idioma}_${pais}`;
-        if (this.cache.has(ck)) { const c = this.cache.get(ck); if (Date.now() - c.timestamp < this.maxCacheAge) return c.data; }
-        try {
-            let url = tema ? `${GNEWS_SEARCH_URL}?q=${encodeURIComponent(tema)}&lang=${idioma}&max=10&apikey=${GNEWS_API_KEY}` : `${GNEWS_API_URL}?category=${categoria}&lang=${idioma}&max=10&apikey=${GNEWS_API_KEY}`;
-            if (pais) url += `&country=${pais}`;
-            document.getElementById('gnewsStatus').textContent = '⏳ Buscando…';
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error(`GNews ${resp.status}`);
-            const data = await resp.json();
-            const noticias = (data.articles || []).map((a, i) => ({
-                id: `int_${Date.now()}_${i}`, titulo: a.title, resumen: a.description || 'Sin descripción',
-                contenido: a.content || a.description || 'No disponible', autor: a.source?.name || 'Internacional',
-                fecha: new Date(a.publishedAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }),
-                categoria: 'internacional', categoriaNombre: '🌍 Internacional', fuente: a.source?.name || 'GNews',
-                url: a.url, pais: pais || 'Internacional'
-            }));
-            this.totalNoticias += noticias.length;
-            document.getElementById('gnewsTotal').textContent = this.totalNoticias;
-            document.getElementById('gnewsStatus').textContent = `✅ ${this.totalNoticias}`;
-            const r = { noticias, total: noticias.length, categoria, idioma, timestamp: Date.now() };
-            this.cache.set(ck, { data: r, timestamp: Date.now() });
-            return r;
-        } catch (e) {
-            console.warn('⚠️ GNews:', e.message);
-            document.getElementById('gnewsStatus').textContent = '⚠️ Error';
-            return this.fallback(categoria);
+            promesas.push(
+                (async () => {
+                    const t0 = Date.now();
+                    try {
+                        const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
+                        if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
+                        const body = { model: modelo, messages, temperature: 0.7, max_tokens: maxTokens };
+                        
+                        const resp = await fetchConTimeout(prov.url, { method: 'POST', headers, body: JSON.stringify(body) }, TIMEOUT_IA);
+                        const dur = ((Date.now() - t0) / 1000).toFixed(1);
+                        
+                        if (!resp.ok) {
+                            const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key inválida' : resp.status === 404 ? 'modelo no disponible' : `HTTP ${resp.status}`;
+                            Diagnostico.log(`${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error');
+                            iaFailsCount++;
+                            document.getElementById('iaFails').textContent = iaFailsCount;
+                            throw new Error(`${prov.nombre}/${modelo}: ${errTxt}`);
+                        }
+                        
+                        const data = await resp.json();
+                        const texto = data.choices?.[0]?.message?.content || '';
+                        if (texto.length < 50) {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: respuesta corta (${texto.length} chars)`, 'warn');
+                            iaFailsCount++;
+                            document.getElementById('iaFails').textContent = iaFailsCount;
+                            throw new Error(`${prov.nombre}/${modelo}: respuesta corta`);
+                        }
+                        
+                        Diagnostico.log(`${prov.nombre}/${modelo}: ✅ ${texto.length} chars en ${dur}s`, 'ok');
+                        iaOkCount++;
+                        document.getElementById('iaOk').textContent = iaOkCount;
+                        return { texto, proveedor: prov.nombre, modelo };
+                    } catch (e) {
+                        const dur = ((Date.now() - t0) / 1000).toFixed(1);
+                        if (e.name === 'AbortError') {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: Timeout ${dur}s`, 'error');
+                            iaFailsCount++;
+                            document.getElementById('iaFails').textContent = iaFailsCount;
+                        }
+                        throw e;
+                    }
+                })()
+            );
         }
     }
-    async actualizarNoticiasDelDia() {
-        showToast('🌍 Actualizando noticias internacionales…');
-        actualizarProgress(10);
-        const cats = ['world', 'business', 'technology', 'sports', 'health', 'science'];
-        const todas = [];
-        let p = 0;
-        for (const c of cats) {
-            try { const r = await this.buscarNoticias('', c, 'es'); if (r.noticias) todas.push(...r.noticias); p += 100 / cats.length; actualizarProgress(10 + p * 0.8); } catch (e) {}
-        }
-        try { const re = await this.buscarNoticias('Ecuador', '', 'es'); if (re.noticias) todas.push(...re.noticias); } catch (e) {}
-        try { const ra = await this.buscarNoticias('Germany', '', 'en'); if (ra.noticias) todas.push(...ra.noticias); } catch (e) {}
-        try { localStorage.setItem('noticias_internacionales_diarias', JSON.stringify(todas)); this.guardarFechaActualizacion(); } catch (e) {}
-        this.totalNoticias = todas.length;
-        document.getElementById('gnewsTotal').textContent = this.totalNoticias;
-        actualizarProgress(100);
-        showToast(`✅ ${todas.length} noticias internacionales`);
-        setTimeout(() => actualizarProgress(0), 2000);
-        return todas;
-    }
-    cargarGuardadas() { try { const g = localStorage.getItem('noticias_internacionales_diarias'); if (g) { const n = JSON.parse(g); this.totalNoticias = n.length; document.getElementById('gnewsTotal').textContent = n.length; return n; } } catch (e) {} return []; }
-    fallback(cat) {
-        const fb = [
-            { id: `fb_${Date.now()}_1`, titulo: '🌍 Cumbre climática: líderes mundiales buscan acuerdos', resumen: 'Representantes de 190 países se reúnen.', contenido: 'La cumbre climática más importante de la década.', fuente: 'Reuters', fecha: new Date().toLocaleDateString('es-ES'), categoria: 'internacional', categoriaNombre: '🌍 Internacional' },
-            { id: `fb_${Date.now()}_2`, titulo: '💻 IA revoluciona el periodismo global', resumen: 'Sistemas de IA transforman la industria.', contenido: 'La IA redefine cómo se producen las noticias.', fuente: 'BBC', fecha: new Date().toLocaleDateString('es-ES'), categoria: 'internacional', categoriaNombre: '🌍 Internacional' },
-            { id: `fb_${Date.now()}_3`, titulo: '📊 Economía global: mercados reaccionan', resumen: 'Volatilidad ante decisiones de bancos centrales.', contenido: 'Las bolsas mundiales experimentan movimientos.', fuente: 'FT', fecha: new Date().toLocaleDateString('es-ES'), categoria: 'internacional', categoriaNombre: '🌍 Internacional' }
-        ];
-        this.totalNoticias += fb.length;
-        document.getElementById('gnewsTotal').textContent = this.totalNoticias;
-        return { noticias: fb, total: fb.length, categoria: cat, idioma: 'es', fallback: true };
-    }
-    formatear(r) {
-        let html = `<h3 style="color:#3b82f6;">🌍 NOTICIAS INTERNACIONALES - GNEWS API</h3><p style="color:#5a6e7c;font-size:0.75rem;">Total: <strong>${r.total}</strong> | Idioma: ${r.idioma || 'es'}</p><div style="margin-top:10px;">`;
-        r.noticias.forEach((n, i) => {
-            html += `<div style="margin:8px 0;padding:10px;background:rgba(59,130,246,0.06);border-radius:8px;border-left:3px solid #3b82f6;">
-                <div style="font-size:0.85rem;font-weight:700;color:#1e40af;">${i + 1}. ${n.titulo}</div>
-                <div style="font-size:0.7rem;color:#5a6e7c;margin:4px 0;">${n.resumen}</div>
-                <div style="font-size:0.6rem;color:#8a9aa8;">📰 ${n.fuente} · 📅 ${n.fecha}</div>
-                ${n.url && n.url !== '#' ? `<a href="${n.url}" target="_blank" style="font-size:0.6rem;color:#3b82f6;">🔗 Leer más</a>` : ''}
-            </div>`;
-        });
-        html += `<div style="margin-top:12px;padding:8px;background:rgba(59,130,246,0.1);border-radius:6px;font-size:0.7rem;color:#5a6e7c;">💡 <strong style="color:#3b82f6;">GNews</strong> · 🌍 Tiempo real · ⚡ WASM Rust · 🤖 Agente</div></div>`;
-        return html;
+    
+    Diagnostico.log(`Total: ${promesas.length} combinaciones proveedor×modelo a probar`, 'info');
+    
+    try {
+        const resultado = await Promise.any(promesas);
+        proveedorActual = resultado.proveedor;
+        document.getElementById('proveedorActivo').textContent = resultado.proveedor;
+        document.getElementById('proveedorActivo').style.color = '#10b981';
+        document.getElementById('multiiaStatus').textContent = `✅ ${resultado.proveedor}`;
+        document.getElementById('multiiaStatus').className = 'ok';
+        document.getElementById('opinionMetaProveedor').textContent = `🤖 ${resultado.proveedor} (${resultado.modelo})`;
+        Diagnostico.log(`🏆 GANADOR: ${resultado.proveedor} (${resultado.modelo})`, 'ok');
+        return resultado;
+    } catch (e) {
+        Diagnostico.log('Todos los modelos y proveedores fallaron', 'error');
+        document.getElementById('multiiaStatus').textContent = '❌ Todos fallaron';
+        document.getElementById('multiiaStatus').className = 'bad';
+        throw new Error('Todos los proveedores y modelos IA fallaron');
     }
 }
-const gnewsAPI = new GNewsAPI();
 
-// ============================================
-// FUENTES ILIMITADAS (100+)
-// ============================================
-class FuentesIlimitadas {
-    constructor() { this.cache = new Map(); this.maxCacheAge = 3600000; }
-    async buscarFuenteGenerica(tema, nombre) { return [{ titulo: `${nombre}: ${tema}`, autores: 'Autor', año: '2024', fuente: nombre, url: '#' }]; }
-    async buscarTodas(tema) {
-        const ck = `ilim_${tema}`;
-        if (this.cache.has(ck)) { const c = this.cache.get(ck); if (Date.now() - c.timestamp < this.maxCacheAge) return c.data; }
-        const fuentes12 = await fuentes.buscar(tema);
-        const todas = [];
-        let total = 0;
-        Object.entries(fuentes12).forEach(([k, arr]) => { todas.push(...arr); total += arr.length; });
-        for (let i = 1; i <= 88; i++) { const g = await this.buscarFuenteGenerica(tema, `Fuente Adicional ${i}`); todas.push(...g); total += g.length; }
-        const r = { tema, total, resultados: todas, fuentesActivas: 100, timestamp: Date.now() };
-        this.cache.set(ck, { data: r, timestamp: Date.now() });
-        document.getElementById('ultraFuentes').textContent = total;
-        return r;
-    }
-    formatear(r) {
-        let html = `<h3 style="color:#10b981;">♾️ FUENTES ILIMITADAS</h3><p style="color:#5a6e7c;font-size:0.75rem;">Tema: <strong>${r.tema}</strong> | Total: <strong style="color:#f59e0b;">${r.total}</strong></p><div style="margin-top:10px;max-height:60vh;overflow-y:auto;">`;
-        r.resultados.slice(0, 30).forEach((x, i) => { html += `<div style="padding:6px;border-bottom:1px solid #e2e8f0;font-size:0.75rem;">${i + 1}. ${x.titulo} <span style="color:#8a9aa8;">— ${x.fuente}</span></div>`; });
-        html += `</div><div style="margin-top:12px;padding:8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:0.7rem;color:#5a6e7c;">💡 <strong style="color:#10b981;">100% GRATIS</strong> · ♾️ Sin límites</div>`;
-        return html;
+// ═══════════════════════════════════════════════════════════
+// 📡 APIs DE NOTICIAS (sin key o con key real)
+// ═══════════════════════════════════════════════════════════
+async function buscarHackerNews(tema) {
+    const t0 = Date.now();
+    try {
+        const r = await fetchConTimeout(`https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(tema)}&hitsPerPage=10`, {}, TIMEOUT_API_NEWS);
+        const dur = ((Date.now() - t0) / 1000).toFixed(1);
+        const d = await r.json();
+        const items = (d.hits || []).map((a, i) => ({
+            id: `hn_${Date.now()}_${i}`, titulo: a.title || a.story_title, resumen: (a.story_text || '').substring(0, 200),
+            fuente: 'Hacker News', fecha: new Date(a.created_at).toLocaleDateString('es-ES'),
+            categoria: 'internacional', categoriaNombre: '💻 Hacker News', url: a.url, api: 'Hacker News'
+        }));
+        Diagnostico.log(`Hacker News: ✅ ${items.length} en ${dur}s`, 'ok');
+        newsOkCount++; document.getElementById('newsOk').textContent = newsOkCount;
+        return items;
+    } catch (e) {
+        Diagnostico.log(`Hacker News: ${e.message}`, 'error');
+        newsFailsCount++; document.getElementById('newsFails').textContent = newsFailsCount;
+        return [];
     }
 }
-const fuentesIlimitadas = new FuentesIlimitadas();
 
-// ============================================
-// NOTICIAS LOCALES
-// ============================================
-let todasNoticias = [], currentCategory = "all", ultimoAnalisis = '';
-function generarNoticias() {
-    const h = new Date(); const s = h.getFullYear() * 365 + (h.getMonth() + 1) * 31 + h.getDate();
-    const ts = ["Operativos militares", "Incautación récord", "Reducción homicidios", "Nuevo comandante", "Frontera reforzada", "Banda desarticulada"];
-    const te = ["Inflación desciende", "BCE proyecta crecimiento", "Créditos emprendedores", "Acuerdo comercial", "Dólar estable", "Inversión récord"];
-    const tp = ["Asamblea aprueba ley", "Gabinete renovado", "Consulta popular", "Partidos acuerdan", "Presupuesto 2026", "Comisión Verdad"];
-    const tsoc = ["Programas sociales", "Vacunación", "Nuevo hospital", "Retorno clases", "Protección adulto", "Ferias empleo"];
-    const tc = ["Festival Cine", "Patrimonio", "Conciertos", "Libro premiado", "Museo Nacional", "Danza contemporánea"];
-    return [
-        { id: "1", titulo: `Seguridad: ${ts[s % 6]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Autoridades presentaron plan integral.", contenido: `Detalles de los operativos contra el crimen organizado. ${ts[s % 6]} ha sido el foco.`, fuente: "El Universo", categoriaNombre: "🚔 Seguridad" },
-        { id: "2", titulo: `Economía: ${te[(Math.floor(s / 7)) % 6]}`, autor: "El Universo", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Análisis impacto económico.", contenido: `Proyecciones del Banco Central. ${te[(Math.floor(s / 7)) % 6]} es la tendencia.`, fuente: "El Universo", categoriaNombre: "📊 Economía" },
-        { id: "3", titulo: `Política: ${tp[(Math.floor(s / 13)) % 6]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "politica", resumen: "Legisladores debaten.", contenido: `Cobertura de debates. ${tp[(Math.floor(s / 13)) % 6]} marca el pulso político.`, fuente: "El Comercio", categoriaNombre: "🏛️ Política" },
-        { id: "4", titulo: `Sociedad: ${tsoc[(Math.floor(s / 19)) % 6]}`, autor: "El Comercio", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Beneficiarios celebran.", contenido: `Impacto de programas sociales. ${tsoc[(Math.floor(s / 19)) % 6]} cambia vidas.`, fuente: "El Comercio", categoriaNombre: "👥 Sociedad" },
-        { id: "5", titulo: "Seguridad: Récord incautaciones", autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "seguridad", resumen: "Balance semestral.", contenido: "Cifras oficiales de incautaciones. Operaciones coordinadas dan resultados.", fuente: "Primicias", categoriaNombre: "🚔 Seguridad" },
-        { id: "6", titulo: `Economía: ${te[(Math.floor(s / 7) + 2) % 6]}`, autor: "Primicias", fecha: h.toLocaleDateString('es-ES'), categoria: "economia", resumen: "Proyecciones económicas.", contenido: "Indicadores macroeconómicos. Optimismo en los mercados.", fuente: "Primicias", categoriaNombre: "📊 Economía" },
-        { id: "7", titulo: `Cultura: ${tc[(Math.floor(s / 23)) % 6]}`, autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "cultura", resumen: "Agenda cultural.", contenido: `Actividades del fin de semana. ${tc[(Math.floor(s / 23)) % 6]} atrae a miles.`, fuente: "Expreso", categoriaNombre: "🎭 Cultura" },
-        { id: "8", titulo: "Sociedad: Inversión salud", autor: "Expreso", fecha: h.toLocaleDateString('es-ES'), categoria: "sociedad", resumen: "Mejoras hospitalarias.", contenido: "Inversión en infraestructura de salud. Nuevos equipos médicos.", fuente: "Expreso", categoriaNombre: "👥 Sociedad" }
-    ];
+async function buscarWikipedia(tema) {
+    const t0 = Date.now();
+    try {
+        const r = await fetchConTimeout(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema)}&format=json&origin=*&srlimit=5`, {}, TIMEOUT_API_NEWS);
+        const dur = ((Date.now() - t0) / 1000).toFixed(1);
+        const d = await r.json();
+        const items = (d.query?.search || []).map((a, i) => ({
+            id: `wiki_${Date.now()}_${i}`, titulo: a.title, resumen: a.snippet?.replace(/<[^>]+>/g, ''),
+            fuente: 'Wikipedia', fecha: new Date().toLocaleDateString('es-ES'),
+            categoria: 'internacional', categoriaNombre: '📚 Wikipedia',
+            url: `https://es.wikipedia.org/wiki/${encodeURIComponent(a.title)}`, api: 'Wikipedia'
+        }));
+        Diagnostico.log(`Wikipedia: ✅ ${items.length} en ${dur}s`, 'ok');
+        newsOkCount++; document.getElementById('newsOk').textContent = newsOkCount;
+        return items;
+    } catch (e) {
+        Diagnostico.log(`Wikipedia: ${e.message}`, 'error');
+        newsFailsCount++; document.getElementById('newsFails').textContent = newsFailsCount;
+        return [];
+    }
 }
+
+async function buscarGDELT(tema) {
+    const t0 = Date.now();
+    try {
+        const r = await fetchConTimeout(`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(tema)}&mode=artlist&maxrecords=10&format=json`, {}, TIMEOUT_API_NEWS);
+        const dur = ((Date.now() - t0) / 1000).toFixed(1);
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const d = await r.json();
+        const items = (d.articles || []).map((a, i) => ({
+            id: `gdelt_${Date.now()}_${i}`, titulo: a.title, resumen: a.title,
+            fuente: a.domain, fecha: a.seendate, categoria: 'internacional',
+            categoriaNombre: '🌐 GDELT', url: a.url, api: 'GDELT'
+        }));
+        Diagnostico.log(`GDELT: ✅ ${items.length} en ${dur}s`, 'ok');
+        newsOkCount++; document.getElementById('newsOk').textContent = newsOkCount;
+        return items;
+    } catch (e) {
+        Diagnostico.log(`GDELT: ${e.message}`, 'error');
+        newsFailsCount++; document.getElementById('newsFails').textContent = newsFailsCount;
+        return [];
+    }
+}
+
+async function buscarReddit(tema) {
+    const t0 = Date.now();
+    try {
+        const r = await fetchConTimeout(`https://www.reddit.com/search.json?q=${encodeURIComponent(tema)}&limit=8`, {}, TIMEOUT_API_NEWS);
+        const dur = ((Date.now() - t0) / 1000).toFixed(1);
+        const d = await r.json();
+        const items = (d.data?.children || []).map((a, i) => ({
+            id: `reddit_${Date.now()}_${i}`, titulo: a.data.title, resumen: (a.data.selftext || '').substring(0, 200),
+            fuente: `r/${a.data.subreddit}`, fecha: new Date(a.data.created_utc * 1000).toLocaleDateString('es-ES'),
+            categoria: 'internacional', categoriaNombre: '📖 Reddit', url: `https://reddit.com${a.data.permalink}`, api: 'Reddit'
+        }));
+        Diagnostico.log(`Reddit: ✅ ${items.length} en ${dur}s`, 'ok');
+        newsOkCount++; document.getElementById('newsOk').textContent = newsOkCount;
+        return items;
+    } catch (e) {
+        Diagnostico.log(`Reddit: ${e.message} (posible CORS)`, 'warn');
+        newsFailsCount++; document.getElementById('newsFails').textContent = newsFailsCount;
+        return [];
+    }
+}
+
+async function buscarTodasNoticias(tema = 'Ecuador') {
+    Diagnostico.log('Consultando APIs de noticias en paralelo…', 'info');
+    const resultados = await Promise.allSettled([
+        buscarHackerNews(tema),
+        buscarWikipedia(tema),
+        buscarGDELT(tema),
+        buscarReddit(tema)
+    ]);
+    const todas = [];
+    resultados.forEach(r => { if (r.status === 'fulfilled' && r.value) todas.push(...r.value); });
+    const unicas = []; const titulos = new Set();
+    todas.forEach(n => { if (n.titulo && !titulos.has(n.titulo)) { titulos.add(n.titulo); unicas.push(n); } });
+    document.getElementById('gnewsTotal').textContent = unicas.length;
+    document.getElementById('gnewsStatus').textContent = `✅ ${unicas.length}`;
+    document.getElementById('ultraInternacionales').textContent = unicas.length;
+    Diagnostico.log(`Total: ${unicas.length} noticias únicas`, 'ok');
+    return unicas;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 📰 NOTICIAS LOCALES (placeholder visual)
+// ═══════════════════════════════════════════════════════════
+let todasNoticias = [], currentCategory = "all";
+
 function renderNoticias() {
     const c = document.getElementById('newsContainer');
     let filtered = currentCategory === 'all' ? todasNoticias : todasNoticias.filter(n => n.categoria === currentCategory);
     if (filtered.length === 0) { c.innerHTML = '<div class="loading-text">📭 No hay noticias.</div>'; return; }
-    c.innerHTML = filtered.map(n => {
+    c.innerHTML = filtered.slice(0, 30).map(n => {
         const esInt = n.categoria === 'internacional';
         return `<div class="news-card ${esInt ? 'internacional' : ''}" onclick="abrirModal('${n.id}')">
             <div class="card-category">${n.categoriaNombre}</div>
             <div class="card-content">
                 <h3 class="card-title">${n.titulo}</h3>
-                <p class="card-summary">${n.resumen}</p>
-                <div class="card-meta">
-                    <span>${n.fecha} · ${n.fuente}</span>
-                </div>
-                <button class="temas-relacionados-btn" onclick="event.stopPropagation(); cargarTemasRelacionados(this, '${n.titulo.replace(/'/g, "\\'")}')">💡 Temas relacionados</button>
-                <div class="temas-container" id="temas-${n.id}">
-                    <div class="titulo">📌 Temas relacionados:</div>
-                    <div class="texto" id="temas-texto-${n.id}">Cargando...</div>
-                </div>
+                <p class="card-summary">${(n.resumen || '').substring(0, 150)}</p>
+                <div class="card-meta"><span>${n.fecha} · ${n.fuente}</span></div>
             </div>
         </div>`;
     }).join('');
 }
-window.cargarTemasRelacionados = async function (btn, tituloNoticia) {
-    const container = btn.nextElementSibling;
-    const textoDiv = document.getElementById(container.id.replace('temas-', 'temas-texto-'));
-    btn.disabled = true; btn.textContent = '⏳ Cargando…';
-    container.classList.add('visible');
-    textoDiv.innerHTML = '<span class="loading-spinner"></span> ⚡ WASM Rust + Multi-IA (9 proveedores) analizando…';
-    try {
-        const prompt = `Basándote en: "${tituloNoticia}", genera 3 temas de investigación periodística desde la perspectiva alemana. Solo títulos.`;
-        const r = await llamarIA([{ role: 'system', content: 'Periodista experto.' }, { role: 'user', content: prompt }], 800);
-        textoDiv.innerHTML = r.texto;
-        showToast('✅ Temas cargados');
-    } catch (e) { textoDiv.innerHTML = '❌ Error: ' + e.message; }
-    finally { btn.disabled = false; btn.textContent = '💡 Temas relacionados'; }
-};
+
 window.abrirModal = function (id) {
     const n = todasNoticias.find(n => n.id === id);
     if (!n) return;
     document.getElementById('modalContent').innerHTML = `
         <div style="background:${n.categoria === 'internacional' ? '#3b82f6' : '#e67e22'};color:white;padding:0.3rem 1rem;border-radius:20px;font-size:0.7rem;margin-bottom:1rem;display:inline-block;">${n.categoriaNombre}</div>
         <h2>${n.titulo}</h2>
-        <div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;">${n.fecha} · ${n.autor} · ${n.fuente}</div>
-        <div style="white-space:pre-wrap;">${n.contenido}</div>
-        ${n.url ? `<a href="${n.url}" target="_blank" style="display:inline-block;margin-top:12px;color:#3b82f6;font-size:0.8rem;">🔗 Leer noticia completa</a>` : ''}
+        <div style="color:#8a9aa8;font-size:0.8rem;margin-bottom:1rem;">${n.fecha} · ${n.fuente}</div>
+        <div style="white-space:pre-wrap;">${n.contenido || n.resumen || ''}</div>
+        ${n.url ? `<a href="${n.url}" target="_blank" style="display:inline-block;margin-top:12px;color:#3b82f6;font-size:0.8rem;">🔗 Leer más</a>` : ''}
     `;
     document.getElementById('newsModal').classList.add('active');
 };
 
-function actualizarWidgetsNoticias(noticias) {
-    if (!noticias || noticias.length === 0) return;
-    document.getElementById('metricNoticias').textContent = noticias.length;
-    const categorias = new Set(noticias.map(n => n.categoria));
-    const fuentes = new Set(noticias.map(n => n.fuente));
-    document.getElementById('metricCategorias').textContent = categorias.size;
-    document.getElementById('metricFuentes').textContent = fuentes.size;
-    document.getElementById('metricPeriodistas').textContent = Math.min(25 + noticias.length, 30);
-    const textoTotal = noticias.map(n => (n.resumen || '') + ' ' + (n.contenido || '')).join(' ');
-    const stats = rustWASM.contarPalabras(textoTotal);
-    document.getElementById('metricMemoria').textContent = stats.palabras;
-    document.getElementById('metricSemantico').textContent = stats.unicas;
-    const conf = Math.min(70 + noticias.length * 2, 95);
-    document.getElementById('confidenceFill').style.width = conf + '%';
-    document.getElementById('confidenceLabel').textContent = conf + '%';
-    document.getElementById('qualityScore').textContent = conf > 85 ? 'ALTA' : conf > 70 ? 'MEDIA' : 'BAJA';
-    document.getElementById('ultraInternacionales').textContent = noticias.filter(n => n.categoria === 'internacional').length;
+function actualizarAnalisisAutomatico(texto) {
+    if (!texto) return;
+    const palabras = (texto.match(/\S+/g) || []).length;
+    const unicas = new Set((texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [])).size;
+    document.getElementById('metricMemoria').textContent = palabras;
+    document.getElementById('metricSemantico').textContent = unicas;
+    document.getElementById('tiempoLectura').textContent = `⏱️ ${Math.round(palabras / 200 * 10) / 10} min`;
+    document.getElementById('widgetTextoContent').innerText = texto.substring(0, 200) + '…';
+    document.getElementById('confidenceFill').style.width = '85%';
+    document.getElementById('confidenceLabel').textContent = '85%';
+    document.getElementById('qualityScore').textContent = 'ALTA';
+    document.getElementById('ultraTiempo').textContent = Math.round(performance.now()) + 'ms';
 }
 
-function cargarEdicion() {
-    const hoy = new Date().toDateString();
-    const g = localStorage.getItem('noticias_de_v7');
-    const f = localStorage.getItem('fecha_de_v7');
-    if (g && f === hoy) todasNoticias = JSON.parse(g);
-    else { todasNoticias = generarNoticias(); localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias)); localStorage.setItem('fecha_de_v7', hoy); }
-    const ni = gnewsAPI.cargarGuardadas();
-    if (ni.length > 0) { const ids = new Set(todasNoticias.map(x => x.titulo)); const nn = ni.filter(x => !ids.has(x.titulo)); todasNoticias = [...nn, ...todasNoticias]; }
-    renderNoticias();
-    document.getElementById('updateStatus').innerHTML = `📰 Edición del ${new Date().toLocaleDateString('es-ES')} · ${todasNoticias.length} noticias (${ni.length} internacionales)`;
-    actualizarWidgetsNoticias(todasNoticias);
-}
+// ═══════════════════════════════════════════════════════════
+// 🎯 FUNCIÓN PRINCIPAL DE ANÁLISIS
+// ═══════════════════════════════════════════════════════════
+async function generarAnalisis() {
+    const oc = document.getElementById('opinionContent');
+    const meta = document.getElementById('opinionMetaProveedor');
+    
+    oc.innerHTML = '<div class="spinner"></div><div class="loading-text">⚡ Iniciando análisis con todas las APIs…</div>';
+    meta.textContent = '';
+    document.getElementById('faseInfo').textContent = '📡 Buscando noticias y contexto…';
+    
+    const t0 = Date.now();
+    
+    try {
+        // PASO 1: Noticias
+        const noticias = await buscarTodasNoticias('Ecuador');
+        
+        // PASO 2: Análisis con IA
+        document.getElementById('faseInfo').textContent = '🤖 Consultando Multi-IA…';
+        oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 Multi-IA procesando…</div>';
+        
+        const temaAuto = 'Ecuador economía seguridad política 2026';
+        let contexto = '';
+        if (noticias.length) {
+            contexto += '\n📰 NOTICIAS REALES:\n';
+            noticias.slice(0, 12).forEach((n, i) => { contexto += `${i + 1}. [${n.fuente}] ${n.titulo}\n`; });
+        }
+        
+        const prompt = `Eres periodista alemán senior analizando Ecuador.
 
-// ============================================
-// ACTUALIZACIÓN DIARIA
-// ============================================
-async function verificarActualizacionDiaria() {
-    if (gnewsAPI.necesitaActualizacion()) {
-        console.log('📅 Actualizando noticias internacionales (24h)…');
-        await gnewsAPI.actualizarNoticiasDelDia();
-        const ni = gnewsAPI.cargarGuardadas();
-        if (ni.length > 0) {
-            const ids = new Set(todasNoticias.map(x => x.titulo));
-            const nn = ni.filter(x => !ids.has(x.titulo));
-            todasNoticias = [...nn, ...todasNoticias];
-            localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias));
-            renderNoticias();
-            actualizarWidgetsNoticias(todasNoticias);
+TEMA: ${temaAuto}
+
+DATOS REALES DE APIs PERIODÍSTICAS:
+${contexto}
+
+Genera un ANÁLISIS EDITORIAL COMPLETO con esta estructura exacta:
+
+Titular: (máximo 12 palabras impactantes)
+
+Subtítulo: (una línea descriptiva)
+
+Lead: (párrafo con 5W+H respondiendo qué, quién, cuándo, dónde, por qué)
+
+Cuerpo:
+- Sub-tema 1: Análisis profundo
+- Sub-tema 2: Datos y contexto
+- Sub-tema 3: Perspectiva comparada
+
+Contexto Ecuador vs Alemania:
+(comparación breve)
+
+Cierre:
+(conclusión periodística)
+
+Ficha de Datos Clave:
+- Economía: 
+- Seguridad: 
+- Política: 
+- Sociedad: 
+
+EXTENSIÓN: 800-1000 palabras. NO uses asteriscos ni markdown. Empieza con "Titular:".`;
+        
+        const r = await llamarIAParalelo([
+            { role: 'system', content: 'Eres periodista alemán senior analizando Ecuador para un diario ecuatoriano. Responde en español. NO uses asteriscos ni markdown.' },
+            { role: 'user', content: prompt }
+        ], 3000);
+        
+        let textoLimpio = r.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/#{1,6}\s*/g, '').trim();
+        
+        // Renderizar
+        oc.innerHTML = `<div style="white-space:pre-wrap;">${textoLimpio}</div>`;
+        meta.textContent = `🤖 ${r.proveedor} (${r.modelo}) · ${((Date.now() - t0) / 1000).toFixed(1)}s`;
+        
+        actualizarAnalisisAutomatico(textoLimpio);
+        document.getElementById('faseInfo').textContent = `✅ Completado en ${((Date.now() - t0) / 1000).toFixed(1)}s · ${r.proveedor}`;
+        showToast(`✅ ${r.proveedor} · ${noticias.length} noticias · ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+        Diagnostico.log(`✅ ANÁLISIS COMPLETADO en ${((Date.now() - t0) / 1000).toFixed(1)}s`, 'ok');
+        
+    } catch (e) {
+        // FALLBACK INTELIGENTE: componer con datos reales de las APIs
+        Diagnostico.log(`Multi-IA falló: ${e.message}`, 'error');
+        Diagnostico.log('Componiendo respuesta con datos reales de las APIs…', 'warn');
+        
+        // Buscar noticias específicas para componer
+        const noticiasExtra = await buscarTodasNoticias('Ecuador 2026');
+        const todasLasNoticias = [...noticiasExtra];
+        
+        if (todasLasNoticias.length > 0) {
+            let composicion = `Titular: Ecuador 2026 · Radiografía de una nación en transformación\n\n`;
+            composicion += `Subtítulo: Datos reales recopilados de ${todasLasNoticias.length} fuentes internacionales\n\n`;
+            composicion += `Lead: Ecuador enfrenta un momento decisivo en su historia reciente. `;
+            composicion += `Los datos recopilados de ${new Set(todasLasNoticias.map(n => n.fuente)).size} fuentes internacionales `;
+            composicion += `revelan múltiples dimensiones del panorama actual: economía, seguridad, política y sociedad.\n\n`;
+            
+            composicion += `Cuerpo:\n\n`;
+            
+            // Agrupar por fuente
+            const porFuente = {};
+            todasLasNoticias.forEach(n => {
+                if (!porFuente[n.api]) porFuente[n.api] = [];
+                porFuente[n.api].push(n);
+            });
+            
+            let subtema = 1;
+            Object.entries(porFuente).forEach(([api, items]) => {
+                composicion += `Sub-tema ${subtema}: Fuente ${api} (${items.length} publicaciones)\n\n`;
+                items.slice(0, 5).forEach((n, i) => {
+                    composicion += `  ${i + 1}. ${n.titulo}\n`;
+                    if (n.resumen && n.resumen !== n.titulo) composicion += `     ${n.resumen.substring(0, 200)}\n`;
+                });
+                composicion += `\n`;
+                subtema++;
+            });
+            
+            composicion += `Contexto Ecuador vs Alemania:\n\n`;
+            composicion += `Ecuador, con su economía dolarizada y su posición geográfica estratégica, `;
+            composicion += `enfrenta desafíos que resuenan con debates globales. Alemania, como referencia `;
+            composicion += `de estabilidad institucional, ofrece un contraste interesante para analizar `;
+            composicion += `las dinámicas ecuatorianas.\n\n`;
+            
+            composicion += `Cierre:\n\n`;
+            composicion += `Ecuador se encuentra en un punto de inflexión. Los datos de ${todasLasNoticias.length} `;
+            composicion += `publicaciones analizadas muestran un país diverso y complejo que requiere `;
+            composicion += `atención continua.\n\n`;
+            
+            composicion += `Ficha de Datos Clave:\n`;
+            composicion += `- Total fuentes analizadas: ${new Set(todasLasNoticias.map(n => n.fuente)).size}\n`;
+            composicion += `- Total publicaciones: ${todasLasNoticias.length}\n`;
+            composicion += `- APIs consultadas: ${new Set(todasLasNoticias.map(n => n.api)).size}\n`;
+            composicion += `- Proveedores IA probados: ${IA_PROVEEDORES.length}\n`;
+            composicion += `- Modelos free intentados: ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)}\n`;
+            
+            composicion += `\n─────────────────────────────────────\n`;
+            composicion += `⚠️ Los proveedores de IA no respondieron en este momento.\n`;
+            composicion += `📊 Composición automática con datos reales de ${new Set(todasLasNoticias.map(n => n.fuente)).size} fuentes.\n`;
+            composicion += `🔄 Reintenta para obtener el análisis generado por IA.\n`;
+            composicion += `─────────────────────────────────────`;
+            
+            oc.innerHTML = `<div style="white-space:pre-wrap;">${composicion}</div>`;
+            actualizarAnalisisAutomatico(composicion);
+            meta.textContent = `📊 Composición automática · ${todasLasNoticias.length} datos reales`;
+            document.getElementById('faseInfo').textContent = `⚠️ Composición con ${todasLasNoticias.length} datos reales`;
+            showToast(`⚠️ IA no disponible · ${todasLasNoticias.length} noticias reales mostradas`, true);
+        } else {
+            oc.innerHTML = `
+                <div style="text-align:center;padding:2rem;">
+                    <div style="font-size:2rem;margin-bottom:1rem;">⚠️</div>
+                    <div style="font-weight:700;color:#ef4444;margin-bottom:0.7rem;">Servicios no disponibles</div>
+                    <div style="font-size:0.85rem;color:#cbd5e1;line-height:1.6;">
+                        Los proveedores de IA y las APIs de noticias no respondieron.<br><br>
+                        Revisa el panel de diagnóstico arriba para ver detalles.
+                    </div>
+                </div>`;
+            document.getElementById('faseInfo').textContent = '❌ Sin datos · Revisa diagnóstico';
         }
     }
 }
 
-// ============================================
-// ANÁLISIS AUTOMÁTICO
-// ============================================
-function actualizarAnalisisAutomatico(texto, idioma) {
-    if (!texto || texto === '—') return;
-    const stats = rustWASM.contarPalabras(texto);
-    const keywords = rustWASM.keywords(texto, 5);
-    document.getElementById('metricMemoria').textContent = stats.palabras;
-    document.getElementById('metricSemantico').textContent = stats.unicas;
-    document.getElementById('metricDB').textContent = (texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
-    document.getElementById('rustTiempo').textContent = Math.round(rustWASM.stats.tiempo) + 'ms';
-    document.getElementById('rustCache').textContent = rustWASM.getCacheSize();
-    document.getElementById('ultraFunciones').textContent = rustWASM.stats.funciones;
-    document.getElementById('ultraTiempo').textContent = Math.round(rustWASM.stats.tiempo) + 'ms';
-    document.getElementById('ultraIdiomas').textContent = ++idiomasTotal;
-    document.getElementById('ultraOptimizaciones').textContent = rustWASM.stats.optimizaciones;
-    if (keywords.length > 0) document.getElementById('keywordsWidget').innerHTML = keywords.map(k => `<span class="kw-chip">🏷️ ${k.palabra} (${k.frecuencia})</span>`).join('');
-    const intro = texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
-    const des = texto.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
-    const con = texto.match(/Conclusión:([\s\S]*?)$/i);
-    document.getElementById('introPalabras').textContent = intro ? rustWASM.contarPalabras(intro[1]).palabras : 0;
-    document.getElementById('desarrolloPalabras').textContent = des ? rustWASM.contarPalabras(des[1]).palabras : 0;
-    document.getElementById('conclusionPalabras').textContent = con ? rustWASM.contarPalabras(con[1]).palabras : 0;
-    const pArr = texto.match(/\S+/g) || [];
-    const oArr = texto.match(/[.!?]+/g) || [];
-    const sil = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
-    let leg = oArr.length > 0 && pArr.length > 0 ? 206.84 - (1.015 * (pArr.length / oArr.length)) - (84.6 * (sil / pArr.length)) : 50;
-    leg = Math.max(0, Math.min(100, leg));
-    const nivel = leg > 60 ? 'Fácil' : leg > 40 ? 'Media' : 'Difícil';
-    document.getElementById('legibilidadScore').textContent = `${nivel} (${Math.round(leg)})`;
-    document.getElementById('riquezaVocabulario').textContent = stats.palabras > 0 ? Math.round((stats.unicas / stats.palabras) * 100) + '%' : '0%';
-    document.getElementById('tiempoLectura').textContent = `⏱️ ${Math.round(stats.palabras / 200 * 10) / 10} min`;
-    const pos = ['innovador', 'excelente', 'significativo', 'importante', 'mejora', 'avance', 'éxito'].filter(p => texto.toLowerCase().includes(p)).length;
-    const neg = ['problema', 'dificultad', 'limitación', 'desafío', 'falla', 'riesgo'].filter(p => texto.toLowerCase().includes(p)).length;
-    document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${pos > neg ? 'Propositivo' : neg > pos ? 'Crítico' : 'Equilibrado'}`;
-    let prob = 0; if (!intro) prob++; if (!des) prob++; if (!con) prob++;
-    document.getElementById('completitudWidget').textContent = `📊 Completitud: ${Math.max(0, 100 - prob * 15)}%`;
-    const citas = (texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
-    let conf = 70; if (stats.palabras > 800) conf += 10; if (citas >= 4) conf += 15; if (prob === 0) conf += 5;
-    document.getElementById('confidenceFill').style.width = conf + '%';
-    document.getElementById('confidenceLabel').textContent = conf + '%';
-    document.getElementById('qualityScore').textContent = conf > 85 ? 'ALTA' : conf > 70 ? 'MEDIA' : 'BAJA';
-    actualizarIndicadorIdioma(idioma || rustWASM.idioma(texto));
-    rustWASM.cache(`analisis_${Date.now()}`, texto.substring(0, 5000));
-    actualizarFase(`🦀 WASM Rust · ${stats.palabras} palabras · ${citas} citas · 🔄 ${proveedorActual || 'Multi-IA'}`);
-}
-
-// ============================================
-// CHAT
-// ============================================
-const chatHistorial = [];
-async function enviarChat() {
-    const input = document.getElementById('chatInput');
-    const msg = input.value.trim();
-    if (!msg) return;
-    input.value = '';
-    const cont = document.getElementById('chatMensajes');
-    cont.innerHTML += `<div class="chat-msg chat-user">${msg}</div>`;
-    cont.scrollTop = cont.scrollHeight;
-    chatHistorial.push({ role: 'user', content: msg });
-    try {
-        const r = await llamarIA([{ role: 'system', content: 'Eres un asistente periodístico inteligente con WASM Rust, Multi-IA (9 proveedores), Core 403M y Agent-Reach. Responde en español, conciso y útil.' }, ...chatHistorial.slice(-6)], 1500);
-        cont.innerHTML += `<div class="chat-msg chat-ia"><strong>🤖 ${r.proveedor}:</strong> ${r.texto}</div>`;
-        chatHistorial.push({ role: 'assistant', content: r.texto });
-        cont.scrollTop = cont.scrollHeight;
-    } catch (e) { showToast('❌ ' + e.message, true); }
-}
-
-// ============================================
+// ═══════════════════════════════════════════════════════════
 // EVENTOS
-// ============================================
+// ═══════════════════════════════════════════════════════════
 document.querySelectorAll('.modo-btn').forEach(btn => {
     btn.addEventListener('click', function () {
         document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         modoActual = this.dataset.modo;
         document.getElementById('modoActualIndicator').textContent = modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico';
-        document.getElementById('modoActualIndicator').className = 'modo-activo-indicator ' + (modoActual === 'experto' ? 'modo-experto' : 'modo-basico');
-        showToast(`Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}`);
     });
 });
-document.getElementById('btnRustStatus').onclick = () => {
-    const mod = rustWASM.wasm;
-    const funcs = mod ? ['contar_palabras', 'contar_caracteres_sin_espacios', 'contar_oraciones', 'process_text_full', 'extract_keywords', 'extract_authors_fast', 'detectar_idioma', 'resumir_texto', 'process_agent_context', 'cache_response', 'get_cached_response', 'get_cache_size', 'clear_cache'].filter(f => typeof mod[f] === 'function') : [];
-    mostrarModal('🦀 Estado WASM Rust',
-        `Estado: ${rustWASM.cargado ? '✅ Cargado' : '⚠️ Fallback JS'}\nVersión: ${rustWASM.cargado && mod.wasm_version ? mod.wasm_version() : 'N/A'}\nFunciones: ${funcs.length}/13\n\n📋 ${funcs.map(f => '• ' + f).join('\n')}\n\n⚡ Ejecutadas: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}`
-    );
-};
-document.getElementById('btnRustTest').onclick = () => {
-    const texto = 'La inteligencia artificial es un campo fascinante. Según García (2023) revoluciona la educación. Martínez (2024) analiza su impacto.';
-    const t0 = performance.now();
-    const stats = rustWASM.contarPalabras(texto);
-    const keywords = rustWASM.keywords(texto, 5);
-    const autores = rustWASM.autores(texto);
-    const idioma = rustWASM.idioma(texto);
-    const full = rustWASM.processFull(texto);
-    const t1 = performance.now();
-    mostrarModal('⚡ Test WASM Rust',
-        `📝 "${texto.substring(0, 60)}…"\n\n📊 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n🌐 Idioma: ${idioma}\n\n🏷️ Keywords: ${keywords.map(k => `${k.palabra} (${k.frecuencia})`).join(', ') || 'N/A'}\n\n👤 Autores: ${autores.join(', ') || 'N/A'}\n\n⚡ Tiempo: ${(t1 - t0).toFixed(2)}ms\n🦀 wasm_rust: ${full?.wasm_rust || rustWASM.cargado}\n⏱️ tiempo_us: ${full?.tiempo_us || 'N/A'}`
-    );
-};
+
 document.getElementById('btnMultiIA').onclick = () => {
-    let info = '🔄 Multi-IA con fallback automático (9 proveedores)\n\n';
+    let info = `🔄 Multi-IA · ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free\n\n`;
     IA_PROVEEDORES.forEach((p, i) => {
-        const emoji = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'][i] || '🔹';
-        info += `${emoji} ${p.nombre}\n`;
-        info += `   • Modelos: ${p.modelos.join(', ')}\n`;
-        info += `   • Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳ Espera'}\n\n`;
+        info += `${i + 1}. ${p.nombre} (${p.modelos.length} modelos)\n`;
+        p.modelos.forEach(m => { info += `   • ${m}\n`; });
+        info += `\n`;
     });
-    info += `🔧 Si un proveedor falla (401, 403, 429, timeout), se prueba automáticamente el siguiente modelo y luego el siguiente proveedor.`;
-    mostrarModal('🔄 Multi-IA — 9 proveedores', info);
+    info += `📊 OK: ${iaOkCount} · Fallos: ${iaFailsCount}\n`;
+    info += `⏱️ Timeout por modelo: ${TIMEOUT_IA/1000}s`;
+    mostrarModal('🔄 Multi-IA — Todos los modelos free', info);
 };
-document.getElementById('btnCoreStatus').onclick = () => {
-    mostrarModal('🧬 Core 403M',
-        `Estado: ✅ Activo\n📡 Consultas: ${core403M.consultas}\n📚 Temas únicos: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n\n🏆 Top temas:\n${Object.entries(core403M.temas).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([t, c]) => `• ${t} (${c})`).join('\n') || 'Sin datos'}`
-    );
+
+document.getElementById('btnDiagnostico').onclick = () => { 
+    document.getElementById('diagPanel').classList.remove('collapsed'); 
+    document.getElementById('diagPanel').scrollIntoView({behavior: 'smooth'}); 
+    showToast('🔍 Diagnóstico visible'); 
 };
-document.getElementById('btnDecisionStatus').onclick = () => {
-    mostrarModal('🧠 403M Decide',
-        `⚡ WASM Rust: ${rustWASM.cargado ? '✅ Real' : '⚠️ Fallback JS'}\n📊 Funciones: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n🧬 Core 403M: ${core403M.consultas} consultas\n🔌 Agent-Reach: G${agentReach.stats.github} R${agentReach.stats.reddit} W${agentReach.stats.wiki}\n🌍 GNews: ${gnewsAPI.totalNoticias}\n\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado]}`
-    );
+
+document.getElementById('btnActualizar').onclick = () => { 
+    showToast('🔄 Reintentando análisis…'); 
+    generarAnalisis(); 
 };
-document.getElementById('btnMemoriaStatus').onclick = () => {
-    mostrarModal('🧠 Memoria WASM',
-        `📊 Consultas: ${core403M.consultas}\n📚 Temas: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n📦 Caché WASM: ${rustWASM.getCacheSize()}\n\n🧠 Datos guardados en localStorage.`
-    );
+
+document.getElementById('btnChat').onclick = () => { 
+    const c = document.getElementById('chatContainer'); 
+    c.classList.toggle('show'); 
+    if (c.classList.contains('show')) document.getElementById('chatInput').focus(); 
 };
-document.getElementById('btnAgentReach').onclick = async () => {
-    const t = 'inteligencia artificial';
-    showToast('🔌 Agent-Reach buscando…');
-    const r = await agentReach.buscar(t);
-    let html = '';
-    if (r.github.length) html += `📦 GITHUB (${r.github.length})\n${r.github.map(i => `• ${i.titulo} ⭐${i.estrellas}`).join('\n')}\n\n`;
-    if (r.reddit.length) html += `📖 REDDIT (${r.reddit.length})\n${r.reddit.map(i => `• r/${i.subreddit}: ${i.titulo}`).join('\n')}\n\n`;
-    if (r.wiki.length) html += `🌐 WIKIPEDIA (${r.wiki.length})\n${r.wiki.map(i => `• ${i.titulo}`).join('\n')}`;
-    mostrarModal('🔌 Agent-Reach', html || 'Sin resultados');
-};
-document.getElementById('btn12Fuentes').onclick = async () => {
-    const t = 'Ecuador economía seguridad';
-    showToast('🔬 Buscando en 12 fuentes…');
-    const r = await fuentes.buscar(t);
-    let html = '';
-    Object.entries(r).forEach(([k, arr]) => {
-        if (arr.length) { html += `📚 ${k.toUpperCase()} (${arr.length})\n`; arr.slice(0, 3).forEach(x => { html += `• ${x.autores || ''} (${x.año || 's.f.'}) ${x.titulo}\n`; }); html += '\n'; }
-    });
-    mostrarModal('🔬 12 Fuentes Académicas', html || 'Sin resultados');
-};
-document.getElementById('btnIlimitado').onclick = async () => {
-    const t = 'Ecuador economía seguridad';
-    showToast('♾️ Fuentes ilimitadas…');
-    const r = await fuentesIlimitadas.buscarTodas(t);
-    mostrarModal('♾️ Fuentes Ilimitadas', fuentesIlimitadas.formatear(r));
-    showToast(`♾️ ${r.total} resultados`);
-};
-document.getElementById('btnNoticiasInternacionales').onclick = async () => {
-    showToast('🌍 Buscando noticias internacionales…');
-    const r = await gnewsAPI.buscarNoticias('', 'world', 'es');
-    mostrarModal('🌍 Noticias Internacionales', gnewsAPI.formatear(r));
-};
-document.getElementById('btnActualizarNoticiasDiarias').onclick = async () => {
-    await gnewsAPI.actualizarNoticiasDelDia();
-    const ni = gnewsAPI.cargarGuardadas();
-    if (ni.length > 0) {
-        const ids = new Set(todasNoticias.map(x => x.titulo));
-        const nn = ni.filter(x => !ids.has(x.titulo));
-        todasNoticias = [...nn, ...todasNoticias];
-        localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias));
-        renderNoticias();
-        actualizarWidgetsNoticias(todasNoticias);
+
+document.getElementById('chatSend').onclick = async () => {
+    const inp = document.getElementById('chatInput'); 
+    const msg = inp.value.trim(); 
+    if (!msg) return; 
+    inp.value = '';
+    const cont = document.getElementById('chatMensajes');
+    cont.innerHTML += `<div class="chat-msg chat-user">${msg}</div>`;
+    cont.scrollTop = cont.scrollHeight;
+    try {
+        const r = await llamarIAParalelo([{ role: 'user', content: msg }], 1000);
+        cont.innerHTML += `<div class="chat-msg chat-ia"><strong>🤖 ${r.proveedor}:</strong><br>${r.texto}</div>`;
+    } catch (e) {
+        cont.innerHTML += `<div class="chat-msg chat-ia">❌ ${e.message}</div>`;
     }
+    cont.scrollTop = cont.scrollHeight;
 };
-document.getElementById('btnChat').onclick = () => {
-    const c = document.getElementById('chatContainer');
-    c.classList.toggle('show');
-    if (c.classList.contains('show')) document.getElementById('chatInput').focus();
-};
-document.getElementById('chatSend').onclick = enviarChat;
-document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') enviarChat(); });
-document.getElementById('btnExamen').onclick = () => mostrarModal('🎯 Examen Académico', `Examen sobre el tema actual:\n\n1. Define el concepto principal.\n2. Menciona 3 autores clave.\n3. Aplicaciones prácticas.\n4. Metodología adecuada.\n5. Conclusión crítica.`);
-document.getElementById('btnAbstract').onclick = () => {
-    const c = document.getElementById('contenido').innerText || 'Sin contenido';
-    mostrarModal('📌 Abstract', c.split('\n').slice(0, 6).join('\n').substring(0, 500) + '…');
-};
-document.getElementById('btnComparar').onclick = () => mostrarModal('🔍 Comparativa', '🇩🇪 Alemán: Riguroso\n🇺🇸 Americano: Aplicado\n🇬🇧 Británico: Teórico\n🇪🇸 Hispanoamericano: Contextual');
-document.getElementById('btnPlagio').onclick = () => {
-    const c = document.getElementById('contenido').innerText || '';
-    const citas = (c.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
-    mostrarModal('⚠️ Originalidad', `Palabras: ${rustWASM.contarPalabras(c).palabras}\nCitas APA: ${citas}\nSimilitud: ${citas >= 2 ? '✅ Original' : '⚠️ Revisar'}`);
-};
-document.getElementById('btnTarjetas').onclick = () => mostrarModal('🃏 Tarjetas de Estudio', `📌 Definición\n📌 Autores clave\n📌 Aplicaciones\n📌 Desafíos`);
-document.getElementById('btnRelacionados').onclick = () => mostrarModal('💡 Temas Relacionados', `1. Educación\n2. Industria\n3. Sostenibilidad\n4. Metodologías\n5. Ética\n6. Futuro`);
+
+document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('chatSend').click(); });
+
 document.getElementById('btnExportar').onclick = () => {
-    const c = document.getElementById('contenido').innerText || '';
-    if (!c || c === '—') { showToast('⚠️ No hay contenido', true); return; }
+    const c = document.getElementById('opinionContent').innerText || '';
+    if (!c || c.length < 50) { showToast('⚠️ Sin contenido', true); return; }
     const blob = new Blob([c], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = `investigacion_${new Date().toISOString().slice(0, 10)}.txt`;
+    a.href = url; a.download = `analisis_${new Date().toISOString().slice(0, 10)}.txt`;
     a.click(); URL.revokeObjectURL(url);
     showToast('📤 Exportado');
 };
-document.getElementById('btnAnalisisCompleto').onclick = () => {
-    const c = document.getElementById('contenido').innerText || '';
-    if (!c || c === '—') { showToast('⚠️ No hay contenido', true); return; }
-    const stats = rustWASM.contarPalabras(c);
-    const citas = (c.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
-    mostrarModal('📊 Análisis Completo',
-        `📝 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n📚 Citas: ${citas}\n🌐 Idioma: ${rustWASM.idioma(c)}\n🔌 Agent-Reach: ${agentReach.stats.github + agentReach.stats.reddit + agentReach.stats.wiki}\n🌍 GNews: ${gnewsAPI.totalNoticias}\n🧬 Core 403M: ${core403M.consultas}\n⚡ WASM Rust: ${rustWASM.cargado ? 'REAL' : 'Fallback'}`
-    );
-};
-document.getElementById('btnEstadoSistema').onclick = () => {
-    mostrarModal('🔌 Estado del Sistema',
-        `🦀 WASM Rust: ${rustWASM.cargado ? '✅ REAL' : '⚠️ Fallback JS'}\n📊 Funciones: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n🌍 GNews: ${gnewsAPI.totalNoticias}\n📅 Últ. actualización: ${gnewsAPI.ultimaActualizacion?.toLocaleString('es-ES') || 'Nunca'}\n\n🔌 Agent-Reach: ✅\n📦 GitHub: ${agentReach.stats.github}\n📖 Reddit: ${agentReach.stats.reddit}\n🌐 Wiki: ${agentReach.stats.wiki}\n\n🧬 Core 403M: ✅\n📡 Consultas: ${core403M.consultas}\n📚 Temas: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n\n🌐 Idiomas: 6\n📡 Fuentes: 12 + ♾️ Ilimitadas + 🌍 GNews`
-    );
-};
-document.getElementById('updateBtn').onclick = () => { localStorage.removeItem('noticias_de_v7'); localStorage.removeItem('fecha_de_v7'); cargarEdicion(); showToast('📰 Edición actualizada'); };
-document.querySelectorAll('.nav-btn').forEach(b => { b.onclick = () => { document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); currentCategory = b.dataset.category; renderNoticias(); }; });
+
+document.getElementById('updateBtn').onclick = () => { showToast('🔄 Actualizando…'); generarAnalisis(); };
+document.querySelectorAll('.nav-btn').forEach(b => { 
+    b.onclick = () => { 
+        document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active')); 
+        b.classList.add('active'); 
+        currentCategory = b.dataset.category; 
+        renderNoticias(); 
+    }; 
+});
 document.getElementById('currentDate').innerHTML = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 document.getElementById('modalCloseBtn').onclick = () => document.getElementById('newsModal').classList.remove('active');
 window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
 
-// ============================================
-// INICIALIZACIÓN AUTOMÁTICA
-// ============================================
-(async () => {
-    console.log('🚀 Diario Ecuador Hoy · Generación automática · WASM Rust + Multi-IA (9 proveedores) + Core 403M + Agent-Reach + GNews');
+// ═══════════════════════════════════════════════════════════
+// 🚀 INICIAR ANÁLISIS AUTOMÁTICAMENTE
+// ═══════════════════════════════════════════════════════════
+Diagnostico.log('🚀 Sistema iniciando…', 'info');
+Diagnostico.log(`📊 ${IA_PROVEEDORES.length} proveedores IA con ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free`, 'info');
 
-    // 1. Cargar WASM Rust
-    await rustWASM.cargar();
-
-    // 2. Cargar noticias locales + internacionales
-    cargarEdicion();
-
-    // 3. Verificar actualización diaria de GNews
-    await verificarActualizacionDiaria();
-
-    // 4. Generar el análisis del día AUTOMÁTICAMENTE
-    const oc = document.getElementById('opinionContent');
-    oc.innerHTML = '<div class="spinner"></div><div class="loading-text">⚡ WASM Rust + 🤖 Agente + 🌍 GNews + Core 403M generando análisis del día…</div>';
-    actualizarStatus('⚡ Generando análisis del día automáticamente…');
-
-    try {
-        const temasAutomaticos = [
-            'Ecuador economía seguridad política 2026',
-            'Ecuador relaciones internacionales Alemania',
-            'Ecuador sociedad actualidad presente'
-        ];
-        const temaAuto = temasAutomaticos[Math.floor(Math.random() * temasAutomaticos.length)];
-
-        actualizarFase('🔍 Recopilando contexto automático…');
-        actualizarProgress(20);
-
-        // Obtener contexto de Agent-Reach y GNews
-        const [ar, gnews] = await Promise.all([
-            agentReach.buscar('Ecuador ' + temaAuto.split(' ').slice(0, 2).join(' ')),
-            gnewsAPI.buscarNoticias('Ecuador', '', 'es')
-        ]);
-
-        let contextoAuto = '';
-        if (gnews.noticias?.length) {
-            contextoAuto += '\n\n📰 NOTICIAS INTERNACIONALES SOBRE ECUADOR:\n';
-            gnews.noticias.slice(0, 5).forEach((n, i) => {
-                contextoAuto += `${i + 1}. ${n.titulo} (${n.fuente})\n   ${n.resumen?.substring(0, 150)}\n\n`;
-            });
-        }
-        if (ar.wiki?.length) {
-            contextoAuto += '\n\n🌐 CONTEXTO WIKIPEDIA:\n';
-            ar.wiki.slice(0, 3).forEach(w => { contextoAuto += `• ${w.titulo}: ${w.descripcion?.substring(0, 100)}\n`; });
-        }
-        if (ar.github?.length) {
-            contextoAuto += '\n\n📦 CONTEXTO GITHUB:\n';
-            ar.github.slice(0, 3).forEach(g => { contextoAuto += `• ${g.titulo}\n`; });
-        }
-
-        actualizarFase('☁️ Consultando Multi-IA (9 proveedores con fallback)…');
-        actualizarProgress(50);
-
-        const promptAuto = `Actúa como un periodista alemán de investigación de alto nivel.
-Genera un ANÁLISIS EDITORIAL COMPLETO sobre la situación actual de Ecuador desde la perspectiva de un corresponsal alemán.
-
-TEMA: ${temaAuto}
-ENFOQUE: Comparativa Ecuador - Alemania
-IDIOMA: Español
-
-${contextoAuto}
-
-ESTRUCTURA OBLIGATORIA:
-1. Titular (máximo 12 palabras)
-2. Subtítulo / Bajada
-3. Lead (5W+H)
-4. Cuerpo (Pirámide Invertida con 3-4 sub-temas)
-5. Contexto Comparado Ecuador vs Alemania
-6. Cierre Periodístico
-7. Ficha de Datos Clave
-
-EXTENSIÓN: 800-1000 palabras
-NO uses asteriscos ni formato especial.
-Empieza con "Titular:" y termina con "Ficha:".`;
-
-        const r = await llamarIA([
-            { role: 'system', content: 'Eres un periodista alemán senior experto en Ecuador y relaciones internacionales. Responde en español con estructura periodística profesional. NO uses asteriscos.' },
-            { role: 'user', content: promptAuto }
-        ], 3500);
-
-        let textoLimpio = r.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/#{1,6}\s*/g, '').trim();
-        ultimoAnalisis = textoLimpio;
-        oc.innerHTML = `<div style="white-space:pre-wrap;max-height:50vh;overflow-y:auto;">${textoLimpio}</div>`;
-
-        actualizarProgress(80);
-        actualizarAnalisisAutomatico(textoLimpio, rustWASM.idioma(textoLimpio));
-        core403M.registrar(temaAuto, textoLimpio);
-
-        // Mostrar también en la tarjeta de resultados
-        document.getElementById('contenido').innerText = textoLimpio;
-        document.getElementById('resultsCard').classList.add('show');
-        document.getElementById('citaTexto').innerText = `Diario Ecuador Hoy (2026). Análisis sobre "${temaAuto}" con ${r.proveedor}.`;
-        document.getElementById('bibliografiaList').innerHTML = generarBibliografia(textoLimpio, temaAuto, rustWASM.idioma(textoLimpio));
-        document.getElementById('widgetTextoContent').innerText = textoLimpio.substring(0, 200) + '…';
-
-        // Actualizar widgets de noticias
-        actualizarWidgetsNoticias(todasNoticias);
-
-        actualizarFase('✅ Análisis del día generado automáticamente');
-        actualizarProgress(100);
-        showToast(`✅ ${r.proveedor} · 🦀 WASM Rust · 🌍 GNews · 📊 ${todasNoticias.length} noticias`);
-
-    } catch (e) {
-        console.error('❌ Error en análisis automático:', e);
-        oc.innerHTML = `📰 <strong>Análisis del día:</strong> Ecuador en la encrucijada global.<br><br>
-        El sistema está inicializándose. Los datos se cargarán automáticamente.<br><br>
-        <em style="color:#8a9aa8;">Nota: ${e.message}</em>`;
-        actualizarFase('⚠️ Análisis en modo fallback');
-    }
-
-    // 5. Actualizar indicadores finales
-    if (rustWASM.cargado) showToast('🦀 WASM Rust REAL · 🔄 Multi-IA (9 proveedores) · 🌍 GNews activa');
-    else showToast('⚠️ WASM Rust no disponible (crea ./pkg/) · Resto OK');
-
-    document.getElementById('metricAPIs').textContent = '15';
-    document.getElementById('wasmStatus').textContent = rustWASM.cargado ? '✅ EXTREMO (50x)' : '⚠️ Fallback JS';
-    ocultarStatus();
-    setTimeout(() => actualizarProgress(0), 2000);
-})();
-
-// ⏰ Verificación automática cada hora
-setInterval(async () => {
-    if (gnewsAPI.necesitaActualizacion()) {
-        console.log('⏰ Actualización automática programada (24h)');
-        await gnewsAPI.actualizarNoticiasDelDia();
-        const ni = gnewsAPI.cargarGuardadas();
-        if (ni.length > 0) {
-            const ids = new Set(todasNoticias.map(x => x.titulo));
-            const nn = ni.filter(x => !ids.has(x.titulo));
-            todasNoticias = [...nn, ...todasNoticias];
-            localStorage.setItem('noticias_de_v7', JSON.stringify(todasNoticias));
-            renderNoticias();
-            actualizarWidgetsNoticias(todasNoticias);
-        }
-    }
-}, 60 * 60 * 1000);
-</script>
-
-<script type="module">
-import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
-let scene, camera, renderer, controls, active = false; const c = document.getElementById('vrContainer'), vb = document.getElementById('vrModeBtn'), cv = document.getElementById('closeVrBtn'), vm = document.getElementById('vrMode');
-function initVR() { if (!c) return; c.innerHTML = ''; scene = new THREE.Scene(); scene.background = new THREE.Color(0x1a2c3e); camera = new THREE.PerspectiveCamera(45, c.clientWidth / c.clientHeight, 0.1, 1000); camera.position.set(5, 1.8, 6); renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(c.clientWidth, c.clientHeight); renderer.xr.enabled = true; c.appendChild(renderer.domElement); c.appendChild(VRButton.createButton(renderer)); controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; scene.add(new THREE.AmbientLight(0x404060)); const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5, 10, 7); scene.add(dl); const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.MeshStandardMaterial({ color: 0x2a3a4e })); floor.rotation.x = -Math.PI / 2; floor.position.y = -1; scene.add(floor); function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); } animate(); active = true; }
-vb.addEventListener('click', () => { document.getElementById('normalMode').style.display = 'none'; vm.classList.add('active'); if (!active) setTimeout(initVR, 100); });
-cv.addEventListener('click', () => { vm.classList.remove('active'); document.getElementById('normalMode').style.display = 'block'; });
+// Ejecutar análisis automático
+setTimeout(() => {
+    generarAnalisis();
+}, 500);
 </script>
 </body>
 </html>
