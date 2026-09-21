@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>Diario Ecuador Hoy · WASM Rust · Core 403M · Multi-IA · Agent-Reach · ♾️</title>
+    <title>Diario Ecuador Hoy · WASM Rust · Core 403M · 9 IA · Agent-Reach · ♾️</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -30,194 +30,42 @@
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 20px #ec4899; } }
         .sub { color: #5a6e7c; margin-top: .5rem; font-size: .7rem; line-height: 1.5; padding: 0 1rem; }
 
-        /* ═══════════════════════════════════════════════════════
-           BARRAS DE ESTADO (idénticas a la imagen)
-           ═══════════════════════════════════════════════════════ */
-        .status-bars-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin-bottom: 1rem;
-        }
+        .status-bars-container { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
         
-        /* BARRA CORE 403M */
-        .core-status-bar {
-            background: linear-gradient(135deg, #1e1b4b, #312e81);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem;
-            font-size: 0.72rem;
-            color: #c7d2fe;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            border: 2px solid #8b5cf6;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-            align-items: center;
-        }
-        .core-status-bar .item {
-            background: rgba(0,0,0,0.3);
-            padding: 4px 10px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-        }
+        .core-status-bar { background: linear-gradient(135deg, #1e1b4b, #312e81); border-radius: 1rem; padding: 0.7rem 1rem; font-size: 0.72rem; color: #c7d2fe; display: flex; flex-wrap: wrap; gap: 0.6rem; border: 2px solid #8b5cf6; box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); align-items: center; }
+        .core-status-bar .item { background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; }
         .core-status-bar .item strong { color: #a78bfa; font-weight: 700; }
         .core-status-bar .ok { color: #10b981; font-weight: bold; }
         .core-status-bar .lbl { color: #c4b5fd; font-weight: 700; font-size: 0.78rem; }
         
-        /* BARRA AGENT-REACH */
-        .ar-status-bar {
-            background: linear-gradient(135deg, #451a03, #78350f);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem;
-            font-size: 0.72rem;
-            color: #fde68a;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            border: 2px solid #f59e0b;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
-            align-items: center;
-        }
-        .ar-status-bar .item {
-            background: rgba(0,0,0,0.3);
-            padding: 4px 10px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-        }
+        .ar-status-bar { background: linear-gradient(135deg, #451a03, #78350f); border-radius: 1rem; padding: 0.7rem 1rem; font-size: 0.72rem; color: #fde68a; display: flex; flex-wrap: wrap; gap: 0.6rem; border: 2px solid #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); align-items: center; }
+        .ar-status-bar .item { background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; }
         .ar-status-bar .item strong { color: #fbbf24; font-weight: 700; }
         .ar-status-bar .ok { color: #10b981; font-weight: bold; }
         .ar-status-bar .lbl { color: #fbbf24; font-weight: 700; font-size: 0.78rem; }
         
-        /* BARRA WASM RUST */
-        .wasm-status-bar {
-            background: linear-gradient(135deg, #450a0a, #7f1d1d);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem;
-            font-size: 0.72rem;
-            color: #fecaca;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            border: 2px solid #ce422b;
-            box-shadow: 0 0 20px rgba(206, 66, 43, 0.3);
-            align-items: center;
-        }
-        .wasm-status-bar .item {
-            background: rgba(0,0,0,0.3);
-            padding: 4px 10px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-        }
+        .wasm-status-bar { background: linear-gradient(135deg, #450a0a, #7f1d1d); border-radius: 1rem; padding: 0.7rem 1rem; font-size: 0.72rem; color: #fecaca; display: flex; flex-wrap: wrap; gap: 0.6rem; border: 2px solid #ce422b; box-shadow: 0 0 20px rgba(206, 66, 43, 0.3); align-items: center; }
+        .wasm-status-bar .item { background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; }
         .wasm-status-bar .item strong { color: #ff8878; font-weight: 700; }
         .wasm-status-bar .ok { color: #10b981; font-weight: bold; }
         .wasm-status-bar .lbl { color: #ff8878; font-weight: 700; font-size: 0.78rem; }
-        .wasm-status-bar .experto { color: #a78bfa; }
         
-        /* BARRA ULTRA STATS */
-        .ultra-stats {
-            background: linear-gradient(135deg, #4c1d95, #831843);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem;
-            font-size: 0.72rem;
-            color: #fce7f3;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            border: 2px solid #ec4899;
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
-            align-items: center;
-        }
-        .ultra-stats .item {
-            background: rgba(0,0,0,0.3);
-            padding: 4px 10px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-        }
+        .ultra-stats { background: linear-gradient(135deg, #4c1d95, #831843); border-radius: 1rem; padding: 0.7rem 1rem; font-size: 0.72rem; color: #fce7f3; display: flex; flex-wrap: wrap; gap: 0.6rem; border: 2px solid #ec4899; box-shadow: 0 0 20px rgba(236, 72, 153, 0.2); align-items: center; }
+        .ultra-stats .item { background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 10px; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; }
         .ultra-stats .item strong { color: #f9a8d4; font-weight: 700; }
-        .ultra-stats .velocidad {
-            color: #f59e0b;
-            font-weight: 800;
-            animation: pulse 1.5s infinite;
-            background: rgba(245, 158, 11, 0.15);
-            padding: 4px 12px;
-            border-radius: 10px;
-            border: 1px solid #f59e0b;
-        }
+        .ultra-stats .velocidad { color: #f59e0b; font-weight: 800; animation: pulse 1.5s infinite; background: rgba(245, 158, 11, 0.15); padding: 4px 12px; border-radius: 10px; border: 1px solid #f59e0b; }
 
-        /* TOOLS BAR (botones grandes) */
-        .tools-bar-full {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-            justify-content: center;
-        }
-        .tool-btn-big {
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .tool-btn-big.rust {
-            background: linear-gradient(135deg, #450a0a, #7f1d1d);
-            color: #fecaca;
-            border-color: #ce422b;
-        }
-        .tool-btn-big.rust:hover {
-            background: linear-gradient(135deg, #ce422b, #ff6b3d);
-            color: white;
-            transform: scale(1.05);
-        }
-        .tool-btn-big.multiia {
-            background: linear-gradient(135deg, #064e3b, #065f46);
-            color: #a7f3d0;
-            border-color: #10b981;
-        }
-        .tool-btn-big.multiia:hover {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            color: white;
-            transform: scale(1.05);
-        }
-        .tool-btn-big.core {
-            background: linear-gradient(135deg, #1e1b4b, #312e81);
-            color: #c7d2fe;
-            border-color: #8b5cf6;
-        }
-        .tool-btn-big.core:hover {
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            color: white;
-            transform: scale(1.05);
-        }
-        .tool-btn-big.agent {
-            background: linear-gradient(135deg, #451a03, #78350f);
-            color: #fde68a;
-            border-color: #f59e0b;
-        }
-        .tool-btn-big.agent:hover {
-            background: linear-gradient(135deg, #f59e0b, #8b5cf6);
-            color: white;
-            transform: scale(1.05);
-        }
+        .tools-bar-full { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; justify-content: center; }
+        .tool-btn-big { padding: 8px 18px; border-radius: 30px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; display: inline-flex; align-items: center; gap: 6px; }
+        .tool-btn-big.rust { background: linear-gradient(135deg, #450a0a, #7f1d1d); color: #fecaca; border-color: #ce422b; }
+        .tool-btn-big.rust:hover { background: linear-gradient(135deg, #ce422b, #ff6b3d); color: white; transform: scale(1.05); }
+        .tool-btn-big.multiia { background: linear-gradient(135deg, #064e3b, #065f46); color: #a7f3d0; border-color: #10b981; }
+        .tool-btn-big.multiia:hover { background: linear-gradient(135deg, #10b981, #3b82f6); color: white; transform: scale(1.05); }
+        .tool-btn-big.core { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #c7d2fe; border-color: #8b5cf6; }
+        .tool-btn-big.core:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; transform: scale(1.05); }
+        .tool-btn-big.agent { background: linear-gradient(135deg, #451a03, #78350f); color: #fde68a; border-color: #f59e0b; }
+        .tool-btn-big.agent:hover { background: linear-gradient(135deg, #f59e0b, #8b5cf6); color: white; transform: scale(1.05); }
 
-        /* Resto del CSS del diario */
         .diagnostico-panel { background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 2px solid #ef4444; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; font-size: 0.72rem; }
         .diagnostico-panel.collapsed .diagnostico-lista { display: none; }
         .diagnostico-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; color: #991b1b; font-size: 0.85rem; }
@@ -336,25 +184,20 @@
         <h1>📰 Diario <span>Ecuador Hoy</span>
             <span class="badge b-mistral">⚡ MISTRAL</span>
             <span class="badge b-openrouter">🔄 OPENROUTER</span>
-            <span class="badge b-multiia">🔄 MULTI-IA</span>
+            <span class="badge b-multiia">🔄 9 IA</span>
             <span class="badge b-wasm">⚡ WASM RUST</span>
             <span class="badge b-core">🧬 CORE 403M</span>
             <span class="badge b-agent">🔌 AGENT-REACH</span>
             <span class="badge b-gnews">🌍 GNEWS</span>
             <span class="badge b-osint">🕵️ OSINT</span>
-            <span class="badge b-ilim">♾️ ILIMITADO</span>
+            <span class="badge b-ilim">♾️ FALLBACK INTELIGENTE</span>
             <span class="badge b-alemania">🇩🇪</span>
         </h1>
         <div class="date" id="currentDate"></div>
-        <div class="sub">⚡ Sistema completo · Core 403M · WASM Rust REAL · Multi-IA · Agent-Reach · Fallback inteligente</div>
+        <div class="sub">⚡ 9 proveedores IA · Core 403M · WASM Rust REAL · Agent-Reach · Fallback inteligente con datos reales</div>
     </header>
 
-    <!-- ═══════════════════════════════════════════════════════
-         BARRAS DE ESTADO (idénticas a la imagen de referencia)
-         ═══════════════════════════════════════════════════════ -->
     <div class="status-bars-container">
-        
-        <!-- BARRA 1: CORE 403M -->
         <div class="core-status-bar">
             <span class="lbl">🧬 Core 403M:</span>
             <span class="item"><strong id="coreStatus" class="ok">⏳ Iniciando…</strong></span>
@@ -364,8 +207,6 @@
             <span class="item">🔄 Evoluciones: <strong id="coreEvoluciones">0</strong></span>
             <span class="item">📦 Caché: <strong id="coreCache">0</strong></span>
         </div>
-
-        <!-- BARRA 2: AGENT-REACH -->
         <div class="ar-status-bar">
             <span class="lbl">🔌 Agent-Reach:</span>
             <span class="item"><strong id="arStatus" class="ok">⏳ Iniciando…</strong></span>
@@ -374,8 +215,6 @@
             <span class="item">🌐 Wiki <strong id="arWiki">0</strong></span>
             <span class="item">📦 Caché: <strong id="arCache">0</strong></span>
         </div>
-
-        <!-- BARRA 3: WASM RUST -->
         <div class="wasm-status-bar">
             <span class="lbl">🦀 WASM Rust:</span>
             <span class="item"><strong id="wasmStatus" class="ok">⏳ Cargando…</strong></span>
@@ -386,28 +225,24 @@
             <span class="item">📌 Modo: <strong id="modoStatus" class="experto">🧠 Experto</strong></span>
             <span class="item">🌐 <strong id="idiomaStatus">🇪🇸</strong></span>
         </div>
-
-        <!-- BARRA 4: ULTRA STATS -->
         <div class="ultra-stats">
             <span class="item">⚡ Optimizaciones: <strong id="ultraOptimizaciones">0</strong></span>
             <span class="item">⏱️ Tiempo WASM: <strong id="ultraTiempo">0ms</strong></span>
             <span class="item">🌐 Idiomas: <strong id="ultraIdiomas">0</strong></span>
             <span class="item">📊 Funciones: <strong id="ultraFunciones">0</strong></span>
             <span class="item">♾️ Fuentes: <strong id="ultraFuentes">0</strong></span>
-            <span class="item">🔄 IA: <strong id="ultraProveedor">Multi-IA</strong></span>
+            <span class="item">🔄 IA: <strong id="ultraProveedor">Multi-IA (9)</strong></span>
             <span class="velocidad">⚡ 50x MÁS RÁPIDO</span>
         </div>
     </div>
 
-    <!-- TOOLS BAR (botones grandes) -->
     <div class="tools-bar-full">
         <button class="tool-btn-big rust" id="btnRustBig">🦀 WASM Rust</button>
-        <button class="tool-btn-big multiia" id="btnMultiIABig">🔄 Multi-IA</button>
+        <button class="tool-btn-big multiia" id="btnMultiIABig">🔄 Multi-IA (9)</button>
         <button class="tool-btn-big core" id="btnCoreBig">🧬 Core 403M</button>
         <button class="tool-btn-big agent" id="btnAgentBig">🔌 Agent-Reach</button>
     </div>
 
-    <!-- PANEL DE DIAGNÓSTICO -->
     <div class="diagnostico-panel collapsed" id="diagPanel">
         <div class="diagnostico-header" onclick="document.getElementById('diagPanel').classList.toggle('collapsed')">
             <span>🔍 Diagnóstico en vivo <span id="diagContador" style="font-size:0.7rem;font-weight:600;">(0 eventos)</span></span>
@@ -427,19 +262,17 @@
     <div class="main-card">
         <div class="auto-banner">
             <div class="auto-banner-title">📰 Edición generada automáticamente</div>
-            <div class="auto-banner-sub">⚡ Sistema completo · Core 403M · WASM Rust · Multi-IA · Agent-Reach · Fallback inteligente</div>
+            <div class="auto-banner-sub">⚡ 9 IA · Core 403M · WASM Rust · Agent-Reach · Fallback inteligente con datos reales</div>
         </div>
         <div class="fase-info" id="faseInfo">💡 Iniciando sistema…</div>
     </div>
 
-    <!-- OPINION CARD (redacción) -->
     <div class="opinion-card" id="opinionCard">
         <div class="opinion-title"><i class="fas fa-globe-americas"></i> Análisis del día · Redacción Global IA <span class="pais-badge">🇩🇪 Alemania</span></div>
         <div class="opinion-content" id="opinionContent"><div class="spinner"></div><div class="loading-text">⚡ Iniciando análisis…</div></div>
         <div class="opinion-meta"><span><i class="fas fa-map-marker-alt"></i> Contexto Ecuador · Mirada desde Alemania</span><span id="opinionMetaProveedor"></span></div>
     </div>
 
-    <!-- WIDGETS -->
     <div class="widgets">
         <div class="widget">
             <div class="widget-title">📝 Análisis</div>
@@ -463,7 +296,7 @@
                 <div class="connector-metrics">
                     <div class="cm"><div class="v" id="metricMemoria">0</div><div class="l">Palabras</div></div>
                     <div class="cm"><div class="v" id="metricSemantico">0</div><div class="l">Únicas</div></div>
-                    <div class="cm"><div class="v" id="metricAPIs">15</div><div class="l">APIs</div></div>
+                    <div class="cm"><div class="v" id="metricAPIs">18</div><div class="l">APIs</div></div>
                     <div class="cm"><div class="v" id="metricDB">0</div><div class="l">Fuentes</div></div>
                 </div>
             </div>
@@ -484,7 +317,7 @@
     </div>
 
     <div class="tools-bar">
-        <button class="tool multiia" id="btnMultiIA">🔄 Multi-IA</button>
+        <button class="tool multiia" id="btnMultiIA">🔄 Multi-IA (9)</button>
         <button class="tool noticias" id="btnActualizarNoticias">📰 Noticias</button>
         <button class="tool gnews" id="btnActualizar">🔄 Reintentar</button>
         <button class="tool diag" id="btnDiagnostico">🔍 Diagnóstico</button>
@@ -493,7 +326,7 @@
     </div>
 
     <div class="chat-container" id="chatContainer">
-        <div class="widget-title" style="color:#e67e22;font-weight:700;font-size:0.85rem;margin-bottom:10px;">💬 Chat con Multi-IA</div>
+        <div class="widget-title" style="color:#e67e22;font-weight:700;font-size:0.85rem;margin-bottom:10px;">💬 Chat con Multi-IA (9 proveedores)</div>
         <div id="chatMensajes"></div>
         <div class="chat-input-row">
             <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta…">
@@ -514,7 +347,7 @@
     <div id="newsContainer" class="news-grid"></div>
 
     <div class="footer">
-        ⚡ Diario Ecuador Hoy · Core 403M · WASM Rust · Multi-IA · Agent-Reach · ♾️ Sin límites
+        ⚡ Diario Ecuador Hoy · 9 IA · Core 403M · WASM Rust · Agent-Reach · ♾️ Sin límites
     </div>
 </div>
 
@@ -563,7 +396,7 @@ const Diagnostico = {
 };
 
 // ═══════════════════════════════════════════════════════════
-// 🧬 CORE 403M (con agentes, consultas, temas, evoluciones)
+// 🧬 CORE 403M
 // ═══════════════════════════════════════════════════════════
 class Core403M {
     constructor() {
@@ -571,10 +404,10 @@ class Core403M {
         this.temas = {};
         this.evoluciones = 0;
         this.agentes = [
-            { id: 'procesador', nombre: '⚙️ Procesador', intervalo: null },
-            { id: 'evolucionador', nombre: '🧬 Evolucionador', intervalo: null },
-            { id: 'optimizador', nombre: '🧠 Optimizador', intervalo: null },
-            { id: 'estadisticas', nombre: '📊 Estadísticas', intervalo: null }
+            { id: 'procesador', nombre: '⚙️ Procesador' },
+            { id: 'evolucionador', nombre: '🧬 Evolucionador' },
+            { id: 'optimizador', nombre: '🧠 Optimizador' },
+            { id: 'estadisticas', nombre: '📊 Estadísticas' }
         ];
         this.cargar();
         this.iniciar();
@@ -582,7 +415,6 @@ class Core403M {
     iniciar() {
         document.getElementById('coreStatus').textContent = '✅ Activo';
         document.getElementById('coreAgentes').textContent = this.agentes.length;
-        // Evolucionar cada 60 segundos
         setInterval(() => {
             this.evoluciones++;
             document.getElementById('coreEvoluciones').textContent = this.evoluciones;
@@ -598,12 +430,10 @@ class Core403M {
         document.getElementById('coreTemas').textContent = Object.keys(this.temas).length;
         this.guardar();
     }
-    guardar() {
-        try { localStorage.setItem('core403m_v10', JSON.stringify({ consultas: this.consultas, temas: this.temas, evoluciones: this.evoluciones })); } catch (e) {}
-    }
+    guardar() { try { localStorage.setItem('core403m_v12', JSON.stringify({ consultas: this.consultas, temas: this.temas, evoluciones: this.evoluciones })); } catch (e) {} }
     cargar() {
         try {
-            const d = JSON.parse(localStorage.getItem('core403m_v10') || '{}');
+            const d = JSON.parse(localStorage.getItem('core403m_v12') || '{}');
             this.consultas = d.consultas || 0;
             this.temas = d.temas || {};
             this.evoluciones = d.evoluciones || 0;
@@ -617,38 +447,88 @@ class Core403M {
 const core403M = new Core403M();
 
 // ═══════════════════════════════════════════════════════════
-// 🔄 MULTI-IA
+// 🔄 MULTI-IA — 9 PROVEEDORES COMPLETOS
 // ═══════════════════════════════════════════════════════════
 const IA_PROVEEDORES = [
+    // ---- Google Gemini (Free) ----
     {
-        nombre: 'OpenRouter',
-        url: 'https://openrouter.ai/api/v1/chat/completions',
-        key: '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',
-        modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free'],
-        extraHeaders: { 'HTTP-Referer': 'https://diario-ecuador-hoy.local', 'X-Title': 'Diario' }
+        nombre: 'Google',
+        url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
+        key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
+        modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'],
+        tipo: 'google',
+        color: '#4285F4'
     },
-    {
-        nombre: 'Mistral AI',
-        url: 'https://api.mistral.ai/v1/chat/completions',
-        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
-        modelos: ['open-mistral-7b', 'mistral-small-latest', 'open-mixtral-8x7b']
-    },
+    // ---- Cerebras (Free) ----
     {
         nombre: 'Cerebras',
         url: 'https://api.cerebras.ai/v1/chat/completions',
         key: 'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv',
-        modelos: ['llama3.1-8b', 'llama-3.3-70b']
+        modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b', 'qwen-2.5-coder-32b'],
+        color: '#FF6B35'
     },
+    // ---- Z.ai (Free) ----
     {
         nombre: 'Z.ai',
         url: 'https://api.z.ai/api/paas/v4/chat/completions',
         key: '864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP',
-        modelos: ['glm-4-flash']
+        modelos: ['glm-4-flash', 'glm-4.5-flash'],
+        color: '#7C3AED'
+    },
+    // ---- Mistral (Free) ----
+    {
+        nombre: 'Mistral AI',
+        url: 'https://api.mistral.ai/v1/chat/completions',
+        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
+        modelos: ['mistral-small-latest', 'mistral-large-latest', 'open-mistral-7b', 'open-mixtral-8x7b', 'mistral-tiny', 'open-mistral-nemo'],
+        color: '#f97316'
+    },
+    // ---- GitHub (Free) ----
+    {
+        nombre: 'GitHub',
+        url: 'https://models.inference.ai.azure.com/chat/completions',
+        key: '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',
+        modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'],
+        color: '#24292E'
+    },
+    // ---- Ollama Cloud (Free) ----
+    {
+        nombre: 'Ollama Cloud',
+        url: 'https://api.ollama.cloud/v1/chat/completions',
+        key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
+        modelos: ['llama3.2', 'mistral', 'gemma2', 'qwen2.5'],
+        color: '#333333'
+    },
+    // ---- Kiro (Free) ----
+    {
+        nombre: 'Kiro',
+        url: 'https://api.kiro.ai/v1/chat/completions',
+        key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
+        modelos: ['kiro-chat', 'kiro-pro'],
+        color: '#00A3FF'
+    },
+    // ---- Orca Router (Free) ----
+    {
+        nombre: 'Orca Router',
+        url: 'https://api.orcarouter.ai/v1/chat/completions',
+        key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
+        modelos: ['orca-mini', 'orca-2-7b', 'orca-2-13b'],
+        color: '#8B5CF6'
+    },
+    // ---- OpenRouter (Free) ----
+    {
+        nombre: 'OpenRouter',
+        url: 'https://openrouter.ai/api/v1/chat/completions',
+        key: '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',
+        modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free', 'microsoft/phi-3-mini-128k-instruct:free'],
+        color: '#10b981',
+        extraHeaders: { 'HTTP-Referer': 'https://diario-ecuador-hoy.local', 'X-Title': 'Diario Ecuador Hoy' }
     }
 ];
 
 const TIMEOUT_IA = 25000;
 const TIMEOUT_API_NEWS = 15000;
+const TIMEOUT_TOTAL_ANALISIS = 60000;
 
 let modoActual = 'experto';
 let proveedorActual = null;
@@ -662,7 +542,7 @@ function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) {
 }
 
 async function llamarIAParalelo(messages, maxTokens = 3000) {
-    Diagnostico.log(`Lanzando ${IA_PROVEEDORES.length} proveedores con todos sus modelos free…`, 'info');
+    Diagnostico.log(`Lanzando ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free en paralelo…`, 'info');
     
     const promesas = [];
     for (const prov of IA_PROVEEDORES) {
@@ -673,33 +553,47 @@ async function llamarIAParalelo(messages, maxTokens = 3000) {
                     try {
                         const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
                         if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
-                        const body = { model: modelo, messages, temperature: 0.7, max_tokens: maxTokens };
                         
-                        const resp = await fetchConTimeout(prov.url, { method: 'POST', headers, body: JSON.stringify(body) }, TIMEOUT_IA);
+                        let body, url = prov.url;
+                        if (prov.tipo === 'google') {
+                            url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${prov.key}`;
+                            body = { contents: messages.map(m => ({ role: m.role === 'assistant' ? 'model' : m.role, parts: [{ text: m.content }] })), generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 } };
+                        } else {
+                            body = { model: modelo, messages, temperature: 0.7, max_tokens: maxTokens };
+                        }
+                        
+                        const resp = await fetchConTimeout(url, { method: 'POST', headers, body: JSON.stringify(body) }, TIMEOUT_IA);
                         const dur = ((Date.now() - t0) / 1000).toFixed(1);
                         
-                        if (!resp.ok) {
-                            const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key inválida' : resp.status === 404 ? 'modelo no disponible' : `HTTP ${resp.status}`;
-                            Diagnostico.log(`${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error');
+                        if ([401, 403, 429].includes(resp.status)) {
+                            const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key' : `HTTP ${resp.status}`;
+                            Diagnostico.log(`❌ ${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error');
                             iaFailsCount++;
-                            document.getElementById('iaFails') && (document.getElementById('iaFails').textContent = iaFailsCount);
                             throw new Error(`${prov.nombre}/${modelo}: ${errTxt}`);
+                        }
+                        if (!resp.ok) {
+                            Diagnostico.log(`❌ ${prov.nombre}/${modelo}: HTTP ${resp.status} (${dur}s)`, 'error');
+                            iaFailsCount++;
+                            throw new Error(`${prov.nombre}/${modelo}: HTTP ${resp.status}`);
                         }
                         
                         const data = await resp.json();
-                        const texto = data.choices?.[0]?.message?.content || '';
+                        let texto = '';
+                        if (prov.tipo === 'google') { texto = data.candidates?.[0]?.content?.parts?.[0]?.text || ''; }
+                        else { texto = data.choices?.[0]?.message?.content || ''; }
+                        
                         if (texto.length < 50) {
-                            Diagnostico.log(`${prov.nombre}/${modelo}: respuesta corta`, 'warn');
+                            Diagnostico.log(`❌ ${prov.nombre}/${modelo}: respuesta corta`, 'warn');
                             iaFailsCount++;
                             throw new Error(`${prov.nombre}/${modelo}: respuesta corta`);
                         }
                         
-                        Diagnostico.log(`${prov.nombre}/${modelo}: ✅ ${texto.length} chars en ${dur}s`, 'ok');
+                        Diagnostico.log(`✅ ${prov.nombre}/${modelo}: ${texto.length} chars en ${dur}s`, 'ok');
                         iaOkCount++;
                         return { texto, proveedor: prov.nombre, modelo };
                     } catch (e) {
                         if (e.name === 'AbortError') {
-                            Diagnostico.log(`${prov.nombre}/${modelo}: Timeout`, 'error');
+                            Diagnostico.log(`❌ ${prov.nombre}/${modelo}: Timeout ${TIMEOUT_IA/1000}s`, 'error');
                             iaFailsCount++;
                         }
                         throw e;
@@ -714,11 +608,11 @@ async function llamarIAParalelo(messages, maxTokens = 3000) {
         proveedorActual = resultado.proveedor;
         document.getElementById('cfStatus').textContent = `✅ ${resultado.proveedor}`;
         document.getElementById('ultraProveedor').textContent = resultado.proveedor;
-        document.getElementById('llamadaStatus').textContent = '✅';
+        document.getElementById('opinionMetaProveedor').textContent = `🤖 ${resultado.proveedor} (${resultado.modelo})`;
         Diagnostico.log(`🏆 GANADOR: ${resultado.proveedor} (${resultado.modelo})`, 'ok');
         return resultado;
     } catch (e) {
-        Diagnostico.log('Todos los modelos y proveedores fallaron', 'error');
+        Diagnostico.log('❌ Todos los modelos y proveedores IA fallaron', 'error');
         document.getElementById('cfStatus').textContent = '❌ Todos fallaron';
         document.getElementById('cfStatus').style.color = '#ef4444';
         throw new Error('Todos los proveedores IA fallaron');
@@ -731,7 +625,7 @@ async function llamarIAParalelo(messages, maxTokens = 3000) {
 const agentReach = {
     stats: { github: 0, reddit: 0, wiki: 0 },
     async buscar(t) {
-        Diagnostico.log('Agent-Reach en paralelo…', 'info');
+        Diagnostico.log('Agent-Reach en paralelo (GitHub + Reddit + Wikipedia)…', 'info');
         const [gh, rd, wk] = await Promise.allSettled([
             fetchConTimeout(`https://api.github.com/search/repositories?q=${encodeURIComponent(t)}&per_page=3`, {}, 5000).then(r => r.json()).then(d => (d.items || []).map(i => ({ titulo: i.full_name }))).catch(() => []),
             fetchConTimeout(`https://www.reddit.com/search.json?q=${encodeURIComponent(t)}&limit=3`, {}, 5000).then(r => r.json()).then(d => (d.data?.children || []).map(i => ({ titulo: i.data.title }))).catch(() => []),
@@ -752,28 +646,28 @@ const agentReach = {
 };
 
 // ═══════════════════════════════════════════════════════════
-// WASM RUST (con detección real)
+// 🦀 WASM RUST (OPCIONAL)
 // ═══════════════════════════════════════════════════════════
 const rustWASM = {
     cargado: false,
     funciones: 13,
     async cargar() {
         try {
-            const mod = await import('./pkg/academia_wasm.js');
+            const mod = await import(/* @vite-ignore */ './pkg/academia_wasm.js');
             await mod.default('./pkg/academia_wasm_bg.wasm');
             this.cargado = true;
             this.funciones = 13;
             document.getElementById('wasmStatus').textContent = `✅ Rust real (13 funcs)`;
             document.getElementById('wasmFuncsStatus').textContent = 13;
             document.getElementById('ultraFunciones').textContent = 13;
-            Diagnostico.log(`WASM Rust cargado · 13 funciones`, 'ok');
+            Diagnostico.log(`WASM Rust REAL cargado · 13 funciones`, 'ok');
         } catch (e) {
             this.cargado = false;
-            document.getElementById('wasmStatus').textContent = '⚠️ Fallback JS';
+            document.getElementById('wasmStatus').textContent = '⚠️ Fallback JS (sin ./pkg/)';
             document.getElementById('wasmStatus').style.color = '#f59e0b';
             document.getElementById('wasmFuncsStatus').textContent = '7 (JS)';
             document.getElementById('ultraFunciones').textContent = '7 (JS)';
-            Diagnostico.log(`WASM Rust no disponible, usando JS fallback`, 'warn');
+            Diagnostico.log(`WASM Rust no disponible (normal sin ./pkg/)`, 'warn');
         }
     }
 };
@@ -792,12 +686,10 @@ async function buscarHackerNews(tema) {
         }));
         Diagnostico.log(`Hacker News: ✅ ${items.length}`, 'ok');
         newsOkCount++;
-        document.getElementById('newsOk') && (document.getElementById('newsOk').textContent = newsOkCount);
         return items;
     } catch (e) {
         Diagnostico.log(`Hacker News: ${e.message}`, 'error');
         newsFailsCount++;
-        document.getElementById('newsFails') && (document.getElementById('newsFails').textContent = newsFailsCount);
         return [];
     }
 }
@@ -859,7 +751,7 @@ async function buscarReddit(tema) {
 }
 
 async function buscarTodasNoticias(tema = 'Ecuador') {
-    Diagnostico.log('Consultando APIs en paralelo…', 'info');
+    Diagnostico.log('Consultando 4 APIs de noticias en paralelo…', 'info');
     const resultados = await Promise.allSettled([
         buscarHackerNews(tema), buscarWikipedia(tema), buscarGDELT(tema), buscarReddit(tema)
     ]);
@@ -932,7 +824,6 @@ function actualizarAnalisisAutomatico(texto) {
     document.getElementById('confidenceLabel').textContent = '85%';
     document.getElementById('qualityScore').textContent = 'ALTA';
     
-    // Actualizar ULTRA STATS
     document.getElementById('ultraTiempo').textContent = Math.round(performance.now()) + 'ms';
     document.getElementById('ultraOptimizaciones').textContent = core403M.evoluciones;
     document.getElementById('ultraIdiomas').textContent = ++idiomasTotal;
@@ -1019,8 +910,7 @@ function generarFallbackInteligente(noticias) {
     analisis += `Ecuador, con una economía dolarizada desde 2000, enfrenta retos de competitividad `;
     analisis += `y diversificación productiva. Alemania, como motor económico europeo, `;
     analisis += `ofrece un contraste en términos de industrialización avanzada, `;
-    analisis += `infraestructura tecnológica y estabilidad institucional. `;
-    analisis += `Desde la perspectiva alemana, Ecuador representa un socio estratégico en América Latina.\n\n`;
+    analisis += `infraestructura tecnológica y estabilidad institucional.\n\n`;
     
     analisis += `Cierre:\n\n`;
     analisis += `Ecuador se encuentra en una coyuntura que combina desafíos internos `;
@@ -1040,7 +930,7 @@ function generarFallbackInteligente(noticias) {
     
     analisis += `\n─────────────────────────────────────\n`;
     analisis += `⚠️ AVISO DE MODO FALLBACK\n`;
-    analisis += `Los ${IA_PROVEEDORES.length} proveedores de IA no respondieron.\n`;
+    analisis += `Los ${IA_PROVEEDORES.length} proveedores de IA no respondieron en el tiempo límite.\n`;
     analisis += `Este análisis fue generado automáticamente con ${noticias.length} datos reales `;
     analisis += `recopilados de ${fuentesUnicas.length} fuentes, sin intervención de IA generativa.\n`;
     analisis += `🔄 Reintenta para obtener análisis generado por IA.\n`;
@@ -1050,7 +940,7 @@ function generarFallbackInteligente(noticias) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🎯 FUNCIÓN PRINCIPAL DE ANÁLISIS
+// 🎯 FUNCIÓN PRINCIPAL DE ANÁLISIS CON TIMEOUT GLOBAL
 // ═══════════════════════════════════════════════════════════
 async function generarAnalisis(usarNoticiasExistentes = false) {
     const oc = document.getElementById('opinionContent');
@@ -1061,28 +951,30 @@ async function generarAnalisis(usarNoticiasExistentes = false) {
     document.getElementById('faseInfo').textContent = '📡 Cargando noticias…';
     
     const t0 = Date.now();
+    const timeoutGlobal = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_GLOBAL')), TIMEOUT_TOTAL_ANALISIS));
     
-    try {
-        let noticias;
-        if (usarNoticiasExistentes && todasNoticias.length > 0) {
-            noticias = todasNoticias;
-        } else {
-            noticias = await buscarTodasNoticias('Ecuador');
-            todasNoticias = noticias;
-            renderNoticias();
-        }
-        
-        document.getElementById('faseInfo').textContent = '🤖 Consultando Multi-IA…';
-        oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 Multi-IA procesando…</div>';
-        
-        const temaAuto = 'Ecuador economía seguridad política 2026';
-        let contexto = '';
-        if (noticias.length) {
-            contexto += '\n📰 NOTICIAS REALES:\n';
-            noticias.slice(0, 15).forEach((n, i) => { contexto += `${i + 1}. [${n.fuente}] ${n.titulo}\n`; });
-        }
-        
-        const prompt = `Eres periodista alemán senior analizando Ecuador.
+    const tareaPrincipal = (async () => {
+        try {
+            let noticias;
+            if (usarNoticiasExistentes && todasNoticias.length > 0) {
+                noticias = todasNoticias;
+            } else {
+                noticias = await buscarTodasNoticias('Ecuador');
+                todasNoticias = noticias;
+                renderNoticias();
+            }
+            
+            document.getElementById('faseInfo').textContent = '🤖 Consultando 9 IA en paralelo…';
+            oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 Multi-IA (9 proveedores) procesando…</div>';
+            
+            const temaAuto = 'Ecuador economía seguridad política 2026';
+            let contexto = '';
+            if (noticias.length) {
+                contexto += '\n📰 NOTICIAS REALES:\n';
+                noticias.slice(0, 15).forEach((n, i) => { contexto += `${i + 1}. [${n.fuente}] ${n.titulo}\n`; });
+            }
+            
+            const prompt = `Eres periodista alemán senior analizando Ecuador.
 
 TEMA: ${temaAuto}
 
@@ -1092,44 +984,43 @@ ${contexto}
 Genera un ANÁLISIS EDITORIAL COMPLETO con esta estructura exacta:
 
 Titular: (máximo 12 palabras)
-
 Subtítulo: (una línea)
-
 Lead: (5W+H)
-
-Cuerpo:
-- Sub-tema 1
-- Sub-tema 2
-- Sub-tema 3
-
+Cuerpo: (3 sub-temas)
 Contexto Ecuador vs Alemania:
-
 Cierre:
-
 Ficha de Datos Clave:
 
 EXTENSIÓN: 800-1000 palabras. NO uses asteriscos. Empieza con "Titular:".`;
-        
-        const r = await llamarIAParalelo([
-            { role: 'system', content: 'Eres periodista alemán senior. Responde en español. NO uses asteriscos.' },
-            { role: 'user', content: prompt }
-        ], 3000);
-        
-        let textoLimpio = r.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/#{1,6}\s*/g, '').trim();
-        
-        oc.innerHTML = `<div style="white-space:pre-wrap;">${textoLimpio}</div>`;
-        meta.textContent = `🤖 ${r.proveedor} (${r.modelo}) · ${((Date.now() - t0) / 1000).toFixed(1)}s`;
-        
-        actualizarAnalisisAutomatico(textoLimpio);
-        core403M.registrar(temaAuto);
-        document.getElementById('faseInfo').textContent = `✅ Completado en ${((Date.now() - t0) / 1000).toFixed(1)}s · ${r.proveedor}`;
-        showToast(`✅ ${r.proveedor} · ${noticias.length} noticias · ${((Date.now() - t0) / 1000).toFixed(1)}s`);
-        Diagnostico.log(`✅ ANÁLISIS COMPLETADO en ${((Date.now() - t0) / 1000).toFixed(1)}s`, 'ok');
-        
+            
+            const r = await llamarIAParalelo([
+                { role: 'system', content: 'Eres periodista alemán senior. Responde en español. NO uses asteriscos.' },
+                { role: 'user', content: prompt }
+            ], 3000);
+            
+            let textoLimpio = r.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/#{1,6}\s*/g, '').trim();
+            
+            oc.innerHTML = `<div style="white-space:pre-wrap;">${textoLimpio}</div>`;
+            meta.textContent = `🤖 ${r.proveedor} (${r.modelo}) · ${((Date.now() - t0) / 1000).toFixed(1)}s`;
+            
+            actualizarAnalisisAutomatico(textoLimpio);
+            core403M.registrar(temaAuto);
+            document.getElementById('faseInfo').textContent = `✅ Completado en ${((Date.now() - t0) / 1000).toFixed(1)}s · ${r.proveedor}`;
+            showToast(`✅ ${r.proveedor} · ${noticias.length} noticias · ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+            Diagnostico.log(`✅ ANÁLISIS COMPLETADO en ${((Date.now() - t0) / 1000).toFixed(1)}s`, 'ok');
+            return r;
+        } catch (e) {
+            throw e;
+        }
+    })();
+    
+    try {
+        await Promise.race([tareaPrincipal, timeoutGlobal]);
     } catch (e) {
-        Diagnostico.log(`Multi-IA falló: ${e.message}`, 'error');
-        Diagnostico.log('Activando FALLBACK INTELIGENTE…', 'warn');
+        Diagnostico.log(`IA falló o timeout (${e.message})`, 'error');
+        Diagnostico.log('🧠 Activando FALLBACK INTELIGENTE…', 'warn');
         document.getElementById('faseInfo').textContent = '🧠 Componiendo análisis con datos reales…';
+        oc.innerHTML = '<div class="spinner"></div><div class="loading-text">🧠 Componiendo con datos reales…</div>';
         
         let noticias = todasNoticias;
         if (!noticias || noticias.length === 0) {
@@ -1146,8 +1037,8 @@ EXTENSIÓN: 800-1000 palabras. NO uses asteriscos. Empieza con "Titular:".`;
             core403M.registrar('fallback-' + Date.now());
             meta.textContent = `🧠 Fallback Inteligente · ${noticias.length} fuentes reales · ${((Date.now() - t0) / 1000).toFixed(1)}s`;
             document.getElementById('faseInfo').textContent = `🧠 Fallback inteligente · ${noticias.length} noticias · ${((Date.now() - t0) / 1000).toFixed(1)}s`;
-            showToast(`🧠 Fallback · ${noticias.length} noticias reales · análisis generado`, true);
-            Diagnostico.log(`✅ Fallback inteligente generado con ${noticias.length} noticias`, 'ok');
+            showToast(`🧠 Fallback · ${noticias.length} noticias reales`, true);
+            Diagnostico.log(`✅ Fallback generado con ${noticias.length} noticias`, 'ok');
         } else {
             oc.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="font-size:2rem;margin-bottom:1rem;">⚠️</div><div style="font-weight:700;color:#ef4444;">Servicios no disponibles</div></div>`;
         }
@@ -1205,17 +1096,18 @@ document.querySelectorAll('.modo-btn').forEach(btn => {
     });
 });
 
-// BOTONES GRANDES
 document.getElementById('btnRustBig').onclick = () => { 
     mostrarModal('🦀 WASM Rust', `Estado: ${rustWASM.cargado ? '✅ Real' : '⚠️ Fallback JS'}\nFunciones: ${rustWASM.funciones}\nCaché: ${document.getElementById('wasmCacheSize').textContent}\n\n📊 Ultra Stats:\nOptimizaciones: ${core403M.evoluciones}\nTiempo: ${document.getElementById('ultraTiempo').textContent}\nIdiomas: ${document.getElementById('ultraIdiomas').textContent}`); 
 };
 document.getElementById('btnMultiIABig').onclick = () => { 
-    let info = `🔄 Multi-IA · ${IA_PROVEEDORES.length} proveedores\n\n`;
+    let info = `🔄 Multi-IA · ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free\n\n`;
     IA_PROVEEDORES.forEach((p, i) => {
-        info += `${i + 1}. ${p.nombre}\n`;
-        p.modelos.forEach(m => { info += `   • ${m}\n`; });
+        info += `${i + 1}. ${p.nombre} (${p.modelos.length} modelos)\n`;
+        p.modelos.slice(0, 3).forEach(m => { info += `   • ${m}\n`; });
+        if (p.modelos.length > 3) info += `   • … +${p.modelos.length - 3} más\n`;
+        info += `   Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳'}\n\n`;
     });
-    info += `\n✅ Activo: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount}\n❌ Fallos: ${iaFailsCount}`;
+    info += `✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}`;
     mostrarModal('🔄 Multi-IA', info); 
 };
 document.getElementById('btnCoreBig').onclick = () => { 
@@ -1225,7 +1117,6 @@ document.getElementById('btnAgentBig').onclick = () => {
     mostrarModal('🔌 Agent-Reach', `Estado: ✅ Activo\n📦 GitHub: ${agentReach.stats.github}\n📖 Reddit: ${agentReach.stats.reddit}\n🌐 Wiki: ${agentReach.stats.wiki}\n📦 Caché: ${agentReach.stats.github + agentReach.stats.reddit + agentReach.stats.wiki}`); 
 };
 
-// BOTONES PEQUEÑOS
 document.getElementById('btnMultiIA').onclick = () => document.getElementById('btnMultiIABig').click();
 document.getElementById('btnDiagnostico').onclick = () => { 
     document.getElementById('diagPanel').classList.remove('collapsed'); 
@@ -1248,7 +1139,7 @@ document.getElementById('chatSend').onclick = async () => {
     cont.innerHTML += `<div class="chat-msg chat-user">${msg}</div>`;
     cont.scrollTop = cont.scrollHeight;
     try {
-        const r = await llamarIAParelo([{ role: 'user', content: msg }], 1000);
+        const r = await llamarIAParalelo([{ role: 'user', content: msg }], 1000);
         cont.innerHTML += `<div class="chat-msg chat-ia"><strong>🤖 ${r.proveedor}:</strong><br>${r.texto}</div>`;
     } catch (e) {
         cont.innerHTML += `<div class="chat-msg chat-ia">❌ ${e.message}</div>`;
@@ -1282,8 +1173,9 @@ window.onclick = e => { if (e.target === document.getElementById('newsModal')) d
 // 🚀 INICIAR
 // ═══════════════════════════════════════════════════════════
 (async () => {
-    Diagnostico.log('🚀 Sistema iniciando…', 'info');
-    Diagnostico.log(`📊 ${IA_PROVEEDORES.length} proveedores IA con ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free`, 'info');
+    Diagnostico.log('🚀 Diario Ecuador Hoy iniciando…', 'info');
+    Diagnostico.log(`📊 ${IA_PROVEEDORES.length} proveedores IA · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free`, 'info');
+    Diagnostico.log(`⏱️ Timeout global: ${TIMEOUT_TOTAL_ANALISIS/1000}s · Timeout IA: ${TIMEOUT_IA/1000}s`, 'info');
     
     await rustWASM.cargar();
     await agentReach.buscar('Ecuador');
