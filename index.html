@@ -962,8 +962,122 @@ function actualizarAnalisisAutomatico(texto) {
 // ═══════════════════════════════════════════════════════════
 // 🧠 FALLBACK INTELIGENTE CON REHUMANIZACIÓN
 // ═══════════════════════════════════════════════════════════
+// ============================================
+// 🧹 FALLBACK INTELIGENTE — Filtro + Relevancia (Noticias)
+// ============================================
+
+// Filtrar noticias basura
+function filtrarNoticiasBasura(noticias) {
+    return noticias.filter(n => {
+        // Título válido
+        if (!n.titulo || n.titulo.trim().length < 10) return false;
+        
+        // URL válida
+        if (n.url && (n.url === '#' || n.url.includes('example.com'))) return false;
+        
+        // Fuente válida
+        if (!n.fuente || n.fuente.trim() === '') return false;
+        
+        // Título no basura
+        const tituloLower = n.titulo.toLowerCase();
+        const basura = ['null', 'undefined', 'error', 'sin título', 'no title'];
+        if (basura.includes(tituloLower)) return false;
+        
+        return true;
+    });
+}
+
+// Calcular relevancia de noticias
+function calcularRelevanciaNoticias(noticias) {
+    if (!noticias || noticias.length === 0) return 0;
+    
+    let score = 0;
+    let maxScore = 0;
+    
+    // Total noticias (30 pts)
+    maxScore += 30;
+    if (noticias.length >= 20) score += 30;
+    else if (noticias.length >= 10) score += 25;
+    else if (noticias.length >= 5) score += 18;
+    else if (noticias.length >= 2) score += 10;
+    
+    // Fuentes únicas (25 pts)
+    maxScore += 25;
+    const fuentes = [...new Set(noticias.map(n => n.fuente).filter(Boolean))];
+    if (fuentes.length >= 5) score += 25;
+    else if (fuentes.length >= 3) score += 18;
+    else if (fuentes.length >= 2) score += 12;
+    else if (fuentes.length >= 1) score += 5;
+    
+    // APIs usadas (25 pts)
+    maxScore += 25;
+    const apis = [...new Set(noticias.map(n => n.api).filter(Boolean))];
+    if (apis.length >= 4) score += 25;
+    else if (apis.length >= 2) score += 18;
+    else if (apis.length >= 1) score += 10;
+    
+    // Con resumen (20 pts)
+    maxScore += 20;
+    const conResumen = noticias.filter(n => n.resumen && n.resumen.length > 50);
+    if (conResumen.length >= 10) score += 20;
+    else if (conResumen.length >= 5) score += 15;
+    else if (conResumen.length >= 1) score += 8;
+    
+    return Math.round((score / maxScore) * 100);
+}
+
+// Resumen extendido de noticias
+function generarResumenExtendidoNoticias(noticias) {
+    let resumen = '';
+    
+    resumen += `📊 ANÁLISIS EXTENDIDO DE NOTICIAS\n\n`;
+    
+    const fuentes = [...new Set(noticias.map(n => n.fuente).filter(Boolean))];
+    const apis = [...new Set(noticias.map(n => n.api).filter(Boolean))];
+    
+    resumen += `FUENTES CONSULTADAS:\n`;
+    resumen += `  • Total fuentes: ${fuentes.length}\n`;
+    resumen += `  • Total APIs: ${apis.length}\n`;
+    resumen += `  • Total noticias: ${noticias.length}\n\n`;
+    
+    // Top 5 noticias por longitud de resumen
+    const topNoticias = [...noticias]
+        .filter(n => n.resumen && n.resumen.length > 50)
+        .sort((a, b) => (b.resumen?.length || 0) - (a.resumen?.length || 0))
+        .slice(0, 5);
+    
+    if (topNoticias.length > 0) {
+        resumen += `TOP 5 NOTICIAS MÁS DETALLADAS:\n`;
+        topNoticias.forEach((n, i) => {
+            resumen += `  ${i + 1}. ${n.titulo?.substring(0, 80)}...\n`;
+            resumen += `     Fuente: ${n.fuente}\n`;
+        });
+        resumen += `\n`;
+    }
+    
+    const relevancia = calcularRelevanciaNoticias(noticias);
+    resumen += `📈 ÍNDICE DE RELEVANCIA: ${relevancia}%\n`;
+    if (relevancia > 70) resumen += `  ✅ Cobertura amplia\n`;
+    else if (relevancia > 50) resumen += `  📈 Cobertura moderada\n`;
+    else if (relevancia > 30) resumen += `  📊 Cobertura básica\n`;
+    else resumen += `  ⚠️ Datos escasos\n`;
+    
+    return resumen;
+}
+
+// ============================================
+// 🔬 FALLBACK NOTICIAS
+// ============================================
+
 async function generarFallbackInteligente(noticias) {
     if (!noticias || noticias.length === 0) return null;
+    
+    // 🔥 APLICAR FILTRO INTELIGENTE
+    console.log(`🧹 Filtrando ${noticias.length} noticias...`);
+    noticias = filtrarNoticiasBasura(noticias);
+    console.log(`✅ Tras filtro: ${noticias.length} noticias válidas`);
+    
+    if (noticias.length === 0) return null;
     
     const categorias = {
         economia: [], seguridad: [], politica: [], sociedad: [],
@@ -1046,6 +1160,11 @@ async function generarFallbackInteligente(noticias) {
     analisis += `con oportunidades de proyección internacional. Los datos recopilados `;
     analisis += `de ${fuentesUnicas.length} fuentes sugieren que el país mantiene un dinamismo `;
     analisis += `social y económico relevante, aunque con tensiones que requieren atención.\n\n`;
+    
+    // 🔥 AÑADIR RESUMEN EXTENDIDO
+    analisis += `\n─────────────────────────────────────\n`;
+    analisis += generarResumenExtendidoNoticias(noticias);
+    analisis += `─────────────────────────────────────\n\n`;
     
     analisis += `Ficha de Datos Clave:\n\n`;
     analisis += `📊 Total de publicaciones analizadas: ${noticias.length}\n`;
