@@ -390,7 +390,6 @@
 <script src="lib/autoevolucion.js"></script>
 <script src="lib/integracion_setun.js"></script>
 <script src="lib/setun_periodico_ui.js"></script>
-
 <script type="module">
 // ═══════════════════════════════════════════════════════════
 // 🔧 UTILIDADES GLOBALES
@@ -1206,25 +1205,6 @@ async function generarFallbackInteligente(noticias) {
     }
 }
 
-// 🛠️ PARCHE SETUN: Forzar noticias de los últimos 7 días
-const fetchNoticiasRecientes = async (query) => {
-    const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=artlist&maxrecords=15&format=json&startdatetime=${new Date(Date.now() - 7 * 864e5).toISOString().replace(/[-:T]/g, '').slice(0, 14)}`;
-    try {
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.articles) {
-            return data.articles.map(a => ({
-                title: a.title,
-                url: a.url,
-                source: a.domain,
-                date: a.seendate || new Date().toISOString(),
-                desc: a.title
-            }));
-        }
-    } catch(e) { console.warn("Fallo GDELT, usando fallback nativo"); }
-    return [];
-};
-
 // ═══════════════════════════════════════════════════════════
 // 🎯 FUNCIÓN PRINCIPAL DE ANÁLISIS
 // ═══════════════════════════════════════════════════════════
@@ -1343,7 +1323,7 @@ async function actualizarTodo() {
     const locales = generarNoticiasLocales();
     todasNoticias = [...locales];
     try {
-        const noticiasHN = await fetchNoticiasRecientes('Ecuador');
+        const noticiasApi = await buscarTodasNoticias('Ecuador 2026');
         const ids = new Set(todasNoticias.map(x => x.titulo));
         const nuevas = noticiasApi.filter(x => !ids.has(x.titulo));
         todasNoticias = [...nuevas, ...todasNoticias];
@@ -1491,26 +1471,6 @@ document.querySelectorAll('.nav-btn').forEach(b => {
 document.getElementById('currentDate').innerHTML = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 document.getElementById('modalCloseBtn').onclick = () => document.getElementById('newsModal').classList.remove('active');
 window.onclick = e => { if (e.target === document.getElementById('newsModal')) document.getElementById('newsModal').classList.remove('active'); };
-
-// 🛠️ PARCHE DE NOTICIAS ACTUALES (Inyectado por Setun)
-// Esto fuerza a la página a buscar noticias de los últimos días en GDELT si falla.
-async function fetchNoticiasRecientes(query) {
-    const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=artlist&maxrecords=10&format=json&startdatetime=${new Date(Date.now() - 7 * 864e5).toISOString().replace(/[-:T]/g, '').slice(0, 14)}`;
-    try {
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.articles) {
-            return data.articles.map(a => ({
-                title: a.title,
-                url: a.url,
-                source: a.domain,
-                date: a.seendate,
-                desc: a.title
-            }));
-        }
-    } catch(e) { console.warn("Fallo GDELT, usando fallback"); }
-    return [];
-}
 
 // ═══════════════════════════════════════════════════════════
 // 🚀 INICIAR
