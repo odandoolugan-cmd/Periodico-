@@ -827,7 +827,8 @@ const agentReach = {
 // ═══════════════════════════════════════════════════════════
 async function buscarHackerNews(tema) {
     try {
-        const r = await fetchConTimeout(`https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(tema)}&hitsPerPage=10`, {}, TIMEOUT_API_NEWS);
+        const fechaHace7Dias = Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000);
+const url = `https://hn.algolia.com/api/v1/search?query=Ecuador&tags=story&numericFilters=created_at_i>${fechaHace7Dias}`; 
         const d = await r.json();
         const items = (d.hits || []).map((a, i) => ({
             id: `hn_${Date.now()}_${i}`, titulo: a.title || a.story_title, resumen: (a.story_text || '').substring(0, 200),
